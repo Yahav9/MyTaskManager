@@ -1,5 +1,8 @@
-/home/student/Desktop/todo_app/src/server/node_modules
+/src/server/node_modules
 /dist
 /deploy
 /.vscode
 /how-to-deploy.md
+/src/client/README.md
+/src/client/.gitignore
+/src/client/node_modules
