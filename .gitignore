@@ -1,4 +1,3 @@
-/.
 /src/server/node_modules
 /dist
 /deploy
@@ -7,3 +6,4 @@
 /src/client/README.md
 /src/client/.gitignore
 /src/client/node_modules
+/src/server/.env
