@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios('/data');
-      setMessage(result.data.message);
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <div>{message}</div>
-  );
+    return (
+        <>
+            <h1>My Tasks Manager</h1>
+            <Outlet />
+        </>
+    )
 }
 
 export default App;
