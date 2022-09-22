@@ -1,9 +1,2 @@
-/src/server/node_modules
-/dist
-/deploy
-/.vscode
-/how-to-deploy.md
-/src/client/README.md
-/src/client/.gitignore
-/src/client/node_modules
-/src/server/.env
+node_modules
+how-to-deploy.md
