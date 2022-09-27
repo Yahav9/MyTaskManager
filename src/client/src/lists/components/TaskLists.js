@@ -5,10 +5,12 @@ function TaskLists() {
     let listNames = ['House Cleaning', 'Project Making', 'Interview Preperation']
     listNames = listNames.map(listName => {
         return <ListCard>{listName}</ListCard>
-    })
+    });
+
     return (
         <ul>
             {listNames}
+            <button>CREATE NEW LIST</button>
         </ul>
     )
 }

@@ -3,7 +3,7 @@ import React from "react";
 function ListCard(props) {
     return (
         <div draggable>
-            <h3>{props.children}</h3>
+            <a href={window.location.href + '/' + props.children}><h3>{props.children}</h3></a>
             <i className="material-icons">delete</i>
         </div>
     )
