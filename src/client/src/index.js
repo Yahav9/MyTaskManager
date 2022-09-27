@@ -7,18 +7,18 @@ import {
 } from "react-router-dom";
 
 import App from './App';
-import Auth from './auth/pages/Auth';
-import List from './list/pages/List';
-import Lists from './lists/pages/Lists';
+import AuthPage from './auth/AuthPage';
+import ListPage from './list/ListPage';
+import ListsPage from './lists/ListsPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route path="auth" element={<Auth />} />
-        <Route path=":username" element={<Lists />} />
-        <Route path=":username/:list" element={<List />} />
+        <Route path="auth" element={<AuthPage />} />
+        <Route path=":username" element={<ListsPage />} />
+        <Route path=":username/:list" element={<ListPage />} />
       </Route>
     </Routes>
   </BrowserRouter>
