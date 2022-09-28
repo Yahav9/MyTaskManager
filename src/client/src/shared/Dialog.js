@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Dialog(props) {
-    const [isVisible, setIsVisible] = useState(false);
 
-    const closeDialog = () => setIsVisible(false);
-
-    if (isVisible === true) {
+    if (props.show === true) {
         return (
             <div>
                 {props.message}
-                <button onClick={closeDialog}>Yes</button>
-                <button onClick={closeDialog}>No</button>
+                <button onClick={props.onDialogDeny}>Yes</button>
+                <button onClick={props.onDialogDeny}>No</button>
             </div>
         )
     }

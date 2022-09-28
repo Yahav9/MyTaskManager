@@ -1,10 +1,18 @@
 import React from "react";
 import ListCard from "./ListCard";
 
-function TaskLists() {
+function TaskLists(props) {
     let listNames = ['House Cleaning', 'Project Making', 'Interview Preperation']
+
     listNames = listNames.map(listName => {
-        return <ListCard>{listName}</ListCard>
+        return (
+            <ListCard
+                onDelete={props.onListDelete}
+                key={listName}
+            >
+                {listName}
+            </ListCard>
+        )
     });
 
     return (
