@@ -8,6 +8,7 @@ import {
 
 import App from './App';
 import AuthPage from './auth/AuthPage';
+import EditTask from './EditTask/EditTask';
 import ListPage from './list/ListPage';
 import ListsPage from './lists/ListsPage';
 
@@ -20,6 +21,7 @@ root.render(
         <Route path=":username" element={<ListsPage />} />
         <Route path=":username/:list" element={<ListPage />} />
       </Route>
+      <Route path='/:username/:list/edit-task' element={<EditTask />} />
     </Routes>
   </BrowserRouter>
 );

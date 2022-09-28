@@ -5,7 +5,7 @@ function ListPage() {
     let tasks = ['do the laundry', 'wash the dishes', 'clean the house'];
 
     tasks = tasks.map(task => {
-        return <TaskCard>{task}</TaskCard>
+        return <TaskCard key={task}>{task}</TaskCard>
     });
 
     return (
@@ -14,7 +14,17 @@ function ListPage() {
                 {window.location.pathname.split('/')[2].replace(/%20/g, ' ')}
             </h2>
             {tasks}
-            <button>CREATE NEW TASK</button>
+            <button
+                onClick={() => {
+                    window.open(
+                        window.location.href + "/edit-task",
+                        "_blank",
+                        "height=300,width=500,top=250,left=500"
+                    )
+                }}
+            >
+                CREATE NEW TASK
+            </button>
         </div>
     )
 }
