@@ -1,2 +1,4 @@
 node_modules
 how-to-deploy.md
+dist
+.env

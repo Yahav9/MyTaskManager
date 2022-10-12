@@ -25,7 +25,7 @@ gulp.task('tsc-w', () => {
 
 // Start express
 gulp.task('express', () => {
-  const tsc = exec('nodemon --watch ./src/server ./src/server/server.ts');
+  const tsc = exec('nodemon --watch ./src/server ./src/server/app.ts');
   tsc.stdout.on('data', data => console.log(data));
   tsc.stderr.on('data', data => console.error(data));
 });
