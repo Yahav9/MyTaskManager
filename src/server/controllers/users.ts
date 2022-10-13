@@ -8,11 +8,11 @@ export async function signup(req: Request, res: Response) {
     try {
         existingUser = await User.findOne({ name: name });
     } catch (e) {
-        console.log(e);
+        return res.json({ error: e });
     }
 
     if (existingUser) {
-        res.json({ message: 'Username already exist' });
+        return res.json({ message: 'Username already exist' });
     } else {
         const createdUser = new User({
             name,
@@ -21,7 +21,7 @@ export async function signup(req: Request, res: Response) {
         });
         createdUser.save()
             .then(() => res.json(createdUser))
-            .catch(e => console.log(e));
+            .catch(e => res.json({ error: e }));
     }
 }
 
@@ -31,11 +31,11 @@ export async function login(req: Request, res: Response) {
     try {
         existingUser = await User.findOne({ name: name, password: password });
     } catch (e) {
-        console.log(e);
+        return res.json({ error: e });
     }
     if (existingUser) {
-        res.json({ id: existingUser._id })
+        return res.json({ id: existingUser._id });
     } else {
-        res.json({ message: 'Wrong password or username' })
+        return res.json({ message: 'Wrong password or username' });
     }
 }

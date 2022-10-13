@@ -3,7 +3,7 @@
   "scripts": {
     "start": "gulp",
     "build-client": "cd ./src/client && npm run build",
-    "server": "nodemon --watch ./src/server ./src/server/server.ts",
+    "server": "nodemon ./src/server/app.ts",
     "deploy": "gulp deploy",
     "build-and-deploy": "npm run build-client && npm run deploy",
     "lint": "eslint ./src --ext .ts",
