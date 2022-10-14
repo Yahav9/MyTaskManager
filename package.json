@@ -3,7 +3,7 @@
   "scripts": {
     "start": "gulp",
     "build-client": "cd ./src/client && npm run build",
-    "server": "nodemon ./src/server/app.ts",
+    "server": "nodemon --watch ./src/server ./src/server/app.ts",
     "deploy": "gulp deploy",
     "build-and-deploy": "npm run build-client && npm run deploy",
     "lint": "eslint ./src --ext .ts",
@@ -32,6 +32,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "jest": "^28.1.2",
+    "kill-port": "^2.0.1",
     "nodemon": "^2.0.19",
     "sass": "^1.53.0",
     "source-map-loader": "^4.0.0",
