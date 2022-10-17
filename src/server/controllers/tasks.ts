@@ -32,7 +32,7 @@ export async function createTask(req: Request, res: Response) {
         dueDate,
         responsibility,
         etc,
-        list: listId
+        list: list
     });
 
     try {
