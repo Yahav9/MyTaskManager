@@ -33,10 +33,10 @@ export async function createList(req: Request, res: Response) {
         existingUser.lists.push(createdList._id);
         await existingUser.save({ session: sess });
         await sess.commitTransaction();
+        return res.json({ newList: createdList, user: existingUser })
     } catch (e) {
         return res.json({ error: e });
     }
-    res.json({ newList: createdList, user: existingUser })
 }
 
 export async function getLists(req: Request, res: Response) {
