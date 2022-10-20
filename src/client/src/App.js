@@ -5,9 +5,8 @@ import {
     Route,
 } from "react-router-dom";
 
-import AuthPage from './auth/AuthPage';
-import EditTask from './EditTask/EditTask';
-import ListPage from './list/ListPage';
+import AuthPage from './Auth/AuthPage';
+import TasksPage from './Tasks/TasksPage';
 import ListsPage from './lists/ListsPage';
 
 function App() {
@@ -15,9 +14,8 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<AuthPage />} />
-                <Route path=":username" element={<ListsPage />} />
-                <Route path=":username/:list" element={<ListPage />} />
-                <Route path='/:username/:list/edit-task' element={<EditTask />} />
+                <Route path="/:userId" element={<ListsPage />} />
+                <Route path="/:userId/:listId" element={<TasksPage />} />
             </Routes>
         </BrowserRouter>
     )

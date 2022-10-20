@@ -1,7 +1,7 @@
 import React from "react";
 import TaskCard from "./components/TaskCard";
 
-function ListPage() {
+function TasksPage() {
     let tasks = ['do the laundry', 'wash the dishes', 'clean the house'];
 
     tasks = tasks.map(task => {
@@ -29,4 +29,4 @@ function ListPage() {
     )
 }
 
-export default ListPage;
+export default TasksPage;
