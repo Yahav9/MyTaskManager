@@ -7,7 +7,7 @@ import {
 
 import AuthPage from './Auth/AuthPage';
 import TasksPage from './Tasks/TasksPage';
-import ListsPage from './lists/ListsPage';
+import ListsPage from './Lists/ListsPage';
 
 function App() {
     return (
