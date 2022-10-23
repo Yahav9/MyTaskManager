@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import Button from "../../../shared/components/Button/Button";
+
 function Searchbar(props) {
     const [value, setValue] = useState('');
 
@@ -21,11 +23,12 @@ function Searchbar(props) {
                 value={value}
                 onChange={changeHandler}
             />
-            <button
+            <Button
                 onClick={clearHandler}
+                disabled={value < 1}
             >
                 CLEAR
-            </button>
+            </Button>
         </div>
     )
 }

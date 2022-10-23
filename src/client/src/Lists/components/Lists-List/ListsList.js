@@ -1,8 +1,27 @@
-import React from "react";
-import ListItem from "../List-Item/ListItem";
+import React, { useState } from "react";
 
-function ListsLists(props) {
-    let lists = props.lists;
+import ListItem from "../List-Item/ListItem";
+import Card from "../../../shared/components/Card/Card";
+import Button from "../../../shared/components/Button/Button";
+import EditForm from "../EditForm/EditForm"
+
+function ListsList(props) {
+    const [isCreatingAList, setIsCreatingAList] = useState(false);
+
+    const lists = props.lists;
+    if (lists.length < 1) {
+        return (
+            <div>
+                <Card>
+                    <h2>No lists found...</h2>
+                </Card>
+                <Card>
+                    <button>CREATE NEW LIST</button>
+                </Card>
+            </div>
+        )
+    }
+
     return (
         <ul>
             {lists.map(list => {
@@ -14,9 +33,19 @@ function ListsLists(props) {
                 // onDelete={props.onListDelete}
                 />
             })}
-            <button>CREATE NEW LIST</button>
+            <Card>
+                {isCreatingAList && <EditForm onSave={() => setIsCreatingAList(false)} />}
+                {
+                    !isCreatingAList &&
+                    <Button
+                        onClick={() => setIsCreatingAList(true)}
+                    >
+                        CREATE NEW LIST
+                    </Button>
+                }
+            </Card>
         </ul>
     )
 }
 
-export default ListsLists;
+export default ListsList;
