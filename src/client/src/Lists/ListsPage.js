@@ -23,11 +23,16 @@ function ListsPage() {
         setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
     }
 
+    const onSearchbarClear = () => {
+        setFilteredListsData(listsData);
+    }
+
     return (
         <div>
             <h1>My Lists</h1>
             <Searchbar
                 onChange={onSearchbarChange}
+                onClear={onSearchbarClear}
             />
             <ListsList
                 lists={filteredListsData}
