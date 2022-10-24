@@ -16,6 +16,15 @@ function ListItem(props) {
         setIsUpdatingAList(false);
     }
 
+    const deleteHandler = async () => {
+        try {
+            await axios.delete(`http://localhost:4000/api/lists/${props.id}`);
+            props.onDelete(props.id);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <li>
             <Card>
@@ -34,9 +43,8 @@ function ListItem(props) {
                             <div>{name}</div>
                         </Link>
                         <div>
-                            <Button>
+                            <Button onClick={deleteHandler}>
                                 <i className="material-icons"
-                                // onClick={deleteHandler}
                                 >
                                     delete
                                 </i>

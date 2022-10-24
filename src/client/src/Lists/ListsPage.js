@@ -29,6 +29,12 @@ function ListsPage() {
 
     const addNewList = newList => {
         setListsData(listsData.push(newList));
+        setFilteredListsData(listsData.push(newList));
+    }
+
+    const deleteList = deletedListId => {
+        setListsData(listsData.filter(list => list._id !== deletedListId));
+        setFilteredListsData(listsData.filter(list => list._id !== deletedListId));
     }
 
     return (
@@ -42,6 +48,7 @@ function ListsPage() {
                 lists={filteredListsData}
                 userId={userId}
                 onListCreation={addNewList}
+                onListDelete={deleteList}
             />
         </div>
     )

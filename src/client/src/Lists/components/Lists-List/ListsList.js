@@ -45,7 +45,7 @@ function ListsList(props) {
                     id={list._id}
                     name={list.name}
                     userId={list.user}
-                // onDelete={props.onListDelete}
+                    onDelete={props.onListDelete}
                 />
             })}
             <Card>
