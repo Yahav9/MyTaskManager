@@ -4,13 +4,19 @@ import Task from '../models/Task';
 import List from '../models/List';
 
 export async function getTasks(req: Request, res: Response) {
-    const list = new mongoose.Types.ObjectId(req.params.listId);
+    const listId = new mongoose.Types.ObjectId(req.params.listId);
+
+    let list;
     try {
-        const tasks = await Task.find({ list: list });
-        return res.json(tasks);
+        list = await List.findById(listId).populate('tasks');
     } catch (e) {
         return res.json({ error: e });
     }
+
+    if (!list) {
+        return res.json({ message: 'wrong list id' });
+    }
+    return res.json({ list, tasks: list.tasks });
 }
 
 export async function createTask(req: Request, res: Response) {

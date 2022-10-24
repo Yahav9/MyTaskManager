@@ -16,38 +16,25 @@ function ListsList(props) {
     }
 
     const lists = props.lists;
-    if (lists.length < 1) {
-        return (
-            <div>
+    return (
+        <ul>
+            {
+                lists.length < 1 &&
                 <Card>
                     <h2>No lists found...</h2>
                 </Card>
-                <Card>
-                    {isCreatingAList && <EditForm onSave={createList} />}
-                    {
-                        !isCreatingAList &&
-                        <Button
-                            onClick={() => setIsCreatingAList(true)}
-                        >
-                            CREATE NEW LIST
-                        </Button>
-                    }
-                </Card>
-            </div>
-        )
-    }
-
-    return (
-        <ul>
-            {lists.map(list => {
-                return <ListItem
-                    key={list._id}
-                    id={list._id}
-                    name={list.name}
-                    userId={list.user}
-                    onDelete={props.onListDelete}
-                />
-            })}
+            }
+            {
+                lists.length > 0 && lists.map(list => {
+                    return <ListItem
+                        key={list._id}
+                        id={list._id}
+                        name={list.name}
+                        userId={list.user}
+                        onDelete={props.onListDelete}
+                    />
+                })
+            }
             <Card>
                 {isCreatingAList && <EditForm onSave={createList} />}
                 {

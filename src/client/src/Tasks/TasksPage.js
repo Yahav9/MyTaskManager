@@ -1,30 +1,31 @@
-import React from "react";
-import TaskCard from "./components/TaskCard";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+import TasksList from "./components/TasksList/TasksList";
 
 function TasksPage() {
-    let tasks = ['do the laundry', 'wash the dishes', 'clean the house'];
+    const [listName, setListName] = useState('');
+    const [tasksData, setTasksData] = useState([]);
 
-    tasks = tasks.map(task => {
-        return <TaskCard key={task}>{task}</TaskCard>
-    });
+    const listId = useParams().listId
+
+    useEffect(() => {
+        (async () => {
+            const res = await axios.get(`http://localhost:4000/api/tasks/${listId}`);
+            console.log(res.data);
+            setListName(res.data.list.name);
+            setTasksData(res.data.tasks);
+        })();
+    }, [listId]);
 
     return (
         <div>
-            <h2>
-                {window.location.pathname.split('/')[2].replace(/%20/g, ' ')}
-            </h2>
-            {tasks}
-            <button
-                onClick={() => {
-                    window.open(
-                        window.location.href + "/edit-task",
-                        "_blank",
-                        "height=300,width=500,top=250,left=500"
-                    )
-                }}
-            >
-                CREATE NEW TASK
-            </button>
+            <h1>{listName}</h1>
+            <TasksList
+                tasks={tasksData}
+                listId={listId}
+            />
         </div>
     )
 }
