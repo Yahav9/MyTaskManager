@@ -27,6 +27,10 @@ function ListsPage() {
         setFilteredListsData(listsData);
     }
 
+    const addNewList = newList => {
+        setListsData(listsData.push(newList));
+    }
+
     return (
         <div>
             <h1>My Lists</h1>
@@ -36,6 +40,8 @@ function ListsPage() {
             />
             <ListsList
                 lists={filteredListsData}
+                userId={userId}
+                onListCreation={addNewList}
             />
         </div>
     )

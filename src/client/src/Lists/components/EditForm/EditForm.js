@@ -6,7 +6,7 @@ function EditForm(props) {
     const [value, setValue] = useState(props.value || '');
 
     return (
-        <form>
+        <div>
             <input
                 type="text"
                 value={value}
@@ -14,12 +14,12 @@ function EditForm(props) {
                 onChange={event => setValue(event.target.value)}
             />
             <Button
-                onClick={props.onSave}
+                onClick={() => props.onSave(value)}
                 disabled={value.length < 1}
             >
                 SAVE
             </Button>
-        </form>
+        </div>
     )
 }
 

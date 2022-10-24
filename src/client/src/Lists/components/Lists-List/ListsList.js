@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import ListItem from "../List-Item/ListItem";
 import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
-import EditForm from "../EditForm/EditForm"
+import EditForm from "../EditForm/EditForm";
 
 function ListsList(props) {
     const [isCreatingAList, setIsCreatingAList] = useState(false);
+
+    const createList = async name => {
+        const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name });
+        console.log();
+        props.onListCreation(res.data.newList)
+        setIsCreatingAList(false);
+    }
 
     const lists = props.lists;
     if (lists.length < 1) {
@@ -16,7 +24,11 @@ function ListsList(props) {
                     <h2>No lists found...</h2>
                 </Card>
                 <Card>
-                    <button>CREATE NEW LIST</button>
+                    <Button
+                        onClick={() => setIsCreatingAList(true)}
+                    >
+                        CREATE NEW LIST
+                    </Button>
                 </Card>
             </div>
         )
@@ -34,7 +46,7 @@ function ListsList(props) {
                 />
             })}
             <Card>
-                {isCreatingAList && <EditForm onSave={() => setIsCreatingAList(false)} />}
+                {isCreatingAList && <EditForm onSave={createList} />}
                 {
                     !isCreatingAList &&
                     <Button
