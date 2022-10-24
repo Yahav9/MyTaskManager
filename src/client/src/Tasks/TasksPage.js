@@ -19,12 +19,18 @@ function TasksPage() {
         })();
     }, [listId]);
 
+    const addNewTask = newTask => {
+        setTasksData(tasksData.push(newTask));
+        console.log(tasksData)
+    }
+
     return (
         <div>
             <h1>{listName}</h1>
             <TasksList
                 tasks={tasksData}
                 listId={listId}
+                onTaskCreation={addNewTask}
             />
         </div>
     )

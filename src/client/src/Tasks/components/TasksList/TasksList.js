@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
@@ -6,7 +7,20 @@ import EditTask from "../EditTask/EditTask";
 import TaskItem from "../TaskItem/TaskItem";
 
 function TasksList(props) {
-    const [isCreatingATask, setIsCreatingATask] = useState(false)
+    const [isCreatingATask, setIsCreatingATask] = useState(false);
+
+    const createTask = async (event, name, priority, responsibility, etc, dueDate) => {
+        event.preventDefault();
+        const res = await axios.post(`http://localhost:4000/api/tasks/${props.listId}`, {
+            name,
+            ...priority && priority,
+            ...responsibility && responsibility,
+            ...etc && etc,
+            ...dueDate && dueDate
+        });
+        props.onTaskCreation(res.data.newTask);
+        setIsCreatingATask(false);
+    }
 
     const tasks = props.tasks;
     return (
@@ -33,7 +47,7 @@ function TasksList(props) {
                 })
             }
             <Card>
-                {isCreatingATask && <EditTask />}
+                {isCreatingATask && <EditTask onSubmit={createTask} />}
                 {
                     !isCreatingATask &&
                     <Button

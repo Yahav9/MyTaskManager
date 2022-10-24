@@ -29,7 +29,7 @@ function TaskItem(props) {
                 {
                     props.dueDate &&
                     <div>
-                        <h3>Due - Date</h3>
+                        <h3>Due Date</h3>
                         <p>{props.dueDate}</p>
                     </div>
                 }
