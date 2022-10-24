@@ -11,8 +11,7 @@ function ListsList(props) {
 
     const createList = async name => {
         const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name });
-        console.log();
-        props.onListCreation(res.data.newList)
+        props.onListCreation(res.data.newList);
         setIsCreatingAList(false);
     }
 
@@ -24,11 +23,15 @@ function ListsList(props) {
                     <h2>No lists found...</h2>
                 </Card>
                 <Card>
-                    <Button
-                        onClick={() => setIsCreatingAList(true)}
-                    >
-                        CREATE NEW LIST
-                    </Button>
+                    {isCreatingAList && <EditForm onSave={createList} />}
+                    {
+                        !isCreatingAList &&
+                        <Button
+                            onClick={() => setIsCreatingAList(true)}
+                        >
+                            CREATE NEW LIST
+                        </Button>
+                    }
                 </Card>
             </div>
         )
@@ -41,7 +44,7 @@ function ListsList(props) {
                     key={list._id}
                     id={list._id}
                     name={list.name}
-                    user={list.user}
+                    userId={list.user}
                 // onDelete={props.onListDelete}
                 />
             })}

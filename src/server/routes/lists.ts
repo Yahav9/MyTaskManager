@@ -6,7 +6,7 @@ const router = Router();
 router
     .get('/:userId', getLists)
     .post('/:userId', createList)
-    .put('/:listId', changeListName)
+    .patch('/:listId', changeListName)
     .delete('/:listId', deleteList);
 
 export default router;
