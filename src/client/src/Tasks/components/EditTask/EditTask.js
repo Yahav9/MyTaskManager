@@ -6,7 +6,7 @@ function EditTask(props) {
     const [name, setName] = useState(props.name || '');
     const [priority, setPriority] = useState(props.priority || 'none');
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
-    const [etc, setEtc] = useState(props.etc || '');
+    const [etc, setEtc] = useState(props.etc || 0);
     const [dueDate, setDueDate] = useState(props.dueDate || '');
 
     return (
@@ -61,5 +61,3 @@ function EditTask(props) {
 }
 
 export default EditTask;
-
-// new Date(Date.parse(event.target.value)).toLocaleDateString("en-GB")

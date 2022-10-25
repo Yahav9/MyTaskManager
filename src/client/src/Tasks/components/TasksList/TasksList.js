@@ -13,10 +13,10 @@ function TasksList(props) {
         event.preventDefault();
         const res = await axios.post(`http://localhost:4000/api/tasks/${props.listId}`, {
             name,
-            ...priority && priority,
-            ...responsibility && responsibility,
-            ...etc && etc,
-            ...dueDate && dueDate
+            priority,
+            responsibility,
+            etc,
+            dueDate
         });
         props.onTaskCreation(res.data.newTask);
         setIsCreatingATask(false);
@@ -41,7 +41,7 @@ function TasksList(props) {
                         dueDate={task.dueDate}
                         responsibility={task.responsibility}
                         etc={task.etc}
-                        done={task.done}
+                        isDone={task.done}
                         listId={props.listId}
                     />
                 })

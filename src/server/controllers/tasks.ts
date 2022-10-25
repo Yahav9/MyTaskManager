@@ -20,7 +20,13 @@ export async function getTasks(req: Request, res: Response) {
 }
 
 export async function createTask(req: Request, res: Response) {
-    const { name, priority, dueDate, responsibility, etc } = req.body;
+    let { name, priority, dueDate, responsibility, etc } = req.body;
+
+    priority === 'none' && (priority = undefined);
+    dueDate.length < 1 && (dueDate = undefined);
+    responsibility.length < 1 && (responsibility = undefined);
+    etc <= 0 && (etc = undefined);
+
     const listId = new mongoose.Types.ObjectId(req.params.listId);
     let list;
     try {
@@ -71,10 +77,15 @@ export async function editTask(req: Request, res: Response) {
     }
 
     task.name = name;
-    task.priority = priority;
-    task.dueDate = dueDate;
-    task.responsibility = responsibility;
-    task.etc = etc;
+    task.priority = undefined;
+    task.dueDate = undefined;
+    task.responsibility = undefined;
+    task.etc = undefined;
+
+    priority !== 'none' && (task.priority = priority);
+    dueDate && dueDate.length > 0 && (task.dueDate = dueDate);
+    responsibility && responsibility.length > 0 && (task.responsibility = responsibility);
+    etc > 0 && (task.etc = etc);
     try {
         await task.save();
         return res.json(task);

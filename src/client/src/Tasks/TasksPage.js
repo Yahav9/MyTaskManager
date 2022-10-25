@@ -8,7 +8,7 @@ function TasksPage() {
     const [listName, setListName] = useState('');
     const [tasksData, setTasksData] = useState([]);
 
-    const listId = useParams().listId
+    const listId = useParams().listId;
 
     useEffect(() => {
         (async () => {
