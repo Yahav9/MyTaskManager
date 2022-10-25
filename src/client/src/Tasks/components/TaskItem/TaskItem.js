@@ -11,7 +11,7 @@ function TaskItem(props) {
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
     const [etc, setEtc] = useState(props.etc || '');
     const [dueDate, setDueDate] = useState(props.dueDate || '');
-    // const [isDone, setIsDone] = useState(props.isDone);
+    const [isDone, setIsDone] = useState(props.isDone);
     const [isUpdatingATask, setIsUpdatingATask] = useState(false);
 
     const updateTask = async (event, name, priority, responsibility, etc, dueDate) => {
@@ -42,6 +42,14 @@ function TaskItem(props) {
         }
     }
 
+    const changeTaskStatus = async () => {
+        try {
+            await axios.patch(`http://localhost:4000/api/tasks/${props.id}`);
+            setIsDone(!isDone);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     return (
         <li>
@@ -61,7 +69,9 @@ function TaskItem(props) {
                     !isUpdatingATask &&
                     <>
                         <div>
-                            <i className="material-icons">check_box_outline_blank</i>
+                            <i className="material-icons" onClick={changeTaskStatus}>
+                                check_box{+ !isDone && '_outline_blank'}
+                            </i>
                             <h2>{name}</h2>
                         </div>
                         {
