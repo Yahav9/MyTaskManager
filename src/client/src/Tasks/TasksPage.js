@@ -24,6 +24,10 @@ function TasksPage() {
         console.log(tasksData)
     }
 
+    const deleteTask = deletedTaskId => {
+        setTasksData(tasksData.filter(task => task._id !== deletedTaskId));
+    }
+
     return (
         <div>
             <h1>{listName}</h1>
@@ -31,6 +35,7 @@ function TasksPage() {
                 tasks={tasksData}
                 listId={listId}
                 onTaskCreation={addNewTask}
+                onTaskDelete={deleteTask}
             />
         </div>
     )

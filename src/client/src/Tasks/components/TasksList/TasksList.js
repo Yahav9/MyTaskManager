@@ -43,6 +43,7 @@ function TasksList(props) {
                         etc={task.etc}
                         isDone={task.done}
                         listId={props.listId}
+                        onDelete={props.onTaskDelete}
                     />
                 })
             }

@@ -30,9 +30,18 @@ function TaskItem(props) {
         setResponsibility(taskData.responsibility);
         setEtc(taskData.etc);
         setDueDate(taskData.dueDate);
-
         setIsUpdatingATask(false);
     }
+
+    const deleteHandler = async () => {
+        try {
+            await axios.delete(`http://localhost:4000/api/tasks/${props.id}`);
+            props.onDelete(props.id);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 
     return (
         <li>
@@ -70,14 +79,14 @@ function TaskItem(props) {
                             </div>
                         }
                         {
-                            dueDate && dueDate.length > 0 &&
+                            dueDate && dueDate !== 'Invalid Date' && dueDate.length > 0 &&
                             <div>
                                 <h3>Due Date</h3>
                                 <p>{dueDate}</p>
                             </div>
                         }
                         <div>
-                            <Button>
+                            <Button onClick={deleteHandler}>
                                 <i className="material-icons"
                                 >
                                     delete
