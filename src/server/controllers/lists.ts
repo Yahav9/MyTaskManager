@@ -19,6 +19,9 @@ export async function createList(req: Request, res: Response) {
         return res.json({ message: 'List name already exist' });
     } else if (!existingUser) {
         return res.json({ message: 'User does not exist' });
+        //@ts-ignore
+    } else if (userId !== req.userId) {
+        return res.json({ message: 'Authentication failed' });
     }
 
     const createdList = new List({
@@ -41,8 +44,14 @@ export async function createList(req: Request, res: Response) {
 }
 
 export async function getLists(req: Request, res: Response) {
+    // @ts-ignore
+    if (req.params.userId !== req.userId) {
+        return res.json({ message: 'Authentication failed' });
+    }
+
+    const userId = new mongoose.Types.ObjectId(req.params.userId);
     try {
-        const lists = await List.find({ user: new mongoose.Types.ObjectId(req.params.userId) });
+        const lists = await List.find({ user: userId });
         return res.json(lists);
     } catch (e) {
         return res.json({ message: 'Wrong user id' });
@@ -58,6 +67,7 @@ export async function changeListName(req: Request, res: Response) {
     } catch (e) {
         return res.json({ error: e });
     }
+
     if (existingListName) {
         return res.json({ message: 'List name already exist' });
     }
@@ -70,6 +80,11 @@ export async function changeListName(req: Request, res: Response) {
     }
     if (!list) {
         return res.json({ message: 'wrong list id' });
+    }
+
+    // @ts-ignore
+    if (list.user.toString() !== req.userId) {
+        return res.json({ message: 'Authentication failed' });
     }
 
     list.name = newName;
@@ -94,6 +109,11 @@ export async function deleteList(req: Request, res: Response) {
 
     if (!list) {
         return res.json({ message: 'wrong list id' });
+    }
+
+    // @ts-ignore
+    if (list.user._id.toString() !== req.userId) {
+        return res.json({ message: 'Authentication failed' });
     }
 
     try {

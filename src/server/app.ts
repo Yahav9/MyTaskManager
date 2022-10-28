@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { json } from 'body-parser';
 import dotenv from 'dotenv';
@@ -6,14 +6,21 @@ import mongoose from 'mongoose';
 import users from './routes/users';
 import lists from './routes/lists';
 import tasks from './routes/tasks';
+import { checkAuth } from './middleware/checkAuth';
 
 dotenv.config();
 
 const app: Express = express();
 app.use(cors())
-  .use(json());
+  .use(json())
+
+app.use((_req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization');
+  next();
+});
 
 app.use('/api/users', users)
+  .use(checkAuth)
   .use('/api/lists', lists)
   .use('/api/tasks', tasks);
 
