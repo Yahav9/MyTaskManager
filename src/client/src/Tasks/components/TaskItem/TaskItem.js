@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 
 import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
 import EditTask from "../EditTask/EditTask";
+import { AuthContext } from "../../../shared/context/AuthContext";
 
 function TaskItem(props) {
     const [name, setName] = useState(props.name);
@@ -13,6 +14,7 @@ function TaskItem(props) {
     const [dueDate, setDueDate] = useState(props.dueDate || '');
     const [isDone, setIsDone] = useState(props.isDone);
     const [isUpdatingATask, setIsUpdatingATask] = useState(false);
+    const auth = useContext(AuthContext);
 
     const updateTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
@@ -22,6 +24,8 @@ function TaskItem(props) {
             responsibility,
             etc,
             dueDate
+        }, {
+            headers: { authorization: auth.token }
         });
         const taskData = res.data;
         console.log(taskData)
@@ -35,7 +39,9 @@ function TaskItem(props) {
 
     const deleteHandler = async () => {
         try {
-            await axios.delete(`http://localhost:4000/api/tasks/${props.id}`);
+            await axios.delete(`http://localhost:4000/api/tasks/${props.id}`, {
+                headers: { authorization: auth.token }
+            });
             props.onDelete(props.id);
         } catch (e) {
             console.log(e)
@@ -44,7 +50,10 @@ function TaskItem(props) {
 
     const changeTaskStatus = async () => {
         try {
-            await axios.patch(`http://localhost:4000/api/tasks/${props.id}`);
+            const res = await axios.patch(`http://localhost:4000/api/tasks/${props.id}`, null, {
+                headers: { authorization: auth.token }
+            });
+            console.log(res)
             setIsDone(!isDone);
         } catch (e) {
             console.log(e);

@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 
 import ListItem from "../List-Item/ListItem";
 import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
 import EditForm from "../EditForm/EditForm";
+import { AuthContext } from "../../../shared/context/AuthContext";
 
 function ListsList(props) {
     const [isCreatingAList, setIsCreatingAList] = useState(false);
+    const auth = useContext(AuthContext);
 
     const createList = async name => {
-        const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name });
+        const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
+            headers: { authorization: auth.token }
+        });
         props.onListCreation(res.data.newList);
         setIsCreatingAList(false);
     }

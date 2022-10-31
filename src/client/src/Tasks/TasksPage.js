@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import TasksList from "./components/TasksList/TasksList";
+import { AuthContext } from "../shared/context/AuthContext";
 
 function TasksPage() {
     const [listName, setListName] = useState('');
     const [tasksData, setTasksData] = useState([]);
+    const auth = useContext(AuthContext);
 
     const listId = useParams().listId;
 
     useEffect(() => {
         (async () => {
-            const res = await axios.get(`http://localhost:4000/api/tasks/${listId}`);
+            const res = await axios.get(`http://localhost:4000/api/tasks/${listId}`, {
+                headers: { authorization: auth.token }
+            });
             console.log(res.data);
             setListName(res.data.list.name);
             setTasksData(res.data.tasks);
         })();
-    }, [listId]);
+    }, [auth.token, listId]);
 
     const addNewTask = newTask => {
         setTasksData(tasksData.push(newTask));

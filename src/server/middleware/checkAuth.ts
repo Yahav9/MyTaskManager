@@ -6,7 +6,7 @@ export function checkAuth(req: Request, res: Response, next: NextFunction) {
     try {
         token = req.headers.authorization;
         if (!token) {
-            return res.json({ message: 'Authentication failed' })
+            return res.json({ message: 'Authentication failed!!' })
         }
         let decodedToken;
         process.env.KEY && (decodedToken = jwt.verify(token, process.env.KEY));

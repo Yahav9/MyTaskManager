@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios"
 
 import Searchbar from "./components/Searchbar/Searchbar";
 import ListsList from "./components/Lists-List/ListsList";
-import { useParams } from "react-router-dom";
+import { AuthContext } from "../shared/context/AuthContext";
 
 function ListsPage() {
     const [listsData, setListsData] = useState([]);
     const [filteredListsData, setFilteredListsData] = useState([]);
-
-    const userId = useParams().userId;
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
         (async () => {
-            const res = await axios.get(`http://localhost:4000/api/lists/${userId}`);
+            const res = await axios.get(`http://localhost:4000/api/lists/${auth.userId}`, {
+                headers: { authorization: auth.token }
+            });
             setListsData(res.data);
             setFilteredListsData(res.data);
         })();
-    }, [userId])
+    }, [auth.userId, auth.token])
 
     const onSearchbarChange = event => {
         setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
@@ -46,7 +47,7 @@ function ListsPage() {
             />
             <ListsList
                 lists={filteredListsData}
-                userId={userId}
+                userId={auth.userId}
                 onListCreation={addNewList}
                 onListDelete={deleteList}
             />

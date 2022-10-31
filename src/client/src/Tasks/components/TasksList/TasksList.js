@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 
 import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
 import EditTask from "../EditTask/EditTask";
 import TaskItem from "../TaskItem/TaskItem";
+import { AuthContext } from "../../../shared/context/AuthContext"
 
 function TasksList(props) {
     const [isCreatingATask, setIsCreatingATask] = useState(false);
+    const auth = useContext(AuthContext);
 
     const createTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
@@ -17,6 +19,8 @@ function TasksList(props) {
             responsibility,
             etc,
             dueDate
+        }, {
+            headers: { authorization: auth.token }
         });
         props.onTaskCreation(res.data.newTask);
         setIsCreatingATask(false);
