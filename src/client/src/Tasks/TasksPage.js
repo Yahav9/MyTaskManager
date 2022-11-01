@@ -24,8 +24,7 @@ function TasksPage() {
     }, [auth.token, listId]);
 
     const addNewTask = newTask => {
-        setTasksData(tasksData.push(newTask));
-        console.log(tasksData)
+        setTasksData(tasks => [...tasks, newTask]);
     }
 
     const deleteTask = deletedTaskId => {

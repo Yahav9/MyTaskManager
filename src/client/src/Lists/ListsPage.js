@@ -24,13 +24,9 @@ function ListsPage() {
         setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
     }
 
-    const onSearchbarClear = () => {
-        setFilteredListsData(listsData);
-    }
-
     const addNewList = newList => {
-        setListsData(listsData.push(newList));
-        setFilteredListsData(listsData.push(newList));
+        setListsData(lists => [...lists, newList]);
+        setFilteredListsData(lists => [...lists, newList]);
     }
 
     const deleteList = deletedListId => {
@@ -43,7 +39,7 @@ function ListsPage() {
             <h1>My Lists</h1>
             <Searchbar
                 onChange={onSearchbarChange}
-                onClear={onSearchbarClear}
+                onClear={() => setFilteredListsData(listsData)}
             />
             <ListsList
                 lists={filteredListsData}
