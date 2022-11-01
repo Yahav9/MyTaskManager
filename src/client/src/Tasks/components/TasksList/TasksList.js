@@ -22,7 +22,7 @@ function TasksList(props) {
         }, {
             headers: { authorization: auth.token }
         });
-        props.onTaskCreation(res.data.newTask);
+        props.onTaskCreation(res.data);
         setIsCreatingATask(false);
     }
 
@@ -30,13 +30,13 @@ function TasksList(props) {
     return (
         <ul>
             {
-                tasks.length < 1 &&
+                tasks && tasks.length < 1 &&
                 <Card>
                     <h2>You don't have any pending tasks...</h2>
                 </Card>
             }
             {
-                tasks.length > 0 && tasks.map(task => {
+                tasks && tasks.length > 0 && tasks.map(task => {
                     return <TaskItem
                         key={task._id}
                         id={task._id}

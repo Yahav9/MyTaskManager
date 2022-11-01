@@ -15,7 +15,7 @@ function ListsList(props) {
         const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
             headers: { authorization: auth.token }
         });
-        props.onListCreation(res.data.newList);
+        props.onListCreation(res.data);
         setIsCreatingAList(false);
     }
 

@@ -17,7 +17,6 @@ function TasksPage() {
             const res = await axios.get(`http://localhost:4000/api/tasks/${listId}`, {
                 headers: { authorization: auth.token }
             });
-            console.log(res.data);
             setListName(res.data.list.name);
             setTasksData(res.data.tasks);
         })();

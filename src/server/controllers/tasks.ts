@@ -56,7 +56,7 @@ export async function createTask(req: Request, res: Response) {
         responsibility,
         etc,
         done: false,
-        list: list
+        list
     });
 
     try {
@@ -67,9 +67,18 @@ export async function createTask(req: Request, res: Response) {
         list.tasks.push(createdTask);
         await list.save({ session: sess });
         await sess.commitTransaction();
-        return res.json({ newTask: createdTask, list: list })
+        return res.json({
+            _id: createdTask._id,
+            name,
+            priority,
+            dueDate,
+            responsibility,
+            etc,
+            done: false,
+        });
     } catch (e) {
-        return res.json({ error: e });
+        console.log(e)
+        return res.json({ secondError: e });
     }
 }
 
