@@ -84,7 +84,12 @@ export async function createTask(req: Request, res: Response) {
 
 export async function editTask(req: Request, res: Response) {
     const taskId = new mongoose.Types.ObjectId(req.params.taskId);
-    const { name, priority, dueDate, responsibility, etc } = req.body;
+    let { name, priority, dueDate, responsibility, etc } = req.body;
+
+    priority === 'none' && (priority = undefined);
+    dueDate.length < 1 && (dueDate = undefined);
+    responsibility.length < 1 && (responsibility = undefined);
+    etc <= 0 && (etc = undefined);
 
     let task;
     try {

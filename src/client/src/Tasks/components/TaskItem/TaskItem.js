@@ -105,7 +105,7 @@ function TaskItem(props) {
                             dueDate && dueDate !== 'Invalid Date' && dueDate.length > 0 &&
                             <div>
                                 <h3>Due Date</h3>
-                                <p>{dueDate}</p>
+                                <p>{new Date(Date.parse(dueDate)).toLocaleDateString("en-GB")}</p>
                             </div>
                         }
                         <div>

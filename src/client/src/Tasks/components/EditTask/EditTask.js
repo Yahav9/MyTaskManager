@@ -10,7 +10,7 @@ function EditTask(props) {
     const [dueDate, setDueDate] = useState(props.dueDate || '');
 
     return (
-        <form onSubmit={event => props.onSubmit(event, name, priority, responsibility, etc, new Date(Date.parse(dueDate)).toLocaleDateString("en-GB"))}>
+        <form onSubmit={event => props.onSubmit(event, name, priority, responsibility, etc, dueDate)}>
             <label>Task: </label>
             <input
                 type="text"
@@ -46,9 +46,8 @@ function EditTask(props) {
             <input
                 type="Date"
                 min={new Date().toLocaleDateString('en-CA')}
-                pattern="\d{4}-\d{2}-\d{2}"
                 value={dueDate}
-                onChange={event => setDueDate(event.target.value)}
+                onChange={event => { setDueDate(event.target.value) }}
             />
             <Button
                 type="submit"
