@@ -12,9 +12,14 @@ function ListsPage() {
 
     useEffect(() => {
         (async () => {
-            const res = await axios.get(`http://localhost:4000/api/lists/${auth.userId}`, {
-                headers: { authorization: auth.token }
-            });
+            let res;
+            try {
+                res = await axios.get(`http://localhost:4000/api/lists/${auth.userId}`, {
+                    headers: { authorization: auth.token }
+                });
+            } catch (e) {
+                console.log(e);
+            }
             setListsData(res.data);
             setFilteredListsData(res.data);
         })();

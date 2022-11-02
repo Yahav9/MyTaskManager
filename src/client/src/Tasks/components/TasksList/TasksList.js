@@ -13,15 +13,21 @@ function TasksList(props) {
 
     const createTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
-        const res = await axios.post(`http://localhost:4000/api/tasks/${props.listId}`, {
-            name,
-            priority,
-            responsibility,
-            etc,
-            dueDate
-        }, {
-            headers: { authorization: auth.token }
-        });
+        let res;
+        try {
+            res = await axios.post(`http://localhost:4000/api/tasks/${props.listId}`, {
+                name,
+                priority,
+                responsibility,
+                etc,
+                dueDate
+            }, {
+                headers: { authorization: auth.token }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
         props.onTaskCreation(res.data);
         setIsCreatingATask(false);
     }

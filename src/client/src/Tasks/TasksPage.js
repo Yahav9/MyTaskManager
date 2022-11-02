@@ -14,9 +14,14 @@ function TasksPage() {
 
     useEffect(() => {
         (async () => {
-            const res = await axios.get(`http://localhost:4000/api/tasks/${listId}`, {
-                headers: { authorization: auth.token }
-            });
+            let res;
+            try {
+                res = await axios.get(`http://localhost:4000/api/tasks/${listId}`, {
+                    headers: { authorization: auth.token }
+                });
+            } catch (e) {
+                console.log(e);
+            }
             setListName(res.data.list.name);
             setTasksData(res.data.tasks);
         })();

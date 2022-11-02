@@ -4,7 +4,7 @@ import axios from "axios";
 import ListItem from "../List-Item/ListItem";
 import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
-import EditForm from "../EditForm/EditForm";
+import EditList from "../EditList/EditList";
 import { AuthContext } from "../../../shared/context/AuthContext";
 
 function ListsList(props) {
@@ -12,9 +12,14 @@ function ListsList(props) {
     const auth = useContext(AuthContext);
 
     const createList = async name => {
-        const res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
-            headers: { authorization: auth.token }
-        });
+        let res;
+        try {
+            res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
+                headers: { authorization: auth.token }
+            });
+        } catch (e) {
+            console.log(e);
+        }
         props.onListCreation(res.data);
         setIsCreatingAList(false);
     }
@@ -40,7 +45,7 @@ function ListsList(props) {
                 })
             }
             <Card>
-                {isCreatingAList && <EditForm onSave={createList} />}
+                {isCreatingAList && <EditList onSave={createList} />}
                 {
                     !isCreatingAList &&
                     <Button

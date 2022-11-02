@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
-import EditForm from "../EditForm/EditForm";
+import EditList from "../EditList/EditList";
 import { AuthContext } from "../../../shared/context/AuthContext";
 
 function ListItem(props) {
@@ -13,9 +13,14 @@ function ListItem(props) {
     const auth = useContext(AuthContext);
 
     const updateList = async name => {
-        const res = await axios.patch(`http://localhost:4000/api/lists/${props.id}`, { name }, {
-            headers: { authorization: auth.token }
-        });
+        let res;
+        try {
+            res = await axios.patch(`http://localhost:4000/api/lists/${props.id}`, { name }, {
+                headers: { authorization: auth.token }
+            });
+        } catch (e) {
+            console.log(e);
+        }
         setName(res.data.list.name);
         setIsUpdatingAList(false);
     }
@@ -36,7 +41,7 @@ function ListItem(props) {
             <Card>
                 {
                     isUpdatingAList &&
-                    <EditForm
+                    <EditList
                         onSave={updateList}
                         value={name}
                     />

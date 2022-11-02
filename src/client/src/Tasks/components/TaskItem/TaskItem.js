@@ -18,15 +18,20 @@ function TaskItem(props) {
 
     const updateTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
-        const res = await axios.put(`http://localhost:4000/api/tasks/${props.id}`, {
-            name,
-            priority,
-            responsibility,
-            etc,
-            dueDate
-        }, {
-            headers: { authorization: auth.token }
-        });
+        let res;
+        try {
+            res = await axios.put(`http://localhost:4000/api/tasks/${props.id}`, {
+                name,
+                priority,
+                responsibility,
+                etc,
+                dueDate
+            }, {
+                headers: { authorization: auth.token }
+            });
+        } catch (e) {
+            console.log(e);
+        }
         const taskData = res.data;
         console.log(taskData)
         setName(taskData.name);
@@ -50,10 +55,9 @@ function TaskItem(props) {
 
     const changeTaskStatus = async () => {
         try {
-            const res = await axios.patch(`http://localhost:4000/api/tasks/${props.id}`, null, {
+            await axios.patch(`http://localhost:4000/api/tasks/${props.id}`, null, {
                 headers: { authorization: auth.token }
             });
-            console.log(res)
             setIsDone(!isDone);
         } catch (e) {
             console.log(e);

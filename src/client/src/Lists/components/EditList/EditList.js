@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Button from "../../../shared/components/Button/Button";
 
-function EditForm(props) {
+function EditList(props) {
     const [value, setValue] = useState(props.value || '');
 
     return (
@@ -23,4 +23,4 @@ function EditForm(props) {
     )
 }
 
-export default EditForm;
+export default EditList;
