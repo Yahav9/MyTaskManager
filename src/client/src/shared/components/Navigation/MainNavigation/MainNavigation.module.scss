@@ -1,0 +1,34 @@
+.main_navigation__menu_btn {
+    width: 3rem;
+    height: 3rem;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.main_navigation__title {
+    color: white;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.main_navigation__header_nav {
+    display: none;
+}
+
+// @media (min-width: 768px) {
+//     .main_navigation__menu_btn {
+//         display: none;
+//     }
+
+//     .main_navigation__header_nav {
+//         display: block;
+//     }
+// }

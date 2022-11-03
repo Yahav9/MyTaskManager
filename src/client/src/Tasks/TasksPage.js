@@ -24,6 +24,7 @@ function TasksPage() {
             }
             setListName(res.data.list.name);
             setTasksData(res.data.tasks);
+            console.log(listId)
         })();
     }, [auth.token, listId]);
 

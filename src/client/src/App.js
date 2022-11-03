@@ -9,6 +9,7 @@ import {
 import AuthPage from './Auth/AuthPage';
 import TasksPage from './Tasks/TasksPage';
 import ListsPage from './Lists/ListsPage';
+import MainNavigation from './shared/components/Navigation/MainNavigation/MainNavigation'
 import { AuthContext } from "./shared/context/AuthContext";
 
 let logoutTimer;
@@ -120,6 +121,7 @@ function App() {
             }}
         >
             <BrowserRouter>
+                <MainNavigation />
                 <main>{routes}</main>
             </BrowserRouter>
         </AuthContext.Provider>
