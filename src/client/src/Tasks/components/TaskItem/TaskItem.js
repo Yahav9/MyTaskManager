@@ -79,6 +79,7 @@ function TaskItem(props) {
                     isUpdatingATask &&
                     <EditTask
                         onSubmit={updateTask}
+                        onCancel={() => setIsUpdatingATask(false)}
                         name={name}
                         priority={priority}
                         responsibility={responsibility}
@@ -118,13 +119,13 @@ function TaskItem(props) {
                             </div>
                         }
                         <div>
-                            <Button onClick={deleteHandler}>
+                            <Button onClick={deleteHandler} danger>
                                 <i className="material-icons"
                                 >
                                     delete
                                 </i>
                             </Button>
-                            <Button onClick={() => setIsUpdatingATask(true)}>
+                            <Button onClick={() => setIsUpdatingATask(true)} inverse>
                                 <i
                                     className="material-icons"
                                 >

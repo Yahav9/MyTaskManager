@@ -79,7 +79,7 @@ function AuthPage() {
             <p>
                 {isLoginMode ? "Still don't have a user?" : 'Already have a user?'}
             </p>
-            <Button onClick={switchModeHandler}>
+            <Button onClick={switchModeHandler} inverse>
                 {isLoginMode ? 'SIGN UP!' : 'LOGIN!'}
             </Button>
         </Card>

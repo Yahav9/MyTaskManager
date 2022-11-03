@@ -67,13 +67,10 @@ export async function changeListName(req: Request, res: Response) {
 
     let existingListName;
     try {
-        existingListName = await List.findOne({ name: newName });
+        const existingList = await List.findOne({ name: newName });
+        existingListName = existingList?.name;
     } catch (e) {
         return res.json({ error: e });
-    }
-
-    if (existingListName) {
-        return res.json({ message: 'List name already exist' });
     }
 
     let list;
@@ -84,6 +81,9 @@ export async function changeListName(req: Request, res: Response) {
     }
     if (!list) {
         return res.json({ message: 'wrong list id' });
+    }
+    if (existingListName && existingListName !== list.name) {
+        return res.json({ message: 'List name already exist' });
     }
 
     // @ts-ignore

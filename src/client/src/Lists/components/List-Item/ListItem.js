@@ -51,6 +51,7 @@ function ListItem(props) {
                     isUpdatingAList &&
                     <EditList
                         onSave={updateList}
+                        onCancel={() => setIsUpdatingAList(false)}
                         value={name}
                     />
                 }
@@ -62,13 +63,13 @@ function ListItem(props) {
                             <div>{name}</div>
                         </Link>
                         <div>
-                            <Button onClick={deleteHandler}>
+                            <Button onClick={deleteHandler} danger>
                                 <i className="material-icons"
                                 >
                                     delete
                                 </i>
                             </Button>
-                            <Button onClick={() => setIsUpdatingAList(true)}>
+                            <Button onClick={() => setIsUpdatingAList(true)} inverse>
                                 <i
                                     className="material-icons"
                                 >

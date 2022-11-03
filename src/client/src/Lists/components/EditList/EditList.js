@@ -19,6 +19,12 @@ function EditList(props) {
             >
                 SAVE
             </Button>
+            <Button
+                inverse
+                onClick={props.onCancel}
+            >
+                CANCEL
+            </Button>
         </div>
     )
 }

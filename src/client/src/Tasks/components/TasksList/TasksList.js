@@ -63,7 +63,7 @@ function TasksList(props) {
                 })
             }
             <Card>
-                {isCreatingATask && <EditTask onSubmit={createTask} />}
+                {isCreatingATask && <EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} />}
                 {isLoading && <LoadingSpinner asOverlay />}
                 {
                     !isCreatingATask &&

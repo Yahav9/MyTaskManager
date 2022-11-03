@@ -50,7 +50,7 @@ function ListsList(props) {
                 })
             }
             <Card>
-                {isCreatingAList && <EditList onSave={createList} />}
+                {isCreatingAList && <EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} />}
                 {isLoading && <LoadingSpinner asOverlay />}
                 {
                     !isCreatingAList && !isLoading &&

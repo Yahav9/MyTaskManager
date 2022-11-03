@@ -55,6 +55,14 @@ function EditTask(props) {
             >
                 SAVE
             </Button>
+            <Button
+                type="button"
+                onClick={props.onCancel}
+                inverse
+            >
+                CANCEL
+            </Button>
+
         </form>
     )
 }

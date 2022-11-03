@@ -26,6 +26,7 @@ function Searchbar(props) {
             <Button
                 onClick={clearHandler}
                 disabled={value < 1}
+                inverse
             >
                 CLEAR
             </Button>
