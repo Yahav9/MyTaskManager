@@ -4,8 +4,10 @@ import axios from "axios"
 import Searchbar from "./components/Searchbar/Searchbar";
 import ListsList from "./components/Lists-List/ListsList";
 import { AuthContext } from "../shared/context/AuthContext";
+import LoadingSpinner from "../shared/components/LoadingSpinner/LoadingSpinner";
 
 function ListsPage() {
+    const [isLoading, setIsLoading] = useState(false);
     const [listsData, setListsData] = useState([]);
     const [filteredListsData, setFilteredListsData] = useState([]);
     const auth = useContext(AuthContext);
@@ -14,10 +16,13 @@ function ListsPage() {
         (async () => {
             let res;
             try {
+                setIsLoading(true);
                 res = await axios.get(`http://localhost:4000/api/lists/${auth.userId}`, {
                     headers: { authorization: auth.token }
                 });
+                setIsLoading(false);
             } catch (e) {
+                setIsLoading(false);
                 console.log(e);
             }
             setListsData(res.data);
@@ -46,12 +51,16 @@ function ListsPage() {
                 onChange={onSearchbarChange}
                 onClear={() => setFilteredListsData(listsData)}
             />
-            <ListsList
-                lists={filteredListsData}
-                userId={auth.userId}
-                onListCreation={addNewList}
-                onListDelete={deleteList}
-            />
+            {isLoading && <LoadingSpinner asOverlay />}
+            {
+                !isLoading &&
+                <ListsList
+                    lists={filteredListsData}
+                    userId={auth.userId}
+                    onListCreation={addNewList}
+                    onListDelete={deleteList}
+                />
+            }
         </div>
     )
 }

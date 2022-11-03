@@ -5,8 +5,10 @@ import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
 import EditTask from "../EditTask/EditTask";
 import { AuthContext } from "../../../shared/context/AuthContext";
+import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
 
 function TaskItem(props) {
+    const [isLoading, setIsLoading] = useState(false);
     const [name, setName] = useState(props.name);
     const [priority, setPriority] = useState(props.priority || 'none');
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
@@ -18,8 +20,10 @@ function TaskItem(props) {
 
     const updateTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
+        setIsUpdatingATask(false);
         let res;
         try {
+            setIsLoading(true)
             res = await axios.put(`http://localhost:4000/api/tasks/${props.id}`, {
                 name,
                 priority,
@@ -29,7 +33,9 @@ function TaskItem(props) {
             }, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
         } catch (e) {
+            setIsLoading(false);
             console.log(e);
         }
         const taskData = res.data;
@@ -39,16 +45,18 @@ function TaskItem(props) {
         setResponsibility(taskData.responsibility);
         setEtc(taskData.etc);
         setDueDate(taskData.dueDate);
-        setIsUpdatingATask(false);
     }
 
     const deleteHandler = async () => {
         try {
+            setIsLoading(true);
             await axios.delete(`http://localhost:4000/api/tasks/${props.id}`, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
             props.onDelete(props.id);
         } catch (e) {
+            setIsLoading(false);
             console.log(e)
         }
     }
@@ -78,8 +86,9 @@ function TaskItem(props) {
                         dueDate={dueDate}
                     />
                 }
+                {isLoading && <LoadingSpinner asOverlay />}
                 {
-                    !isUpdatingATask &&
+                    !isUpdatingATask && !isLoading &&
                     <>
                         <div>
                             <i className="material-icons" onClick={changeTaskStatus}>

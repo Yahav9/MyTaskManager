@@ -6,18 +6,23 @@ import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
 import EditList from "../EditList/EditList";
 import { AuthContext } from "../../../shared/context/AuthContext";
+import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
 
 function ListsList(props) {
+    const [isLoading, setIsLoading] = useState(false);
     const [isCreatingAList, setIsCreatingAList] = useState(false);
     const auth = useContext(AuthContext);
 
     const createList = async name => {
         let res;
         try {
+            setIsLoading(true);
             res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
         } catch (e) {
+            setIsLoading(false);
             console.log(e);
         }
         props.onListCreation(res.data);
@@ -46,8 +51,9 @@ function ListsList(props) {
             }
             <Card>
                 {isCreatingAList && <EditList onSave={createList} />}
+                {isLoading && <LoadingSpinner asOverlay />}
                 {
-                    !isCreatingAList &&
+                    !isCreatingAList && !isLoading &&
                     <Button
                         onClick={() => setIsCreatingAList(true)}
                     >

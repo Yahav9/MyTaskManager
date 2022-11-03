@@ -33,7 +33,7 @@ function App() {
             })
 
         );
-        console.log(token)
+        console.log(token);
     }, []);
 
     const logout = useCallback(() => {

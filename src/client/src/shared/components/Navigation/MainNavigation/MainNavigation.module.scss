@@ -23,12 +23,12 @@
     display: none;
 }
 
-// @media (min-width: 768px) {
-//     .main_navigation__menu_btn {
-//         display: none;
-//     }
+@media (min-width: 768px) {
+    .main_navigation__menu_btn {
+        display: none;
+    }
 
-//     .main_navigation__header_nav {
-//         display: block;
-//     }
-// }
+    .main_navigation__header_nav {
+        display: block;
+    }
+}

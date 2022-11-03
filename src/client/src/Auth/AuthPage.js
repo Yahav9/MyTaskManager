@@ -3,9 +3,11 @@ import axios from 'axios';
 
 import Card from "../shared/components/Card/Card";
 import Button from "../shared/components/Button/Button";
+import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner'
 import { AuthContext } from "../shared/context/AuthContext";
 
 function AuthPage() {
+    const [isLoading, setIsLoading] = useState(false);
     const [isLoginMode, setIsLoginMode] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -27,16 +29,20 @@ function AuthPage() {
         !isLoginMode && (mode = 'signup');
 
         try {
+            setIsLoading(true);
             const res = await axios.post(`http://localhost:4000/api/users/${mode}`, { name: username, password });
             console.log(res.data);
+            setIsLoading(false);
             auth.login(res.data.userId, res.data.token);
         } catch (e) {
+            setIsLoading(false);
             console.log(e);
         }
     }
 
     return (
         <Card>
+            {isLoading && <LoadingSpinner asOverlay />}
             <h1>{isLoginMode ? 'Login Required' : 'Sign Up'}</h1>
             <form onSubmit={authSubmitHandler}>
                 <label>Username: </label>

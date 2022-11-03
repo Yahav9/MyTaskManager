@@ -6,15 +6,19 @@ import Card from "../../../shared/components/Card/Card";
 import EditTask from "../EditTask/EditTask";
 import TaskItem from "../TaskItem/TaskItem";
 import { AuthContext } from "../../../shared/context/AuthContext"
+import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
 
 function TasksList(props) {
+    const [isLoading, setIsLoading] = useState(false);
     const [isCreatingATask, setIsCreatingATask] = useState(false);
     const auth = useContext(AuthContext);
 
     const createTask = async (event, name, priority, responsibility, etc, dueDate) => {
         event.preventDefault();
+        setIsCreatingATask(false);
         let res;
         try {
+            setIsLoading(true);
             res = await axios.post(`http://localhost:4000/api/tasks/${props.listId}`, {
                 name,
                 priority,
@@ -24,12 +28,13 @@ function TasksList(props) {
             }, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
         } catch (e) {
+            setIsLoading(false);
             console.log(e);
         }
 
         props.onTaskCreation(res.data);
-        setIsCreatingATask(false);
     }
 
     const tasks = props.tasks;
@@ -59,6 +64,7 @@ function TasksList(props) {
             }
             <Card>
                 {isCreatingATask && <EditTask onSubmit={createTask} />}
+                {isLoading && <LoadingSpinner asOverlay />}
                 {
                     !isCreatingATask &&
                     <Button

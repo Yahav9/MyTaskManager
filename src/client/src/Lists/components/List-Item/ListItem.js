@@ -6,8 +6,10 @@ import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
 import EditList from "../EditList/EditList";
 import { AuthContext } from "../../../shared/context/AuthContext";
+import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
 
 function ListItem(props) {
+    const [isLoading, setIsLoading] = useState(false);
     const [isUpdatingAList, setIsUpdatingAList] = useState(false);
     const [name, setName] = useState(props.name);
     const auth = useContext(AuthContext);
@@ -15,10 +17,13 @@ function ListItem(props) {
     const updateList = async name => {
         let res;
         try {
+            setIsLoading(true);
             res = await axios.patch(`http://localhost:4000/api/lists/${props.id}`, { name }, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
         } catch (e) {
+            setIsLoading(false);
             console.log(e);
         }
         setName(res.data.list.name);
@@ -27,11 +32,14 @@ function ListItem(props) {
 
     const deleteHandler = async () => {
         try {
+            setIsLoading(true);
             await axios.delete(`http://localhost:4000/api/lists/${props.id}`, {
                 headers: { authorization: auth.token }
             });
+            setIsLoading(false);
             props.onDelete(props.id);
         } catch (e) {
+            setIsLoading(false);
             console.log(e)
         }
     }
@@ -46,9 +54,9 @@ function ListItem(props) {
                         value={name}
                     />
                 }
-
+                {isLoading && <LoadingSpinner asOverlay />}
                 {
-                    !isUpdatingAList &&
+                    !isUpdatingAList && !isLoading &&
                     <>
                         <Link to={`/${props.userId}/${props.id}`}>
                             <div>{name}</div>
