@@ -3,7 +3,7 @@
     height: 3rem;
     background: transparent;
     border: none;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     margin-right: 2rem;
@@ -20,7 +20,7 @@
 }
 
 .main_navigation__header_nav {
-    display: none;
+    display: block;
 }
 
 @media (min-width: 768px) {
