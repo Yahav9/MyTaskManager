@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from 'axios';
 
+import './AuthPage.scss';
 import Card from "../shared/components/Card/Card";
 import Button from "../shared/components/Button/Button";
 import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner'
@@ -42,46 +43,47 @@ function AuthPage() {
 
     return (
         <Card>
-            {isLoading && <LoadingSpinner asOverlay />}
-            <h1>{isLoginMode ? 'Login Required' : 'Sign Up'}</h1>
-            <form onSubmit={authSubmitHandler}>
-                <label>Username: </label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={event => setUsername(event.target.value)}
-                />
-                <label>Password{!isLoginMode && ' (at least 5 characters)'}: </label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={event => setPassword(event.target.value)}
-                />
-                {
-                    !isLoginMode &&
-                    <>
-                        <label>Confirm Password: </label>
+            <div className="authentication">
+                {isLoading && <LoadingSpinner asOverlay />}
+                <h1>{isLoginMode ? 'Login Required' : 'Sign Up'}</h1>
+                <form onSubmit={authSubmitHandler}>
+                    <input
+                        type="text"
+                        value={username}
+                        placeholder="Username"
+                        onChange={event => setUsername(event.target.value)}
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        placeholder={isLoginMode ? 'Password' : 'Password (at least 5 characters)'}
+                        onChange={event => setPassword(event.target.value)}
+                    />
+                    {
+                        !isLoginMode &&
                         <input
                             type="password"
                             value={passwordConfirmation}
+                            placeholder="Confirm password"
                             onChange={event => setPasswordConfirmation(event.target.value)}
                         />
-                    </>
-                }
-                <Button
-                    disabled={
-                        (isLoginMode && (username.length < 1 || password.length < 1)) ||
-                        (!isLoginMode && (username.length < 1 || password.length < 5 || password !== passwordConfirmation))
                     }
-                    type="submit"
-                >{isLoginMode ? 'LOGIN' : 'SIGN UP'}</Button>
-            </form>
-            <p>
-                {isLoginMode ? "Still don't have a user?" : 'Already have a user?'}
-            </p>
-            <Button onClick={switchModeHandler} inverse>
-                {isLoginMode ? 'SIGN UP!' : 'LOGIN!'}
-            </Button>
+                    <Button
+                        disabled={
+                            (isLoginMode && (username.length < 1 || password.length < 1)) ||
+                            (!isLoginMode && (username.length < 1 || password.length < 5 || password !== passwordConfirmation))
+                        }
+                        type="submit"
+                    >{isLoginMode ? 'LOGIN' : 'SIGN UP'}</Button>
+                </form>
+                <span />
+                <p>
+                    {isLoginMode ? "Still don't have a user?" : 'Already have a user?'}
+                </p>
+                <Button onClick={switchModeHandler} inverse>
+                    {isLoginMode ? 'SIGN UP!' : 'LOGIN!'}
+                </Button>
+            </div>
         </Card>
     )
 }
