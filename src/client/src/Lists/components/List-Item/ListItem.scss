@@ -1,0 +1,78 @@
+@keyframes cardHoverOn {
+    100% {
+        transform: scale(1.02, 1);
+    }
+}
+
+@keyframes cardHoverOff {
+    100% {
+        transform: scale(0.98, 1);
+    }
+}
+
+.hover-animation {
+    animation: cardHoverOff 0.15s linear forwards;
+
+    &:hover,
+    &:active {
+        animation: cardHoverOn 0.25s linear forwards;
+    }
+}
+
+.list-item {
+    width: 50vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+        align-self: stretch;
+        width: 40vw;
+        text-decoration: none;
+        color: rgb(5, 5, 53);
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            width: 3vw;
+            height: 4.3vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+// (node:55740) UnhandledPromiseRejectionWarning: BSONTypeError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer
+//     at new BSONTypeError (/home/student/Desktop/todo_app/node_modules/bson/src/error.ts:16:5)
+//     at new ObjectId (/home/student/Desktop/todo_app/node_modules/bson/src/objectid.ts:88:15)
+//     at deleteList (/home/student/Desktop/todo_app/src/server/controllers/lists.ts:104:20)
+//     at Layer.handle [as handle_request] (/home/student/Desktop/todo_app/node_modules/express/lib/router/layer.js:95:5)
+//     at next (/home/student/Desktop/todo_app/node_modules/express/lib/router/route.js:144:13)
+//     at Route.dispatch (/home/student/Desktop/todo_app/node_modules/express/lib/router/route.js:114:3)
+//     at Layer.handle [as handle_request] (/home/student/Desktop/todo_app/node_modules/express/lib/router/layer.js:95:5)
+//     at /home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:284:15
+//     at param (/home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:365:14)
+//     at param (/home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:376:14)
+// (Use `node --trace-warnings ...` to show where the warning was created)
+// (node:55740) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+// (node:55740) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+// (node:55740) UnhandledPromiseRejectionWarning: BSONTypeError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer
+//     at new BSONTypeError (/home/student/Desktop/todo_app/node_modules/bson/src/error.ts:16:5)
+//     at new ObjectId (/home/student/Desktop/todo_app/node_modules/bson/src/objectid.ts:88:15)
+//     at deleteList (/home/student/Desktop/todo_app/src/server/controllers/lists.ts:104:20)
+//     at Layer.handle [as handle_request] (/home/student/Desktop/todo_app/node_modules/express/lib/router/layer.js:95:5)
+//     at next (/home/student/Desktop/todo_app/node_modules/express/lib/router/route.js:144:13)
+//     at Route.dispatch (/home/student/Desktop/todo_app/node_modules/express/lib/router/route.js:114:3)
+//     at Layer.handle [as handle_request] (/home/student/Desktop/todo_app/node_modules/express/lib/router/layer.js:95:5)
+//     at /home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:284:15
+//     at param (/home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:365:14)
+//     at param (/home/student/Desktop/todo_app/node_modules/express/lib/router/index.js:376:14)
+// (node:55740) UnhandledPromiseRejectionWarning: Unhandled promise rejection.
+// This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch().
+// To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)

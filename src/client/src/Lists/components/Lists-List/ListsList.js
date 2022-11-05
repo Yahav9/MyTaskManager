@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
+import './ListsList.scss'
 import ListItem from "../List-Item/ListItem";
 import Card from "../../../shared/components/Card/Card";
 import Button from "../../../shared/components/Button/Button";
@@ -16,6 +17,7 @@ function ListsList(props) {
     const createList = async name => {
         let res;
         try {
+            setIsCreatingAList(false);
             setIsLoading(true);
             res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
                 headers: { authorization: auth.token }
@@ -26,12 +28,11 @@ function ListsList(props) {
             console.log(e);
         }
         props.onListCreation(res.data);
-        setIsCreatingAList(false);
     }
 
     const lists = props.lists;
     return (
-        <ul>
+        <ul className="lists-list">
             {
                 lists.length < 1 &&
                 <Card>
@@ -49,18 +50,18 @@ function ListsList(props) {
                     />
                 })
             }
-            <Card>
-                {isCreatingAList && <EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} />}
-                {isLoading && <LoadingSpinner asOverlay />}
-                {
-                    !isCreatingAList && !isLoading &&
-                    <Button
-                        onClick={() => setIsCreatingAList(true)}
-                    >
-                        CREATE NEW LIST
-                    </Button>
-                }
-            </Card>
+            {isCreatingAList && <EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} />}
+            {isLoading && <Card><LoadingSpinner asOverlay /></Card>}
+            {
+                !isCreatingAList && !isLoading &&
+                <Button
+                    size="big"
+                    onClick={() => setIsCreatingAList(true)}
+                >
+                    CREATE NEW LIST
+                </Button>
+            }
+
         </ul>
     )
 }

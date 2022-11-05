@@ -1,0 +1,19 @@
+.searchbar {
+    input {
+        width: 300px;
+        height: 36px;
+        font-size: large;
+        border: 2px solid rgb(111, 151, 160);
+        border-radius: 5px;
+        box-shadow: 0 0 2px rgb(123, 166, 213);
+        margin: 5px;
+        padding-left: 12px;
+
+        &:active,
+        &:focus {
+            outline: none;
+            border-color: rgb(46, 173, 223);
+            box-shadow: 0 0 4px;
+        }
+    }
+}

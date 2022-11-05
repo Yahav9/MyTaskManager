@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Button from "../../../shared/components/Button/Button";
+import './Searchbar.scss'
 
 function Searchbar(props) {
     const [value, setValue] = useState('');
@@ -16,7 +17,7 @@ function Searchbar(props) {
     }
 
     return (
-        <div>
+        <div className="searchbar">
             <input
                 type="text"
                 placeholder="Search a List..."

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios"
 
+import './ListsPage.scss'
 import Searchbar from "./components/Searchbar/Searchbar";
 import ListsList from "./components/Lists-List/ListsList";
 import { AuthContext } from "../shared/context/AuthContext";
@@ -45,7 +46,7 @@ function ListsPage() {
     }
 
     return (
-        <div>
+        <div className="lists-page">
             <h1>My Lists</h1>
             <Searchbar
                 onChange={onSearchbarChange}

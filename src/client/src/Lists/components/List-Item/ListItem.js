@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import './ListItem.scss'
 import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
 import EditList from "../EditList/EditList";
@@ -46,40 +47,43 @@ function ListItem(props) {
 
     return (
         <li>
-            <Card>
-                {
-                    isUpdatingAList &&
-                    <EditList
-                        onSave={updateList}
-                        onCancel={() => setIsUpdatingAList(false)}
-                        value={name}
-                    />
-                }
-                {isLoading && <LoadingSpinner asOverlay />}
-                {
-                    !isUpdatingAList && !isLoading &&
-                    <>
-                        <Link to={`/${props.userId}/${props.id}`}>
-                            <div>{name}</div>
-                        </Link>
-                        <div>
-                            <Button onClick={deleteHandler} danger>
-                                <i className="material-icons"
-                                >
-                                    delete
-                                </i>
-                            </Button>
-                            <Button onClick={() => setIsUpdatingAList(true)} inverse>
-                                <i
-                                    className="material-icons"
-                                >
-                                    edit
-                                </i>
-                            </Button>
-                        </div>
-                    </>
-                }
-            </Card>
+            {
+                isUpdatingAList &&
+                <EditList
+                    onSave={updateList}
+                    onCancel={() => setIsUpdatingAList(false)}
+                    value={name}
+                />
+            }
+            {
+                !isUpdatingAList &&
+                <Card className={`list-item ${!isLoading && !isUpdatingAList && 'hover-animation'}`}>
+                    {isLoading && <LoadingSpinner asOverlay />}
+                    {
+                        !isLoading &&
+                        <>
+                            <Link to={`/${props.userId}/${props.id}`}>
+                                <h2>{name}</h2>
+                            </Link>
+                            <div className="buttons">
+                                <Button onClick={deleteHandler} danger>
+                                    <i className="material-icons"
+                                    >
+                                        delete
+                                    </i>
+                                </Button>
+                                <Button onClick={() => setIsUpdatingAList(true)} inverse>
+                                    <i
+                                        className="material-icons"
+                                    >
+                                        edit
+                                    </i>
+                                </Button>
+                            </div>
+                        </>
+                    }
+                </Card>
+            }
         </li>
     )
 }

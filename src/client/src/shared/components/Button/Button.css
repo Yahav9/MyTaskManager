@@ -21,13 +21,11 @@
   border-color: rgb(24, 136, 201);
 }
 
-/* TODO: CHANGE */
 .button--inverse {
   background: rgb(244, 239, 239);
   color: rgb(24, 136, 201);
 }
 
-/* TODO: CHANGE */
 .button--inverse:hover,
 .button--inverse:active {
   color: white;
