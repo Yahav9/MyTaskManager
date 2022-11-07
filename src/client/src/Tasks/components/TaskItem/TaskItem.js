@@ -49,6 +49,7 @@ function TaskItem(props) {
     }
 
     const deleteHandler = async () => {
+        props.abortTaskCreation();
         try {
             setIsLoading(true);
             await axios.delete(`http://localhost:4000/api/tasks/${props.id}`, {
@@ -63,6 +64,7 @@ function TaskItem(props) {
     }
 
     const changeTaskStatus = async () => {
+        props.abortTaskCreation();
         try {
             await axios.patch(`http://localhost:4000/api/tasks/${props.id}`, null, {
                 headers: { authorization: auth.token }
@@ -129,7 +131,11 @@ function TaskItem(props) {
                     }
                     <div className="buttons">
                         <span />
-                        <Button onClick={() => setIsUpdatingATask(true)} inverse>
+                        <Button onClick={() => {
+                            setIsUpdatingATask(true);
+                            props.abortTaskCreation();
+                        }}
+                            inverse>
                             <i
                                 className="material-icons"
                             >

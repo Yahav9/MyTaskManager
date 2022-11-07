@@ -30,6 +30,7 @@
         align-items: center;
 
         i {
+            user-select: none;
             cursor: pointer;
             animation: checkBox-hover-off 0.15s linear forwards;
 
@@ -43,7 +44,6 @@
             text-decoration: line-through;
         }
     }
-
     span {
         height: 5rem;
         border: 1px solid rgba(191, 184, 184, 0.7);
@@ -54,6 +54,16 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    .responsibility {
+        max-width: 10vw;
+    }
+    .etc {
+        max-width: 5vw;
+    }
+    .due-date {
+        max-width: 10vw;
     }
 
     .buttons {

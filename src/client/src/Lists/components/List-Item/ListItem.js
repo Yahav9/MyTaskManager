@@ -32,13 +32,14 @@ function ListItem(props) {
     }
 
     const deleteHandler = async () => {
+        props.abortListCreation();
         try {
             setIsLoading(true);
             await axios.delete(`http://localhost:4000/api/lists/${props.id}`, {
                 headers: { authorization: auth.token }
             });
-            setIsLoading(false);
             props.onDelete(props.id);
+            setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
             console.log(e)
@@ -63,7 +64,11 @@ function ListItem(props) {
                         <h2>{name}</h2>
                     </Link>
                     <div className="buttons">
-                        <Button onClick={() => setIsUpdatingAList(true)} inverse>
+                        <Button onClick={() => {
+                            props.abortListCreation();
+                            setIsUpdatingAList(true);
+                        }}
+                            inverse>
                             <i
                                 className="material-icons"
                             >

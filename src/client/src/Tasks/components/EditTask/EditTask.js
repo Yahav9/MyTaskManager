@@ -24,6 +24,7 @@ function EditTask(props) {
                             onChange={event => setName(event.target.value)}
                         />
                     </div>
+                    <span />
                     <div className="user-input priority">
                         <label>Priority: </label>
                         <select

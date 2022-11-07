@@ -43,8 +43,8 @@ function TasksList(props) {
         <ul className="tasks-list">
             {
                 tasks && tasks.length < 1 &&
-                <Card>
-                    <h2>You don't have any pending tasks...</h2>
+                <Card className="task-item">
+                    <h2 className="no-tasks">You don't have any pending tasks...</h2>
                 </Card>
             }
             {
@@ -60,6 +60,7 @@ function TasksList(props) {
                         isDone={task.done}
                         listId={props.listId}
                         onDelete={props.onTaskDelete}
+                        abortTaskCreation={() => setIsCreatingATask(false)}
                     />
                 })
             }

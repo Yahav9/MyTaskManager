@@ -35,8 +35,8 @@ function ListsList(props) {
         <ul className="lists-list">
             {
                 lists.length < 1 &&
-                <Card>
-                    <h2>No lists found...</h2>
+                <Card className="list-item">
+                    <h2 className="no-lists">No lists found...</h2>
                 </Card>
             }
             {
@@ -47,6 +47,8 @@ function ListsList(props) {
                         name={list.name}
                         userId={list.user}
                         onDelete={props.onListDelete}
+                        abortListCreation={() => setIsCreatingAList(false)}
+                        isCreatingAList={isCreatingAList}
                     />
                 })
             }

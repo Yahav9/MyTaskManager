@@ -15,15 +15,22 @@
         .inputs {
             align-items: baseline;
 
+            span {
+                width: 35rem;
+                border: 1px solid rgba(191, 184, 184, 0.7);
+                display: block;
+                margin-bottom: 10px;
+            }
+
             .user-input {
                 width: 35rem;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
+                color: rgb(3, 3, 31);
 
                 label {
-                    color: rgb(3, 3, 31);
                     font-size: large;
                     font-weight: 600;
                 }
@@ -48,7 +55,7 @@
                 }
             }
             .name {
-                margin-bottom: 30px;
+                margin-bottom: 20px;
 
                 label {
                     font-size: x-large;
@@ -67,7 +74,7 @@
             align-self: flex-start;
             justify-self: center;
             .edit-button {
-                text-align: center;
+                padding: 0px;
                 width: 5.5vw;
             }
         }
