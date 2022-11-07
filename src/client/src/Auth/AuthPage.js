@@ -13,6 +13,7 @@ function AuthPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [incorrectCredentials, setIncorrectCredentials] = useState(false);
     const auth = useContext(AuthContext);
 
     const switchModeHandler = () => {
@@ -31,10 +32,17 @@ function AuthPage() {
 
         try {
             setIsLoading(true);
-            const res = await axios.post(`http://localhost:4000/api/users/${mode}`, { name: username, password });
-            console.log(res.data);
+            const res = await axios.post(`http://localhost:4000/api/users/${mode}`,
+                {
+                    name: username,
+                    password
+                });
+            if (res.data.message) {
+                setIncorrectCredentials(true);
+            } else {
+                auth.login(res.data.userId, res.data.token);
+            }
             setIsLoading(false);
-            auth.login(res.data.userId, res.data.token);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
@@ -66,6 +74,10 @@ function AuthPage() {
                         placeholder="Confirm password"
                         onChange={event => setPasswordConfirmation(event.target.value)}
                     />
+                }
+                {
+                    incorrectCredentials &&
+                    <p>Oops! Either the username or the password you've entered is incorrect.</p>
                 }
                 <Button
                     disabled={
