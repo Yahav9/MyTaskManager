@@ -1,0 +1,75 @@
+.edit-task {
+    width: 67vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        width: 100rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .inputs {
+            align-items: baseline;
+
+            .user-input {
+                width: 35rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                label {
+                    color: rgb(3, 3, 31);
+                    font-size: large;
+                    font-weight: 600;
+                }
+
+                input,
+                select {
+                    width: 300px;
+                    height: 36px;
+                    font-size: large;
+                    border: 2px solid rgb(111, 151, 160);
+                    border-radius: 5px;
+                    box-shadow: 0 0 2px rgb(123, 166, 213);
+                    margin: 8px;
+                    padding-left: 12px;
+
+                    &:active,
+                    &:focus {
+                        outline: none;
+                        border-color: rgb(46, 173, 223);
+                        box-shadow: 0 0 4px;
+                    }
+                }
+            }
+            .name {
+                margin-bottom: 30px;
+
+                label {
+                    font-size: x-large;
+                }
+
+                input {
+                    width: 310px;
+                    height: 40px;
+                }
+            }
+        }
+
+        .buttons {
+            margin-top: 3px;
+            width: 25rem;
+            align-self: flex-start;
+            justify-self: center;
+            .edit-button {
+                text-align: center;
+                width: 5.5vw;
+            }
+        }
+    }
+}

@@ -51,7 +51,7 @@ function ListsList(props) {
                 })
             }
             {isCreatingAList && <EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} />}
-            {isLoading && <Card><LoadingSpinner asOverlay /></Card>}
+            {isLoading && <Card className="list-item"><LoadingSpinner asOverlay /></Card>}
             {
                 !isCreatingAList && !isLoading &&
                 <Button

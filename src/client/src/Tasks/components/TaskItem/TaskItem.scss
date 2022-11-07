@@ -1,0 +1,85 @@
+@keyframes checkBox-hover-on {
+    from {
+        font-size: 40px;
+    }
+    to {
+        font-size: 45px;
+    }
+}
+
+@keyframes checkBox-hover-off {
+    from {
+        font-size: 45px;
+    }
+    to {
+        font-size: 40px;
+    }
+}
+
+.task-item {
+    width: 70vw;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .name {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        i {
+            cursor: pointer;
+            animation: checkBox-hover-off 0.15s linear forwards;
+
+            &:hover,
+            &:active {
+                animation: checkBox-hover-on 0.15s linear forwards;
+            }
+        }
+
+        .done {
+            text-decoration: line-through;
+        }
+    }
+
+    span {
+        height: 5rem;
+        border: 1px solid rgba(191, 184, 184, 0.7);
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            width: 3vw;
+            height: 4.3vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.low {
+    box-shadow: 0 0 4px 4px rgb(209, 209, 7);
+}
+
+.medium {
+    box-shadow: 0 0 4px 4px rgb(248, 156, 8);
+}
+
+.high {
+    box-shadow: 0 0 4px 4px rgb(235, 12, 12);
+}

@@ -28,8 +28,7 @@
 
 .button--inverse:hover,
 .button--inverse:active {
-  color: white;
-  background: rgb(24, 136, 201);
+  background: rgb(204, 201, 223);
 }
 
 .button--danger {

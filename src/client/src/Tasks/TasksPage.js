@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+import './TasksPage.scss'
 import TasksList from "./components/TasksList/TasksList";
 import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner'
 import { AuthContext } from "../shared/context/AuthContext";
@@ -42,7 +43,7 @@ function TasksPage() {
     }
 
     return (
-        <div>
+        <div className="tasks-page">
             {isLoading && <LoadingSpinner asOverlay />}
             {
                 !isLoading &&

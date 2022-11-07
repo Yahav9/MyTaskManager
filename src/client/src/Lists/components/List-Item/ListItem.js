@@ -48,40 +48,35 @@ function ListItem(props) {
     return (
         <li>
             {
-                isUpdatingAList &&
+                isUpdatingAList && !isLoading &&
                 <EditList
                     onSave={updateList}
                     onCancel={() => setIsUpdatingAList(false)}
                     value={name}
                 />
             }
+            {isLoading && <Card className="list-item"><LoadingSpinner asOverlay /></Card>}
             {
-                !isUpdatingAList &&
+                !isUpdatingAList && !isLoading &&
                 <Card className={`list-item ${!isLoading && !isUpdatingAList && 'hover-animation'}`}>
-                    {isLoading && <LoadingSpinner asOverlay />}
-                    {
-                        !isLoading &&
-                        <>
-                            <Link to={`/${props.userId}/${props.id}`}>
-                                <h2>{name}</h2>
-                            </Link>
-                            <div className="buttons">
-                                <Button onClick={deleteHandler} danger>
-                                    <i className="material-icons"
-                                    >
-                                        delete
-                                    </i>
-                                </Button>
-                                <Button onClick={() => setIsUpdatingAList(true)} inverse>
-                                    <i
-                                        className="material-icons"
-                                    >
-                                        edit
-                                    </i>
-                                </Button>
-                            </div>
-                        </>
-                    }
+                    <Link to={`/${props.userId}/${props.id}`}>
+                        <h2>{name}</h2>
+                    </Link>
+                    <div className="buttons">
+                        <Button onClick={() => setIsUpdatingAList(true)} inverse>
+                            <i
+                                className="material-icons"
+                            >
+                                edit
+                            </i>
+                        </Button>
+                        <Button onClick={deleteHandler} danger>
+                            <i className="material-icons"
+                            >
+                                delete
+                            </i>
+                        </Button>
+                    </div>
                 </Card>
             }
         </li>

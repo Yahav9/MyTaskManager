@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
+import './TasksList.scss';
 import Button from "../../../shared/components/Button/Button";
 import Card from "../../../shared/components/Card/Card";
 import EditTask from "../EditTask/EditTask";
@@ -39,7 +40,7 @@ function TasksList(props) {
 
     const tasks = props.tasks;
     return (
-        <ul>
+        <ul className="tasks-list">
             {
                 tasks && tasks.length < 1 &&
                 <Card>
@@ -62,18 +63,17 @@ function TasksList(props) {
                     />
                 })
             }
-            <Card>
-                {isCreatingATask && <EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} />}
-                {isLoading && <LoadingSpinner asOverlay />}
-                {
-                    !isCreatingATask &&
-                    <Button
-                        onClick={() => setIsCreatingATask(true)}
-                    >
-                        ADD NEW TASK
-                    </Button>
-                }
-            </Card>
+            {isCreatingATask && <EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} />}
+            {isLoading && <Card className="task-item"><LoadingSpinner asOverlay /></Card>}
+            {
+                !isCreatingATask &&
+                <Button
+                    size="big"
+                    onClick={() => setIsCreatingATask(true)}
+                >
+                    ADD NEW TASK
+                </Button>
+            }
         </ul>
     )
 }

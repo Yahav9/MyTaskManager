@@ -1,4 +1,4 @@
-.lists-list {
+.tasks-list {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -11,8 +11,8 @@
     }
 
     button {
-        margin-left: 17px;
-        width: 49vw;
+        margin-left: 15px;
+        width: 69vw;
         height: 50px;
     }
 }

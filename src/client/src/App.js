@@ -80,7 +80,11 @@ function App() {
                 />
                 <Route
                     path="/:userId"
-                    element={<Navigate to="/auth" />}
+                    element={<AuthPage />}
+                />
+                <Route
+                    path="/:userId/:listid"
+                    element={<AuthPage />}
                 />
             </Routes>
         )
