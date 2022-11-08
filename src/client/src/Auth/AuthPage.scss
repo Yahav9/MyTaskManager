@@ -3,7 +3,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    font-size: 20px;
+    width: 50vw;
+    @media only screen and (max-width: 450px) {
+        width: 90vw;
+        font-size: 14px;
+    }
+    @media only screen and (min-width: 451px) and (max-width: 700px) {
+        width: 80vw;
+        font-size: 16px;
+    }
+    @media only screen and (min-width: 701px) and (max-width: 1000px) {
+        width: 70vw;
+        font-size: 18px;
+    }
 
     h1 {
         color: rgb(5, 5, 53);
@@ -11,15 +24,19 @@
     }
 
     form {
+        width: 100%;
+        font-size: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
 
         input {
-            width: 300px;
+            width: 80%;
+            max-width: 300px;
+            min-width: 200px;
             height: 36px;
-            font-size: large;
+            font-size: 100%;
             border: 2px solid rgb(111, 151, 160);
             border-radius: 5px;
             box-shadow: 0 0 2px rgb(123, 166, 213);
@@ -34,20 +51,36 @@
         }
 
         p {
+            width: 80%;
+            max-width: 300px;
+            min-width: 200px;
             color: red;
-            font-size: small;
+            font-size: 65%;
         }
 
         button {
-            width: 300px;
+            width: 80%;
+            max-width: 300px;
+            min-width: 200px;
             margin: 0;
         }
     }
 
     span {
-        width: 350px;
+        width: 90%;
+        max-width: 350px;
+        min-width: 250px;
         height: 1px;
         background-color: rgb(148, 147, 147);
         margin: 20px;
+    }
+
+    p {
+        padding: 0;
+        text-align: center;
+        font-size: 75%;
+    }
+    button {
+        margin-right: 0;
     }
 }
