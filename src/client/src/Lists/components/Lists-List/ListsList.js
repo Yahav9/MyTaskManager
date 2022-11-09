@@ -35,9 +35,11 @@ function ListsList(props) {
         <ul className="lists-list">
             {
                 lists.length < 1 &&
-                <Card className="list-item">
-                    <h2 className="no-lists">No lists found...</h2>
-                </Card>
+                <li>
+                    <Card className="list-item">
+                        <h2 className="no-lists">No lists found...</h2>
+                    </Card>
+                </li>
             }
             {
                 lists.length > 0 && lists.map(list => {
@@ -52,11 +54,12 @@ function ListsList(props) {
                     />
                 })
             }
-            {isCreatingAList && <EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} />}
-            {isLoading && <Card className="list-item"><LoadingSpinner asOverlay /></Card>}
+            {isCreatingAList && <li><EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} /></li>}
+            {isLoading && <li><Card className="list-item"><LoadingSpinner asOverlay /></Card></li>}
             {
                 !isCreatingAList && !isLoading &&
                 <Button
+                    className="create-button"
                     size="big"
                     onClick={() => setIsCreatingAList(true)}
                 >

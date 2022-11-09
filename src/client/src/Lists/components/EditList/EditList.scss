@@ -1,13 +1,18 @@
-.list-item {
+.edit {
+    @media only screen and (min-width: 1000px) {
+        width: 700px;
+    }
     input {
-        width: 300px;
+        width: 40%;
+        min-width: 110px;
         height: 36px;
-        font-size: large;
+        font-size: 100%;
+        color: rgb(5, 5, 53);
         border: 2px solid rgb(111, 151, 160);
         border-radius: 5px;
         box-shadow: 0 0 2px rgb(123, 166, 213);
-        margin: 5px;
-        padding-left: 12px;
+        margin: 3px;
+        padding-left: 8px;
 
         &:active,
         &:focus {
@@ -17,8 +22,16 @@
         }
     }
     .buttons {
+        width: 30%;
+        font-size: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin: 0;
+
         .edit-button {
-            width: 5.5vw;
+            font-size: 70%;
+            width: 50%;
+            min-width: 55px;
         }
     }
 }

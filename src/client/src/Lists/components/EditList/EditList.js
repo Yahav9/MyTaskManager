@@ -8,7 +8,7 @@ function EditList(props) {
     const [value, setValue] = useState(props.value || '');
 
     return (
-        <Card className="list-item">
+        <Card className="list-item edit">
             <input
                 type="text"
                 value={value}
