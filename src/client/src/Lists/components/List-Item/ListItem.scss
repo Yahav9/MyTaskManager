@@ -22,6 +22,7 @@ li {
         justify-content: space-between;
         align-items: center;
         font-size: 100%;
+        min-width: 700px;
         @media only screen and (max-width: 999px) {
             width: 80%;
             min-width: 300px;

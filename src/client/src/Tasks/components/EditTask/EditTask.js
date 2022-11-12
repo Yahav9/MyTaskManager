@@ -12,12 +12,13 @@ function EditTask(props) {
     const [dueDate, setDueDate] = useState(props.dueDate || '');
 
     return (
-        <Card className="edit-task">
+        <Card className="task-item edit-task">
             <form onSubmit={event => props.onSubmit(event, name, priority, responsibility, etc, dueDate)}>
                 <div className="inputs">
                     <div className="user-input name">
                         <label>Task: </label>
                         <input
+                            maxLength="25"
                             autoFocus
                             type="text"
                             value={name}
@@ -25,9 +26,10 @@ function EditTask(props) {
                         />
                     </div>
                     <span />
-                    <div className="user-input priority">
+                    <div className="user-input">
                         <label>Priority: </label>
                         <select
+                            className="priority"
                             defaultValue={priority || "none"}
                             onChange={event => setPriority(event.target.value)}
                         >
@@ -37,28 +39,32 @@ function EditTask(props) {
                             <option value="high">High</option>
                         </select>
                     </div>
-                    <div className="user-input responsibility">
+                    <div className="user-input">
                         <label>Responsibility: </label>
                         <input
+                            className="responsibility"
+                            maxLength="15"
                             type="text"
                             value={responsibility}
                             onChange={event => setResponsibility(event.target.value)}
                         />
                     </div>
-                    <div className="user-input etc">
+                    <div className="user-input">
                         <label> ETC (Estimated Time to Complete): </label>
                         <input
+                            className="etc"
                             type="number"
                             min="0"
-                            max="200"
+                            max="10"
                             step="0.5"
                             value={etc}
                             onChange={event => setEtc(event.target.value)}
                         /> hrs
                     </div>
-                    <div className="user-input due-date">
+                    <div className="user-input">
                         <label>Due Date: </label>
                         <input
+                            className="due-date"
                             type="Date"
                             min={new Date().toLocaleDateString('en-CA')}
                             value={dueDate}
@@ -66,7 +72,7 @@ function EditTask(props) {
                         />
                     </div>
                 </div>
-                <div className="buttons">
+                <div className="edit-buttons">
                     <Button
                         className="edit-button"
                         type="submit"

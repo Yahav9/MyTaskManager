@@ -4,16 +4,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    font-size: 100%;
+    padding: 0;
 
     .no-tasks {
         text-align: center;
         color: rgb(5, 5, 53);
-        width: 100rem;
+        width: 100%;
     }
 
-    button {
-        margin-left: 15px;
-        width: 69vw;
+    .create-button {
+        margin-left: 17px;
+        font-size: 120%;
+        width: 90%;
+        max-width: 800px;
+        min-width: 210px;
         height: 50px;
     }
 }

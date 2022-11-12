@@ -92,45 +92,47 @@ function TaskItem(props) {
             {isLoading && <Card className="task-item"><LoadingSpinner asOverlay /></Card>}
             {
                 !isUpdatingATask && !isLoading &&
-                <Card className={`task-item hover-animation ${priority}`}>
-                    <div className="name">
-                        <i className="material-icons" onClick={changeTaskStatus}>
-                            {isDone ? 'check_box' : 'check_box_outline_blank'}
-                        </i>
-                        <h2 className={isDone ? 'done' : ''}>{name}</h2>
+                <Card className={`task-item ${priority}`}>
+                    <div className="task-details">
+                        <div className="name">
+                            <i className="material-icons" onClick={changeTaskStatus}>
+                                {isDone ? 'check_box' : 'check_box_outline_blank'}
+                            </i>
+                            <h2 className={isDone ? 'done' : ''}>{name}</h2>
+                        </div>
+                        {
+                            responsibility && responsibility.length > 0 &&
+                            <>
+                                <span />
+                                <div className="details responsibility">
+                                    <h3>Responsibility</h3>
+                                    <p>{responsibility}</p>
+                                </div>
+                            </>
+                        }
+                        {
+                            etc > 0 &&
+                            <>
+                                <span />
+                                <div className="details etc">
+                                    <h3>ETC</h3>
+                                    <p>{etc + ' hrs'}</p>
+                                </div>
+                            </>
+                        }
+                        {
+                            dueDate && dueDate !== 'Invalid Date' && dueDate.length > 0 &&
+                            <>
+                                <span />
+                                <div className="details due-date">
+                                    <h3>Due Date</h3>
+                                    <p>{new Date(Date.parse(dueDate)).toLocaleDateString("en-GB")}</p>
+                                </div>
+                            </>
+                        }
                     </div>
-                    {
-                        responsibility && responsibility.length > 0 &&
-                        <>
-                            <span />
-                            <div className="responsibility">
-                                <h3>Responsibility</h3>
-                                <p>{responsibility}</p>
-                            </div>
-                        </>
-                    }
-                    {
-                        etc > 0 &&
-                        <>
-                            <span />
-                            <div className="etc">
-                                <h3>ETC</h3>
-                                <p>{etc + ' hrs'}</p>
-                            </div>
-                        </>
-                    }
-                    {
-                        dueDate && dueDate !== 'Invalid Date' && dueDate.length > 0 &&
-                        <>
-                            <span />
-                            <div className="due-date">
-                                <h3>Due Date</h3>
-                                <p>{new Date(Date.parse(dueDate)).toLocaleDateString("en-GB")}</p>
-                            </div>
-                        </>
-                    }
+                    <span className="buttons-span" />
                     <div className="buttons">
-                        <span />
                         <Button onClick={() => {
                             setIsUpdatingATask(true);
                             props.abortTaskCreation();

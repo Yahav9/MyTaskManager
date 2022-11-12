@@ -60,7 +60,6 @@ function ListsList(props) {
                 !isCreatingAList && !isLoading &&
                 <Button
                     className="create-button"
-                    size="big"
                     onClick={() => setIsCreatingAList(true)}
                 >
                     CREATE NEW LIST

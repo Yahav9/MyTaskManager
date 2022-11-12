@@ -1,29 +1,43 @@
 .edit-task {
-    width: 67vw;
+    min-height: 320px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 
     form {
-        width: 100rem;
+        height: 100%;
+        width: 100%;
+        font-size: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        align-items: center;
+        align-items: flex-start;
+
+        @media only screen and (min-width: 411px) and (max-width: 650px) {
+            flex-direction: column;
+            align-items: center;
+        }
+        @media only screen and (max-width: 410px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
         .inputs {
-            align-items: baseline;
+            width: 80%;
+            font-size: 100%;
+            align-items: flex-start;
 
             span {
-                width: 35rem;
+                width: 90%;
                 border: 1px solid rgba(191, 184, 184, 0.7);
                 display: block;
                 margin-bottom: 10px;
             }
 
             .user-input {
-                width: 35rem;
+                font-size: 100%;
+                width: 90%;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
@@ -31,20 +45,22 @@
                 color: rgb(3, 3, 31);
 
                 label {
-                    font-size: large;
+                    font-size: 90%;
                     font-weight: 600;
+                    min-width: 125px;
                 }
 
                 input,
                 select {
-                    width: 300px;
-                    height: 36px;
+                    width: 40%;
+                    height: 4vh;
+                    min-height: 30px;
                     font-size: large;
                     border: 2px solid rgb(111, 151, 160);
                     border-radius: 5px;
                     box-shadow: 0 0 2px rgb(123, 166, 213);
                     margin: 8px;
-                    padding-left: 12px;
+                    padding-left: 6px;
 
                     &:active,
                     &:focus {
@@ -53,29 +69,58 @@
                         box-shadow: 0 0 4px;
                     }
                 }
+
+                .priority {
+                    min-width: 100px;
+                }
+
+                .responsibility {
+                    min-width: 142px;
+                }
+
+                .due-date {
+                    min-width: 135px;
+                }
             }
+
             .name {
-                margin-bottom: 20px;
+                margin-bottom: 1vh;
 
                 label {
-                    font-size: x-large;
+                    font-size: 130%;
+                    min-width: 50px;
                 }
 
                 input {
-                    width: 310px;
-                    height: 40px;
+                    width: 60%;
+                    max-width: 300px;
+                    min-width: 215px;
+                    height: 4.5vh;
                 }
             }
         }
 
-        .buttons {
-            margin-top: 3px;
-            width: 25rem;
-            align-self: flex-start;
-            justify-self: center;
+        .edit-buttons {
+            margin-top: 7px;
+            height: 50%;
+            width: 25%;
+            min-width: 150px;
+            font-size: 100%;
+
+            @media only screen and (max-width: 650px) {
+                flex-direction: row;
+                align-self: center;
+                align-items: center;
+            }
+
             .edit-button {
+                font-size: 80%;
+                height: 35%;
+                min-height: 25px;
+                max-height: 40px;
                 padding: 0px;
-                width: 5.5vw;
+                width: 37%;
+                min-width: 55px;
             }
         }
     }

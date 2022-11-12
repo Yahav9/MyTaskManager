@@ -43,9 +43,11 @@ function TasksList(props) {
         <ul className="tasks-list">
             {
                 tasks && tasks.length < 1 &&
-                <Card className="task-item">
-                    <h2 className="no-tasks">You don't have any pending tasks...</h2>
-                </Card>
+                <li>
+                    <Card className="task-item">
+                        <h2 className="no-tasks">You don't have any pending tasks...</h2>
+                    </Card>
+                </li>
             }
             {
                 tasks && tasks.length > 0 && tasks.map(task => {
@@ -64,12 +66,12 @@ function TasksList(props) {
                     />
                 })
             }
-            {isCreatingATask && <EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} />}
-            {isLoading && <Card className="task-item"><LoadingSpinner asOverlay /></Card>}
+            {isCreatingATask && <li><EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} /></li>}
+            {isLoading && <li><Card className="task-item"><LoadingSpinner asOverlay /></Card></li>}
             {
                 !isCreatingATask &&
                 <Button
-                    size="big"
+                    className="create-button"
                     onClick={() => setIsCreatingATask(true)}
                 >
                     ADD NEW TASK
