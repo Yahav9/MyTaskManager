@@ -21,6 +21,7 @@ function AuthPage() {
         setUsername('');
         setPassword('');
         setPasswordConfirmation('');
+        setIncorrectCredentials(false);
     }
 
     const authSubmitHandler = async event => {
@@ -77,7 +78,13 @@ function AuthPage() {
                 }
                 {
                     incorrectCredentials &&
-                    <p>Oops! Either the username or the password you've entered is incorrect.</p>
+                    <p>
+                        {
+                            isLoginMode ?
+                                "Oops! Either the username or the password you've entered is incorrect." :
+                                "Sorry, this username is already in use."
+                        }
+                    </p>
                 }
                 <Button
                     disabled={

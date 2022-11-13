@@ -29,13 +29,12 @@ function TasksPage() {
                 console.log(e);
             }
             setListName(res.data.list.name);
-            setTasksData(res.data.tasks);
-            console.log(listId)
+            setTasksData(res.data.tasks.sort((a, b) => { return a.done - b.done }));
         })();
     }, [auth.token, listId]);
 
     const addNewTask = newTask => {
-        setTasksData(tasks => [...tasks, newTask]);
+        setTasksData(tasks => [newTask, ...tasks]);
     }
 
     const deleteTask = deletedTaskId => {

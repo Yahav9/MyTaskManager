@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import {
     BrowserRouter,
     Routes,
     Route,
     Navigate,
 } from "react-router-dom";
+import LoadingSpinner from "./shared/components/LoadingSpinner/LoadingSpinner";
 
-import AuthPage from './Auth/AuthPage';
-import TasksPage from './Tasks/TasksPage';
-import ListsPage from './Lists/ListsPage';
 import MainNavigation from './shared/components/Navigation/MainNavigation/MainNavigation'
 import { AuthContext } from "./shared/context/AuthContext";
+const AuthPage = lazy(() => import('./Auth/AuthPage'));
+const TasksPage = lazy(() => import('./Tasks/TasksPage'));
+const ListsPage = lazy(() => import('./Lists/ListsPage'));
 
 let logoutTimer;
 
@@ -126,7 +127,15 @@ function App() {
         >
             <BrowserRouter>
                 <MainNavigation />
-                <main>{routes}</main>
+                <main>
+                    <Suspense fallback={
+                        <div className="center">
+                            <LoadingSpinner />
+                        </div>
+                    }>
+                        {routes}
+                    </Suspense>
+                </main>
             </BrowserRouter>
         </AuthContext.Provider>
     )
