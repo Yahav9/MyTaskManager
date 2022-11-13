@@ -6,7 +6,6 @@ import './NavLinks.scss';
 
 function NavLinks() {
     const auth = useContext(AuthContext);
-    const listId = window.location.pathname.slice(26);
     const navigate = useNavigate();
 
     const logoutHandler = () => {
@@ -16,14 +15,11 @@ function NavLinks() {
 
     return (
         <ul className="nav-links">
-            {auth.token && listId.length > 0 && (
+            {auth.token && (
                 <li>
-                    <NavLink to={`/${auth.userId}`}> &lt;= BACK TO MY LISTS</NavLink>
+                    <NavLink to={`/${auth.userId}`}>MY LISTS</NavLink>
                 </li>
             )}
-            <li>
-                <NavLink to="/about">ABOUT</NavLink>
-            </li>
             {!auth.token && (
                 <li>
                     <NavLink to="/auth">LOGIN</NavLink>

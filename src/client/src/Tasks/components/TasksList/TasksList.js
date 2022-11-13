@@ -45,7 +45,7 @@ function TasksList(props) {
                 tasks && tasks.length < 1 &&
                 <li>
                     <Card className="task-item">
-                        <h2 className="no-tasks">You don't have any pending tasks...</h2>
+                        <h2 className="no-tasks">No tasks found...</h2>
                     </Card>
                 </li>
             }
