@@ -33,7 +33,7 @@ function AuthPage() {
 
         try {
             setIsLoading(true);
-            const res = await axios.post(`http://localhost:4000/api/users/${mode}`,
+            const res = await axios.post(`https://my-awesome-task-manager.herokuapp.com/api/users/${mode}`,
                 {
                     name: username,
                     password

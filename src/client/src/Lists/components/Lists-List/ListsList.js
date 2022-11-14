@@ -19,7 +19,7 @@ function ListsList(props) {
         try {
             setIsCreatingAList(false);
             setIsLoading(true);
-            res = await axios.post(`http://localhost:4000/api/lists/${props.userId}`, { name }, {
+            res = await axios.post(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.userId}`, { name }, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);

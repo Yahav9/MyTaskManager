@@ -19,7 +19,7 @@ function ListItem(props) {
         let res;
         try {
             setIsLoading(true);
-            res = await axios.patch(`http://localhost:4000/api/lists/${props.id}`, { name }, {
+            res = await axios.patch(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.id}`, { name }, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);
@@ -35,7 +35,7 @@ function ListItem(props) {
         props.abortListCreation();
         try {
             setIsLoading(true);
-            await axios.delete(`http://localhost:4000/api/lists/${props.id}`, {
+            await axios.delete(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.id}`, {
                 headers: { authorization: auth.token }
             });
             props.onDelete(props.id);

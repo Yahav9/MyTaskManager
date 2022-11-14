@@ -25,7 +25,7 @@ function TaskItem(props) {
         let res;
         try {
             setIsLoading(true)
-            res = await axios.put(`http://localhost:4000/api/tasks/${props.id}`, {
+            res = await axios.put(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, {
                 name,
                 priority,
                 responsibility,
@@ -52,7 +52,7 @@ function TaskItem(props) {
         props.abortTaskCreation();
         try {
             setIsLoading(true);
-            await axios.delete(`http://localhost:4000/api/tasks/${props.id}`, {
+            await axios.delete(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);
@@ -66,7 +66,7 @@ function TaskItem(props) {
     const changeTaskStatus = async () => {
         props.abortTaskCreation();
         try {
-            await axios.patch(`http://localhost:4000/api/tasks/${props.id}`, null, {
+            await axios.patch(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, null, {
                 headers: { authorization: auth.token }
             });
             setIsDone(!isDone);
