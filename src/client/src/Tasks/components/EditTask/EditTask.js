@@ -43,7 +43,7 @@ function EditTask(props) {
                         <label>Responsibility: </label>
                         <input
                             className="responsibility"
-                            maxLength="15"
+                            maxLength="17"
                             type="text"
                             value={responsibility}
                             onChange={event => setResponsibility(event.target.value)}
@@ -55,7 +55,7 @@ function EditTask(props) {
                             className="etc"
                             type="number"
                             min="0"
-                            max="10"
+                            max="100"
                             step="0.5"
                             value={etc}
                             onChange={event => setEtc(event.target.value)}

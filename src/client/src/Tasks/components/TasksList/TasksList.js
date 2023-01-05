@@ -42,6 +42,17 @@ function TasksList(props) {
     return (
         <ul className="tasks-list">
             {
+                !isCreatingATask &&
+                <Button
+                    className="create-button"
+                    onClick={() => setIsCreatingATask(true)}
+                >
+                    ADD NEW TASK
+                </Button>
+            }
+            {isCreatingATask && <li><EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} /></li>}
+            {isLoading && <li><Card className="task-item"><LoadingSpinner asOverlay /></Card></li>}
+            {
                 tasks && tasks.length < 1 &&
                 <li>
                     <Card className="task-item">
@@ -65,17 +76,6 @@ function TasksList(props) {
                         abortTaskCreation={() => setIsCreatingATask(false)}
                     />
                 })
-            }
-            {isCreatingATask && <li><EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} /></li>}
-            {isLoading && <li><Card className="task-item"><LoadingSpinner asOverlay /></Card></li>}
-            {
-                !isCreatingATask &&
-                <Button
-                    className="create-button"
-                    onClick={() => setIsCreatingATask(true)}
-                >
-                    ADD NEW TASK
-                </Button>
             }
         </ul>
     )

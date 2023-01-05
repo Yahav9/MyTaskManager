@@ -6,7 +6,6 @@ import {
     Navigate,
 } from "react-router-dom";
 import LoadingSpinner from "./shared/components/LoadingSpinner/LoadingSpinner";
-
 import MainNavigation from './shared/components/Navigation/MainNavigation/MainNavigation'
 import { AuthContext } from "./shared/context/AuthContext";
 const AuthPage = lazy(() => import('./Auth/AuthPage'));
@@ -59,7 +58,7 @@ function App() {
     useEffect(() => {
         if (token && tokenExpirationDate) {
             const remainingTime = tokenExpirationDate.getTime() - new Date().getTime();
-            console.log(remainingTime / 60 / 1000)
+            console.log(remainingTime / 60 / 1000);
             logoutTimer = setTimeout(logout, remainingTime);
         } else {
             clearTimeout(logoutTimer);
