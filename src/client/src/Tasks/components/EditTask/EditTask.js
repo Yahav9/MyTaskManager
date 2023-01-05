@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import './EditTask.scss'
-import Button from "../../../shared/components/Button/Button";
-import Card from "../../../shared/components/Card/Card";
+import './EditTask.scss';
+import Button from '../../../shared/components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
 
 function EditTask(props) {
     const [name, setName] = useState(props.name || '');
@@ -30,7 +30,7 @@ function EditTask(props) {
                         <label>Priority: </label>
                         <select
                             className="priority"
-                            defaultValue={priority || "none"}
+                            defaultValue={priority || 'none'}
                             onChange={event => setPriority(event.target.value)}
                         >
                             <option value="none">None</option>
@@ -68,7 +68,9 @@ function EditTask(props) {
                             type="Date"
                             min={new Date().toLocaleDateString('en-CA')}
                             value={dueDate}
-                            onChange={event => { setDueDate(event.target.value) }}
+                            onChange={event => {
+                                setDueDate(event.target.value);
+                            }}
                         />
                     </div>
                 </div>
@@ -91,7 +93,7 @@ function EditTask(props) {
                 </div>
             </form>
         </Card>
-    )
+    );
 }
 
 export default EditTask;

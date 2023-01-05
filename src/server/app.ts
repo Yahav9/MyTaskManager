@@ -12,29 +12,28 @@ dotenv.config();
 
 const app: Express = express();
 app.use(cors())
-  .use(json())
+    .use(json());
 
 app.use((_req: Request, res: Response, next: NextFunction) => {
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization');
-  next();
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization');
+    next();
 });
 
 app.use('/api/users', users)
-  .use(checkAuth)
-  .use('/api/lists', lists)
-  .use('/api/tasks', tasks);
-
+    .use(checkAuth)
+    .use('/api/lists', lists)
+    .use('/api/tasks', tasks);
 
 const port = process.env.PORT || 4000;
-const connectionString = process.env.URL || 'connection string'
+const connectionString = process.env.URL || 'connection string';
 
 mongoose.connect(connectionString)
-  .then(() => {
-    app.listen(port, () => {
-      console.log('Hosted: http://localhost:' + port);
-      console.log('connected to db');
+    .then(() => {
+        app.listen(port, () => {
+            console.log('Hosted: http://localhost:' + port);
+            console.log('connected to db');
+        });
     })
-  })
-  .catch(e => {
-    console.log('could not connect to db', e);
-  });
+    .catch(e => {
+        console.log('could not connect to db', e);
+    });

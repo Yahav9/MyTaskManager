@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 
 import './AuthPage.scss';
-import Card from "../shared/components/Card/Card";
-import Button from "../shared/components/Button/Button";
-import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner'
-import { AuthContext } from "../shared/context/AuthContext";
+import Card from '../shared/components/Card/Card';
+import Button from '../shared/components/Button/Button';
+import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
+import { AuthContext } from '../shared/context/AuthContext';
 
 function AuthPage() {
     const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +22,7 @@ function AuthPage() {
         setPassword('');
         setPasswordConfirmation('');
         setIncorrectCredentials(false);
-    }
+    };
 
     const authSubmitHandler = async event => {
         event.preventDefault();
@@ -48,7 +48,7 @@ function AuthPage() {
             setIsLoading(false);
             console.log(e);
         }
-    }
+    };
 
     return (
         <Card className="authentication">
@@ -82,14 +82,16 @@ function AuthPage() {
                         {
                             isLoginMode ?
                                 "Oops! Either the username or the password you've entered is incorrect." :
-                                "Sorry, this username is already in use."
+                                'Sorry, this username is already in use.'
                         }
                     </p>
                 }
                 <Button
                     disabled={
-                        (isLoginMode && (username.length < 1 || password.length < 1)) ||
-                        (!isLoginMode && (username.length < 1 || password.length < 5 || password !== passwordConfirmation))
+                        (isLoginMode &&
+                            (username.length < 1 || password.length < 1)) ||
+                        (!isLoginMode &&
+                            (username.length < 1 || password.length < 5 || password !== passwordConfirmation))
                     }
                     type="submit"
                 >{isLoginMode ? 'LOGIN' : 'SIGN UP'}</Button>
@@ -102,7 +104,7 @@ function AuthPage() {
                 {isLoginMode ? 'SIGN UP!' : 'LOGIN!'}
             </Button>
         </Card>
-    )
+    );
 }
 
 export default AuthPage;

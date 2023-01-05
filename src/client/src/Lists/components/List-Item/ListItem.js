@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import './ListItem.scss'
-import Button from "../../../shared/components/Button/Button";
-import Card from "../../../shared/components/Card/Card";
-import EditList from "../EditList/EditList";
-import { AuthContext } from "../../../shared/context/AuthContext";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
+import './ListItem.scss';
+import Button from '../../../shared/components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
+import EditList from '../EditList/EditList';
+import { AuthContext } from '../../../shared/context/AuthContext';
+import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
 function ListItem(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ function ListItem(props) {
         }
         setName(res.data.list.name);
         setIsUpdatingAList(false);
-    }
+    };
 
     const deleteHandler = async () => {
         props.abortListCreation();
@@ -42,9 +42,9 @@ function ListItem(props) {
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
-            console.log(e)
+            console.log(e);
         }
-    }
+    };
 
     return (
         <li>
@@ -68,7 +68,7 @@ function ListItem(props) {
                             props.abortListCreation();
                             setIsUpdatingAList(true);
                         }}
-                            inverse>
+                        inverse>
                             <i
                                 className="material-icons"
                             >
@@ -85,7 +85,7 @@ function ListItem(props) {
                 </Card>
             }
         </li>
-    )
+    );
 }
 
 export default ListItem;

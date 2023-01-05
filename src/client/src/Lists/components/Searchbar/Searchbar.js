@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Button from "../../../shared/components/Button/Button";
-import './Searchbar.scss'
+import Button from '../../../shared/components/Button/Button';
+import './Searchbar.scss';
 
 function Searchbar(props) {
     const [value, setValue] = useState('');
 
     const changeHandler = event => {
-        setValue(event.target.value)
+        setValue(event.target.value);
         props.onChange(event);
-    }
+    };
 
     const clearHandler = () => {
         setValue('');
         props.onClear();
-    }
+    };
 
     return (
         <div className="searchbar">
@@ -32,7 +32,7 @@ function Searchbar(props) {
                 CLEAR
             </Button>
         </div>
-    )
+    );
 }
 
 export default Searchbar;

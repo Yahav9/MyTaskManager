@@ -11,7 +11,7 @@ function NavLinks() {
     const logoutHandler = () => {
         auth.logout();
         navigate('/auth');
-    }
+    };
 
     return (
         <ul className="nav-links">
@@ -33,7 +33,7 @@ function NavLinks() {
                 </li>
             )}
         </ul>
-    )
+    );
 
 }
 

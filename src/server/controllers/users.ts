@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 
@@ -33,7 +33,7 @@ export async function signup(req: Request, res: Response) {
     try {
         await createdUser.save();
     } catch (e) {
-        return res.json({ error: e })
+        return res.json({ error: e });
     }
 
     let token;
@@ -42,12 +42,12 @@ export async function signup(req: Request, res: Response) {
             (token = jwt.sign(
                 { userId: createdUser.id },
                 process.env.KEY,
-                { expiresIn: '1h' }))
+                { expiresIn: '1h' }));
     } catch (e) {
-        return res.json({ error: e })
+        return res.json({ error: e });
     }
 
-    res.json({ userId: createdUser.id, token: token })
+    res.json({ userId: createdUser.id, token: token });
 }
 
 export async function login(req: Request, res: Response) {
@@ -75,17 +75,16 @@ export async function login(req: Request, res: Response) {
         return res.json({ message: 'Incorrect password' });
     }
 
-
     let token;
     try {
         process.env.KEY &&
             (token = jwt.sign(
                 { userId: existingUser.id },
                 process.env.KEY,
-                { expiresIn: '1h' }))
+                { expiresIn: '1h' }));
     } catch (e) {
-        return res.json({ error: e })
+        return res.json({ error: e });
     }
 
-    res.json({ userId: existingUser.id, token: token })
+    res.json({ userId: existingUser.id, token: token });
 }

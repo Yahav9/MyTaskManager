@@ -19,7 +19,7 @@ export async function createList(req: Request, res: Response) {
         return res.json({ message: 'List name already exist' });
     } else if (!existingUser) {
         return res.json({ message: 'User does not exist' });
-        //@ts-ignore
+        // @ts-ignore
     } else if (userId !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
@@ -41,7 +41,7 @@ export async function createList(req: Request, res: Response) {
             _id: createdList._id,
             name,
             user: existingUser._id
-        })
+        });
     } catch (e) {
         return res.json({ error: e });
     }

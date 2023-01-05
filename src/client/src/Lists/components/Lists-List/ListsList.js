@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
 
-import './ListsList.scss'
-import ListItem from "../List-Item/ListItem";
-import Card from "../../../shared/components/Card/Card";
-import Button from "../../../shared/components/Button/Button";
-import EditList from "../EditList/EditList";
-import { AuthContext } from "../../../shared/context/AuthContext";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
+import './ListsList.scss';
+import ListItem from '../List-Item/ListItem';
+import Card from '../../../shared/components/Card/Card';
+import Button from '../../../shared/components/Button/Button';
+import EditList from '../EditList/EditList';
+import { AuthContext } from '../../../shared/context/AuthContext';
+import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
 function ListsList(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,16 +19,18 @@ function ListsList(props) {
         try {
             setIsCreatingAList(false);
             setIsLoading(true);
-            res = await axios.post(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.userId}`, { name }, {
-                headers: { authorization: auth.token }
-            });
+            res = await axios.post(
+                `https://my-awesome-task-manager.herokuapp.com/api/lists/${props.userId}`,
+                { name },
+                { headers: { authorization: auth.token } }
+            );
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
         }
         props.onListCreation(res.data);
-    }
+    };
 
     const lists = props.lists;
     return (
@@ -51,7 +53,7 @@ function ListsList(props) {
                         onDelete={props.onListDelete}
                         abortListCreation={() => setIsCreatingAList(false)}
                         isCreatingAList={isCreatingAList}
-                    />
+                    />;
                 })
             }
             {isCreatingAList && <li><EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} /></li>}
@@ -67,7 +69,7 @@ function ListsList(props) {
             }
 
         </ul>
-    )
+    );
 }
 
 export default ListsList;

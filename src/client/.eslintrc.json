@@ -1,0 +1,98 @@
+{
+  "plugins": [
+    "testing-library",
+    "jest-dom"
+  ],
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "rules": {
+    "indent": [
+      "warn",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": [
+      "warn",
+      "unix"
+    ],
+    "quotes": [
+      "warn",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "semi": "warn",
+    "max-len": [
+      "warn",
+      {
+        "code": 120
+      }
+    ],
+    "eol-last": [
+      "warn",
+      "always"
+    ],
+    "no-multiple-empty-lines": [
+      "warn",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
+    "array-bracket-spacing": [
+      "warn",
+      "never"
+    ],
+    "arrow-spacing": "warn",
+    "brace-style": "warn",
+    "comma-spacing": [
+      "warn",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "computed-property-spacing": [
+      "warn",
+      "never"
+    ],
+    "dot-location": [
+      "warn",
+      "property"
+    ],
+    "func-call-spacing": [
+      "warn",
+      "never"
+    ],
+    "implicit-arrow-linebreak": [
+      "warn",
+      "beside"
+    ],
+    "key-spacing": [
+      "warn",
+      {
+        "beforeColon": false
+      }
+    ],
+    "keyword-spacing": [
+      "warn",
+      {
+        "before": true
+      }
+    ],
+    "no-multi-spaces": "warn",
+    "no-trailing-spaces": "warn",
+    "no-whitespace-before-property": "warn",
+    "spaced-comment": [
+      "warn",
+      "always"
+    ]
+  }
+}

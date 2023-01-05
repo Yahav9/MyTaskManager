@@ -8,6 +8,6 @@ router
     .post('/:listId', createTask)
     .put('/:taskId', editTask)
     .patch('/:taskId', updateTaskStatus)
-    .delete('/:taskId', deleteTask)
+    .delete('/:taskId', deleteTask);
 
 export default router;

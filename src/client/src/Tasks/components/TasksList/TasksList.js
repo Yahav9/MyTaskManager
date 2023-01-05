@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
 
 import './TasksList.scss';
-import Button from "../../../shared/components/Button/Button";
-import Card from "../../../shared/components/Card/Card";
-import EditTask from "../EditTask/EditTask";
-import TaskItem from "../TaskItem/TaskItem";
-import { AuthContext } from "../../../shared/context/AuthContext"
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
+import Button from '../../../shared/components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
+import EditTask from '../EditTask/EditTask';
+import TaskItem from '../TaskItem/TaskItem';
+import { AuthContext } from '../../../shared/context/AuthContext';
+import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
 function TasksList(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ function TasksList(props) {
         }
 
         props.onTaskCreation(res.data);
-    }
+    };
 
     const tasks = props.tasks;
     return (
@@ -74,11 +74,11 @@ function TasksList(props) {
                         listId={props.listId}
                         onDelete={props.onTaskDelete}
                         abortTaskCreation={() => setIsCreatingATask(false)}
-                    />
+                    />;
                 })
             }
         </ul>
-    )
+    );
 }
 
 export default TasksList;

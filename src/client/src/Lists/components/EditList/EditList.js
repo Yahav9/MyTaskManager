@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import './EditList.scss';
-import Button from "../../../shared/components/Button/Button";
-import Card from "../../../shared/components/Card/Card";
+import Button from '../../../shared/components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
 
 function EditList(props) {
     const [value, setValue] = useState(props.value || '');
@@ -32,7 +32,7 @@ function EditList(props) {
                 </Button>
             </div>
         </Card>
-    )
+    );
 }
 
 export default EditList;

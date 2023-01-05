@@ -35,7 +35,7 @@ function MainNavigation() {
                 </nav>
             </MainHeader>
         </>
-    )
+    );
 }
 
 export default MainNavigation;

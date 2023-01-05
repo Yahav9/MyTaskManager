@@ -77,7 +77,7 @@ export async function createTask(req: Request, res: Response) {
             done: false,
         });
     } catch (e) {
-        console.log(e)
+        console.log(e);
         return res.json({ secondError: e });
     }
 }
@@ -99,14 +99,13 @@ export async function editTask(req: Request, res: Response) {
     }
 
     if (!task) {
-        return res.json({ message: 'Wrong task id' })
+        return res.json({ message: 'Wrong task id' });
     }
 
-    //@ts-ignore
+    // @ts-ignore
     if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
-
 
     task.name = name;
     task.priority = undefined;
@@ -139,7 +138,7 @@ export async function updateTaskStatus(req: Request, res: Response) {
         return res.json({ message: 'wrong task id' });
     }
 
-    //@ts-ignore
+    // @ts-ignore
     if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
@@ -168,7 +167,7 @@ export async function deleteTask(req: Request, res: Response) {
         return res.json({ message: 'wrong task id' });
     }
 
-    //@ts-ignore
+    // @ts-ignore
     if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
@@ -182,7 +181,7 @@ export async function deleteTask(req: Request, res: Response) {
         // @ts-ignore
         await task.list.save({ session: sess });
         await sess.commitTransaction();
-        return res.json({ deletedTask: task, list: task.list })
+        return res.json({ deletedTask: task, list: task.list });
     } catch (e) {
         return res.json({ error: e });
     }

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios"
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
-import './ListsPage.scss'
-import Searchbar from "./components/Searchbar/Searchbar";
-import ListsList from "./components/Lists-List/ListsList";
-import { AuthContext } from "../shared/context/AuthContext";
-import LoadingSpinner from "../shared/components/LoadingSpinner/LoadingSpinner";
+import './ListsPage.scss';
+import Searchbar from './components/Searchbar/Searchbar';
+import ListsList from './components/Lists-List/ListsList';
+import { AuthContext } from '../shared/context/AuthContext';
+import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
 
 function ListsPage() {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,21 +29,21 @@ function ListsPage() {
             setListsData(res.data);
             setFilteredListsData(res.data);
         })();
-    }, [auth.userId, auth.token])
+    }, [auth.userId, auth.token]);
 
     const onSearchbarChange = event => {
         setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
-    }
+    };
 
     const addNewList = newList => {
         setListsData(lists => [...lists, newList]);
         setFilteredListsData(lists => [...lists, newList]);
-    }
+    };
 
     const deleteList = deletedListId => {
         setListsData(listsData.filter(list => list._id !== deletedListId));
         setFilteredListsData(listsData.filter(list => list._id !== deletedListId));
-    }
+    };
 
     return (
         <div className="lists-page">
@@ -63,7 +63,7 @@ function ListsPage() {
                 />
             }
         </div>
-    )
+    );
 }
 
 export default ListsPage;

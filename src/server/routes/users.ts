@@ -5,6 +5,6 @@ const router = Router();
 
 router
     .post('/signup', signup)
-    .post('/login', login)
+    .post('/login', login);
 
 export default router;

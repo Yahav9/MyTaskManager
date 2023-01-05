@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from 'react';
+import axios from 'axios';
 
-import './TaskItem.scss'
-import Card from "../../../shared/components/Card/Card";
-import Button from "../../../shared/components/Button/Button";
-import EditTask from "../EditTask/EditTask";
-import { AuthContext } from "../../../shared/context/AuthContext";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinner";
+import './TaskItem.scss';
+import Card from '../../../shared/components/Card/Card';
+import Button from '../../../shared/components/Button/Button';
+import EditTask from '../EditTask/EditTask';
+import { AuthContext } from '../../../shared/context/AuthContext';
+import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
 function TaskItem(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ function TaskItem(props) {
         setIsUpdatingATask(false);
         let res;
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             res = await axios.put(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, {
                 name,
                 priority,
@@ -40,13 +40,13 @@ function TaskItem(props) {
             console.log(e);
         }
         const taskData = res.data;
-        console.log(taskData)
+        console.log(taskData);
         setName(taskData.name);
         setPriority(taskData.priority);
         setResponsibility(taskData.responsibility);
         setEtc(taskData.etc);
         setDueDate(taskData.dueDate);
-    }
+    };
 
     const deleteHandler = async () => {
         props.abortTaskCreation();
@@ -59,9 +59,9 @@ function TaskItem(props) {
             props.onDelete(props.id);
         } catch (e) {
             setIsLoading(false);
-            console.log(e)
+            console.log(e);
         }
-    }
+    };
 
     const changeTaskStatus = async () => {
         props.abortTaskCreation();
@@ -73,7 +73,7 @@ function TaskItem(props) {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     return (
         <li>
@@ -126,7 +126,7 @@ function TaskItem(props) {
                                 <span />
                                 <div className="details due-date">
                                     <h3>Due Date</h3>
-                                    <p>{new Date(Date.parse(dueDate)).toLocaleDateString("en-GB")}</p>
+                                    <p>{new Date(Date.parse(dueDate)).toLocaleDateString('en-GB')}</p>
                                 </div>
                             </>
                         }
@@ -137,7 +137,7 @@ function TaskItem(props) {
                             setIsUpdatingATask(true);
                             props.abortTaskCreation();
                         }}
-                            inverse>
+                        inverse>
                             <i
                                 className="material-icons"
                             >
@@ -154,7 +154,7 @@ function TaskItem(props) {
                 </Card>
             }
         </li>
-    )
+    );
 }
 
 export default TaskItem;

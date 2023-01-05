@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState, lazy, Suspense } from "react";
+import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import {
     BrowserRouter,
     Routes,
     Route,
     Navigate,
-} from "react-router-dom";
-import LoadingSpinner from "./shared/components/LoadingSpinner/LoadingSpinner";
-import MainNavigation from './shared/components/Navigation/MainNavigation/MainNavigation'
-import { AuthContext } from "./shared/context/AuthContext";
+} from 'react-router-dom';
+import LoadingSpinner from './shared/components/LoadingSpinner/LoadingSpinner';
+import MainNavigation from './shared/components/Navigation/MainNavigation/MainNavigation';
+import { AuthContext } from './shared/context/AuthContext';
 const AuthPage = lazy(() => import('./Auth/AuthPage'));
 const TasksPage = lazy(() => import('./Tasks/TasksPage'));
 const ListsPage = lazy(() => import('./Lists/ListsPage'));
@@ -42,7 +42,7 @@ function App() {
         setUserId(null);
         localStorage.removeItem('userData');
 
-    }, [])
+    }, []);
 
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -87,7 +87,7 @@ function App() {
                     element={<AuthPage />}
                 />
             </Routes>
-        )
+        );
     } else {
         routes = (
             <Routes>
@@ -110,10 +110,9 @@ function App() {
                     element={<Navigate to={`/${userId}`} />}
                 />
             </Routes>
-        )
+        );
 
     }
-
 
     return (
         <AuthContext.Provider
@@ -137,7 +136,7 @@ function App() {
                 </main>
             </BrowserRouter>
         </AuthContext.Provider>
-    )
+    );
 }
 
 export default App;
