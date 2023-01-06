@@ -19,8 +19,7 @@
     }
 
     h1 {
-        color: rgb(5, 5, 53);
-        text-align: center;
+        @include heading($fontSize: 220%);
     }
 
     form {
