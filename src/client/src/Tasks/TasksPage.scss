@@ -1,13 +1,7 @@
-.tasks-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+@import "../index";
 
-    @media only screen and (min-width: 1201px) {
-        font-size: 20px;
-        width: 70vw;
-    }
+.tasks-page {
+    @include main-div;
 
     @media only screen and (min-width: 1101px) and (max-width: 1200px) {
         width: 75vw;
