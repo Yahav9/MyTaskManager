@@ -1,5 +1,8 @@
 # My Task Manager
 
+## Live Version:
+https://myawesometaskmanager.web.app
+
 ## About the Project:
 My Task Manager is a web application that helps creating and managing task lists, for better schedule planning and task prioritizing, and more effective work.
 
