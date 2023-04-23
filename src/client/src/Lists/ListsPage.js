@@ -18,7 +18,7 @@ function ListsPage() {
             let res;
             try {
                 setIsLoading(true);
-                res = await axios.get(`https://my-awesome-task-manager.herokuapp.com/api/lists/${auth.userId}`, {
+                res = await axios.get(`https://my-task-manager-rh8y.onrender.com/api/lists/${auth.userId}`, {
                     headers: { authorization: auth.token }
                 });
                 setIsLoading(false);

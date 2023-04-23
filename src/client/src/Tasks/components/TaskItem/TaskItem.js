@@ -25,7 +25,7 @@ function TaskItem(props) {
         let res;
         try {
             setIsLoading(true);
-            res = await axios.put(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, {
+            res = await axios.put(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, {
                 name,
                 priority,
                 responsibility,
@@ -40,7 +40,6 @@ function TaskItem(props) {
             console.log(e);
         }
         const taskData = res.data;
-        console.log(taskData);
         setName(taskData.name);
         setPriority(taskData.priority);
         setResponsibility(taskData.responsibility);
@@ -52,7 +51,7 @@ function TaskItem(props) {
         props.abortTaskCreation();
         try {
             setIsLoading(true);
-            await axios.delete(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, {
+            await axios.delete(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);
@@ -66,7 +65,7 @@ function TaskItem(props) {
     const changeTaskStatus = async () => {
         props.abortTaskCreation();
         try {
-            await axios.patch(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.id}`, null, {
+            await axios.patch(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, null, {
                 headers: { authorization: auth.token }
             });
             setIsDone(!isDone);
@@ -133,11 +132,13 @@ function TaskItem(props) {
                     </div>
                     <span className="buttons-span" />
                     <div className="buttons">
-                        <Button onClick={() => {
-                            setIsUpdatingATask(true);
-                            props.abortTaskCreation();
-                        }}
-                        inverse>
+                        <Button
+                            inverse
+                            onClick={() => {
+                                setIsUpdatingATask(true);
+                                props.abortTaskCreation();
+                            }}
+                        >
                             <i
                                 className="material-icons"
                             >

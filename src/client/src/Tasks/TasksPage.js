@@ -20,7 +20,7 @@ function TasksPage() {
             let res;
             try {
                 setIsLoading(true);
-                res = await axios.get(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${listId}`, {
+                res = await axios.get(`https://my-task-manager-rh8y.onrender.com/api/tasks/${listId}`, {
                     headers: { authorization: auth.token }
                 });
                 setIsLoading(false);

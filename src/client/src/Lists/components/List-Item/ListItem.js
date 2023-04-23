@@ -19,7 +19,7 @@ function ListItem(props) {
         let res;
         try {
             setIsLoading(true);
-            res = await axios.patch(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.id}`, { name }, {
+            res = await axios.patch(`https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`, { name }, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);
@@ -35,7 +35,7 @@ function ListItem(props) {
         props.abortListCreation();
         try {
             setIsLoading(true);
-            await axios.delete(`https://my-awesome-task-manager.herokuapp.com/api/lists/${props.id}`, {
+            await axios.delete(`https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`, {
                 headers: { authorization: auth.token }
             });
             props.onDelete(props.id);
@@ -68,7 +68,7 @@ function ListItem(props) {
                             props.abortListCreation();
                             setIsUpdatingAList(true);
                         }}
-                        inverse>
+                            inverse>
                             <i
                                 className="material-icons"
                             >

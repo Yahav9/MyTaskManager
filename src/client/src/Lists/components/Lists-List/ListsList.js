@@ -20,7 +20,7 @@ function ListsList(props) {
             setIsCreatingAList(false);
             setIsLoading(true);
             res = await axios.post(
-                `https://my-awesome-task-manager.herokuapp.com/api/lists/${props.userId}`,
+                `https://my-task-manager-rh8y.onrender.com/api/lists/${props.userId}`,
                 { name },
                 { headers: { authorization: auth.token } }
             );

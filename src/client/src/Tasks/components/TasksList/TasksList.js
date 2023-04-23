@@ -20,7 +20,7 @@ function TasksList(props) {
         let res;
         try {
             setIsLoading(true);
-            res = await axios.post(`https://my-awesome-task-manager.herokuapp.com/api/tasks/${props.listId}`, {
+            res = await axios.post(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`, {
                 name,
                 priority,
                 responsibility,

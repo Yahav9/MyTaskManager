@@ -36,4 +36,5 @@ mongoose.connect(connectionString)
     })
     .catch(e => {
         console.log('could not connect to db', e);
+        console.log('connectionString: ', connectionString);
     });

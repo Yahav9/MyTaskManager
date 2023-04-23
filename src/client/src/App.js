@@ -33,7 +33,6 @@ function App() {
             })
 
         );
-        console.log(token);
     }, []);
 
     const logout = useCallback(() => {
@@ -58,7 +57,6 @@ function App() {
     useEffect(() => {
         if (token && tokenExpirationDate) {
             const remainingTime = tokenExpirationDate.getTime() - new Date().getTime();
-            console.log(remainingTime / 60 / 1000);
             logoutTimer = setTimeout(logout, remainingTime);
         } else {
             clearTimeout(logoutTimer);
