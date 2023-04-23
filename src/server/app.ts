@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { json } from 'body-parser';
 import dotenv from 'dotenv';
@@ -10,22 +10,22 @@ import { checkAuth } from './middleware/checkAuth';
 
 dotenv.config();
 
-const app: Express = express();
-app.use(cors())
-    .use(json());
+const app = express();
 
-app.use((_req: Request, res: Response, next: NextFunction) => {
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization');
-    next();
-});
+app.use(cors())
+    .use(json())
+    .use((_req: Request, res: Response, next: NextFunction) => {
+        res.setHeader('Access-Control-Allow-Headers', 'Authorization');
+        next();
+    });
 
 app.use('/api/users', users)
     .use(checkAuth)
     .use('/api/lists', lists)
     .use('/api/tasks', tasks);
 
-const port = process.env.PORT || 4000;
-const connectionString = process.env.URL || 'connection string';
+const port = process.env.PORT || '4000';
+const connectionString = process.env.URL || 'no connection string';
 
 mongoose.connect(connectionString)
     .then(() => {
@@ -34,7 +34,7 @@ mongoose.connect(connectionString)
             console.log('connected to db');
         });
     })
-    .catch(e => {
+    .catch((e: Error) => {
         console.log('could not connect to db', e);
         console.log('connectionString: ', connectionString);
     });
