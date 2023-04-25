@@ -1,4 +1,4 @@
-import { createList } from '../../controllers/lists';
+import { createList, getLists } from '../../controllers/lists';
 import { login } from '../../controllers/users';
 import List from '../../models/List';
 import newList from '../mock-data/lists/new-list.json';
@@ -77,6 +77,21 @@ describe('createList function', () => {
         req.body = newList;
         req.userId = 'incorrect token';
         await createList(req, res);
+        expect(res._getJSONData().message).toStrictEqual('Authentication failed');
+    });
+});
+
+describe('getLists function', () => {
+
+    it('should return all lists in response', async () => {
+        await getLists(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Array);
+        expect(res._getJSONData()[0].name).toStrictEqual(existingList.name);
+    });
+
+    it('should return an error message if token is incorrect', async () => {
+        req.userId = 'incorrect token';
+        await getLists(req, res);
         expect(res._getJSONData().message).toStrictEqual('Authentication failed');
     });
 });
