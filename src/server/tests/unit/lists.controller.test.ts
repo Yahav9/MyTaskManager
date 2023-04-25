@@ -1,4 +1,4 @@
-import { createList, getLists } from '../../controllers/lists';
+import { changeListName, createList, getLists } from '../../controllers/lists';
 import { login } from '../../controllers/users';
 import List from '../../models/List';
 import newList from '../mock-data/lists/new-list.json';
@@ -41,6 +41,7 @@ beforeAll(async () => {
 
 afterEach(async () => {
     await List.deleteOne({ name: newList.name });
+    await List.deleteOne({ name: 'updated name' });
 });
 
 describe('createList function', () => {
@@ -92,6 +93,46 @@ describe('getLists function', () => {
     it('should return an error message if token is incorrect', async () => {
         req.userId = 'incorrect token';
         await getLists(req, res);
+        expect(res._getJSONData().message).toStrictEqual('Authentication failed');
+    });
+});
+
+describe('ChangeListName function', () => {
+    it('should change list name in DB', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        req.body = { name: 'updated name' };
+        req.params.listId = listId;
+        await changeListName(req, res);
+        const updatedList = await List.findOne({ name: 'updated name' });
+        expect(updatedList?.name).toStrictEqual('updated name');
+    });
+
+    it('should return new list name in response', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        res = httpMocks.createResponse();
+        req.body = { name: 'updated name' };
+        req.params.listId = listId;
+        await changeListName(req, res);
+        expect(res._getJSONData().list.name).toStrictEqual('updated name');
+        expect(res._isEndCalled()).toBeTruthy();
+    });
+
+    it('should return an error message if token is incorrect', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        res = httpMocks.createResponse();
+        req.body = { name: 'updated name' };
+        req.params.listId = listId;
+        req.userId = 'incorrect token';
+        await changeListName(req, res);
         expect(res._getJSONData().message).toStrictEqual('Authentication failed');
     });
 });
