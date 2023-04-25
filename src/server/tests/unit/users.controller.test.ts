@@ -1,8 +1,8 @@
 import { signup, login } from '../../controllers/users';
 import User from '../../models/User';
-import newUser from '../mock-data/new-user.json';
-import existingUser from '../mock-data/existing-user.json';
-import wrongPasswordUser from '../mock-data/wrong-password-user.json';
+import newUser from '../mock-data/users/new-user.json';
+import existingUser from '../mock-data/users/existing-user.json';
+import wrongPasswordUser from '../mock-data/users/wrong-password-user.json';
 import mongoose from 'mongoose';
 import * as httpMocks from 'node-mocks-http';
 import dotenv from 'dotenv';
