@@ -1,5 +1,5 @@
 {
-  "name": "heroku-starter-project",
+  "name": "todo-app",
   "scripts": {
     "start": "gulp",
     "build-client": "cd ./src/client && npm run build",
@@ -8,7 +8,7 @@
     "build-and-deploy": "npm run build-client && npm run deploy",
     "lint": "eslint ./src --ext .ts",
     "lint-fix": "eslint ./src --ext .ts --fix",
-    "jest": "jest"
+    "jest": "jest --watchAll"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -38,6 +38,7 @@
     "gulp-sass": "^5.1.0",
     "jest": "^28.1.2",
     "kill-port": "^2.0.1",
+    "node-mocks-http": "^1.12.2",
     "sass": "^1.53.0",
     "source-map-loader": "^4.0.0",
     "ts-jest": "^28.0.5",
