@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import e from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
+import { deleteList } from '../../controllers/lists';
 dotenv.config();
 
 const CONNECTION_STRING = process.env.URL || 'no connection string';
@@ -98,6 +99,7 @@ describe('getLists function', () => {
 });
 
 describe('ChangeListName function', () => {
+
     it('should change list name in DB', async () => {
         req.body = newList;
         await createList(req, res);
@@ -133,6 +135,42 @@ describe('ChangeListName function', () => {
         req.params.listId = listId;
         req.userId = 'incorrect token';
         await changeListName(req, res);
+        expect(res._getJSONData().message).toStrictEqual('Authentication failed');
+    });
+});
+
+describe('deleteList function', () => {
+    it('should delete list from "lists" collection', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        req.params.listId = listId;
+        await deleteList(req, res);
+        const deletedList = await List.findById(listId);
+        expect(deletedList).toBeNull();
+    });
+
+    it('should return deleted list id in response', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        res = httpMocks.createResponse();
+        req.params.listId = listId;
+        await deleteList(req, res);
+        expect(res._getJSONData()).toHaveProperty('deletedList');
+    });
+
+    it('should return an error message if token is incorrect', async () => {
+        req.body = newList;
+        await createList(req, res);
+        const listId: string = res._getJSONData()._id;
+
+        res = httpMocks.createResponse();
+        req.params.listId = listId;
+        req.userId = 'incorrect token';
+        await deleteList(req, res);
         expect(res._getJSONData().message).toStrictEqual('Authentication failed');
     });
 });
