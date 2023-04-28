@@ -29,8 +29,8 @@ export async function createTask(req: Request, res: Response) {
     let { name, priority, dueDate, responsibility, etc } = req.body;
 
     priority === 'none' && (priority = undefined);
-    dueDate.length < 1 && (dueDate = undefined);
-    responsibility.length < 1 && (responsibility = undefined);
+    dueDate && dueDate.length < 1 && (dueDate = undefined);
+    responsibility && responsibility.length < 1 && (responsibility = undefined);
     etc <= 0 && (etc = undefined);
 
     const listId = new mongoose.Types.ObjectId(req.params.listId);
