@@ -181,7 +181,7 @@ export async function deleteTask(req: Request, res: Response) {
         // @ts-ignore
         await task.list.save({ session: sess });
         await sess.commitTransaction();
-        return res.json({ deletedTask: task, list: task.list });
+        return res.json({ deletedTaskId: task.id });
     } catch (e) {
         return res.json({ error: e });
     }

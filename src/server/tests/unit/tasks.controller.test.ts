@@ -1,5 +1,5 @@
 import { login } from '../../controllers/users';
-import { createTask, getTasks, editTask, updateTaskStatus } from '../../controllers/tasks';
+import { createTask, getTasks, editTask, updateTaskStatus, deleteTask } from '../../controllers/tasks';
 import Task from '../../models/Task';
 import newTask from '../mock-data/tasks/new-task.json';
 import existingTask from '../mock-data/tasks/existing-task.json';
@@ -130,5 +130,30 @@ describe('updateTaskStatus function', () => {
         await updateTaskStatus(req, res);
         expect(res._getJSONData()).toBeInstanceOf(Object);
         expect(res._getJSONData().done).toBe(!notUpdatedTask.done);
+    });
+});
+
+describe('deleteTask function', () => {
+    it('should delete task from "tasks" collection', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const taskId: string = res._getJSONData()._id;
+
+        req.params.taskId = taskId;
+        await deleteTask(req, res);
+        const deletedList = await Task.findById(taskId);
+        expect(deletedList).toBeNull();
+    });
+
+    it('should return deleted task id in response', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const taskId: string = res._getJSONData()._id;
+
+        req.params.taskId = taskId;
+        res = httpMocks.createResponse();
+        await deleteTask(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Object);
+        expect(res._getJSONData().deletedTaskId).toStrictEqual(taskId);
     });
 });
