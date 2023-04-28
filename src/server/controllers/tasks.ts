@@ -147,7 +147,7 @@ export async function updateTaskStatus(req: Request, res: Response) {
 
     try {
         await task.save();
-        return res.json(task);
+        return res.json({ done: task.done });
     } catch (e) {
         res.json({ error: e });
     }

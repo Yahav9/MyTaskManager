@@ -1,5 +1,5 @@
 import { login } from '../../controllers/users';
-import { createTask, getTasks, editTask } from '../../controllers/tasks';
+import { createTask, getTasks, editTask, updateTaskStatus } from '../../controllers/tasks';
 import Task from '../../models/Task';
 import newTask from '../mock-data/tasks/new-task.json';
 import existingTask from '../mock-data/tasks/existing-task.json';
@@ -103,5 +103,32 @@ describe('editTask function', () => {
         expect(res._getJSONData()).toBeInstanceOf(Object);
         expect(res._getJSONData().name).toStrictEqual(editedTask.name);
         expect(res._isEndCalled()).toBeTruthy();
+    });
+});
+
+describe('updateTaskStatus function', () => {
+    it('should update task status (done or not) on DB', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const notUpdatedTask = res._getJSONData();
+        const taskId: string = notUpdatedTask._id;
+
+        req.params.taskId = taskId;
+        await updateTaskStatus(req, res);
+        const updatedStatusTask = await Task.findOne({ name: newTask.name });
+        expect(updatedStatusTask?.done).toBe(!notUpdatedTask.done);
+    });
+
+    it('should return updated task status (done or not) in response', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const notUpdatedTask = res._getJSONData();
+        const taskId: string = notUpdatedTask._id;
+
+        req.params.taskId = taskId;
+        res = httpMocks.createResponse();
+        await updateTaskStatus(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Object);
+        expect(res._getJSONData().done).toBe(!notUpdatedTask.done);
     });
 });
