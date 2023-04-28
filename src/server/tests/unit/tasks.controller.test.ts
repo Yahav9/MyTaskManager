@@ -1,8 +1,9 @@
 import { login } from '../../controllers/users';
-import { createTask, getTasks } from '../../controllers/tasks';
+import { createTask, getTasks, editTask } from '../../controllers/tasks';
 import Task from '../../models/Task';
 import newTask from '../mock-data/tasks/new-task.json';
 import existingTask from '../mock-data/tasks/existing-task.json';
+import editedTask from '../mock-data/tasks/edited-task.json';
 import existingUser from '../mock-data/users/existing-user.json';
 import mongoose from 'mongoose';
 import * as httpMocks from 'node-mocks-http';
@@ -56,6 +57,7 @@ describe('createTask function', () => {
     it('should return task in response', async () => {
         req.body = newTask;
         await createTask(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Object);
         expect(res._getJSONData().name).toStrictEqual(newTask.name);
     });
 
@@ -72,5 +74,34 @@ describe('getTasks function', () => {
         await getTasks(req, res);
         expect(res._getJSONData()).toBeInstanceOf(Array);
         expect(res._getJSONData()[0].name).toStrictEqual(existingTask.name);
+    });
+});
+
+describe('editTask function', () => {
+    it('should edit a task and update it on DB', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const taskId: string = res._getJSONData()._id;
+
+        req.body = editedTask;
+        req.params.taskId = taskId;
+        await editTask(req, res);
+        const updatedTask = await Task.findOne({ name: editedTask.name });
+        expect(updatedTask).toBeDefined;
+        expect(updatedTask?.name).toStrictEqual(editedTask.name);
+    });
+
+    it('should return edited task in response', async () => {
+        req.body = newTask;
+        await createTask(req, res);
+        const taskId: string = res._getJSONData()._id;
+
+        req.body = editedTask;
+        req.params.taskId = taskId;
+        res = httpMocks.createResponse();
+        await editTask(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Object);
+        expect(res._getJSONData().name).toStrictEqual(editedTask.name);
+        expect(res._isEndCalled()).toBeTruthy();
     });
 });
