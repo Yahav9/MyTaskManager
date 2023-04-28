@@ -22,7 +22,7 @@ export async function getTasks(req: Request, res: Response) {
         return res.json({ message: 'Authentication failed' });
     }
 
-    return res.json({ list, tasks: list.tasks });
+    return res.json(list.tasks);
 }
 
 export async function createTask(req: Request, res: Response) {

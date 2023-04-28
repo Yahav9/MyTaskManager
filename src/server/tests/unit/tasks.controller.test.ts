@@ -1,7 +1,8 @@
 import { login } from '../../controllers/users';
-import { createTask } from '../../controllers/tasks';
+import { createTask, getTasks } from '../../controllers/tasks';
 import Task from '../../models/Task';
 import newTask from '../mock-data/tasks/new-task.json';
+import existingTask from '../mock-data/tasks/existing-task.json';
 import existingUser from '../mock-data/users/existing-user.json';
 import mongoose from 'mongoose';
 import * as httpMocks from 'node-mocks-http';
@@ -63,5 +64,13 @@ describe('createTask function', () => {
         req.userId = 'incorrect token';
         await createTask(req, res);
         expect(res._getJSONData().message).toStrictEqual('Authentication failed');
+    });
+});
+
+describe('getTasks function', () => {
+    it('should return all lists in response', async () => {
+        await getTasks(req, res);
+        expect(res._getJSONData()).toBeInstanceOf(Array);
+        expect(res._getJSONData()[0].name).toStrictEqual(existingTask.name);
     });
 });
