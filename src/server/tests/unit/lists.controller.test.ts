@@ -32,6 +32,7 @@ beforeEach(async () => {
 });
 
 beforeAll(async () => {
+    mongoose.set('strictQuery', false);
     try {
         await mongoose.connect(CONNECTION_STRING);
     } catch (e) {
