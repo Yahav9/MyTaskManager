@@ -34,7 +34,7 @@ afterEach(async () => {
     await User.deleteOne({ name: newUser.name });
 });
 
-describe('login function', () => {
+describe('signup function', () => {
     it('should create a user', async () => {
         req.body = newUser;
         await signup(req, res);
@@ -58,7 +58,7 @@ describe('login function', () => {
     });
 });
 
-describe('signup function', () => {
+describe('login function', () => {
     it('should return userId and token in response', async () => {
         req.body = existingUser;
         await login(req, res);
