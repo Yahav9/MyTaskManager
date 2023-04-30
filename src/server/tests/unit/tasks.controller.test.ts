@@ -44,7 +44,7 @@ beforeAll(async () => {
 
 afterEach(async () => {
     await Task.deleteOne({ name: newTask.name });
-    await Task.deleteOne({ name: 'updated name' });
+    await Task.deleteOne({ name: editedTask.name });
 });
 
 describe('createTask function', () => {

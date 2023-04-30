@@ -19,6 +19,11 @@
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "types": [
+      "node",
+      "jest",
+      "supertest"
+    ]
   },
   "include": [
     "src/server/**/*",
