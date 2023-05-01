@@ -8,7 +8,7 @@
     "build-and-deploy": "npm run build-client && npm run deploy",
     "lint": "eslint ./src --ext .ts",
     "lint-fix": "eslint ./src --ext .ts --fix",
-    "test": "jest --forceExit --detectOpenHandles --watchAll --maxWorkers=1"
+    "test": "NODE_ENV='test' jest --forceExit --detectOpenHandles --watchAll --maxWorkers=1"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
