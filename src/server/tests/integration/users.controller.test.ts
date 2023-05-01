@@ -1,11 +1,26 @@
 import request from 'supertest';
-import app from '../../app';
+import app, { connectToDataBase } from '../../app';
 import newUser from '../mock-data/users/new-user.json';
 import existingUser from '../mock-data/users/existing-user.json';
 import wrongPasswordUser from '../mock-data/users/wrong-password-user.json';
 import User from '../../models/User';
+import { Server } from 'http';
 
 const URL = '/api/users';
+
+let server: Server;
+
+beforeAll((done) => {
+    server = app.listen(4001, async () => {
+        await connectToDataBase();
+        console.log('Server started');
+        done();
+    });
+});
+
+afterAll((done) => {
+    server.close(done);
+});
 
 afterEach(async () => {
     await User.deleteOne({ name: newUser.name });
