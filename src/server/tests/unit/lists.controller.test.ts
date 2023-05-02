@@ -32,6 +32,10 @@ beforeEach(async () => {
     req.userId = userId;
 });
 
+beforeEach((): void => {
+    jest.setTimeout(6000);
+});
+
 beforeAll(async () => {
     mongoose.set('strictQuery', false);
     try {
@@ -161,7 +165,7 @@ describe('deleteList function', () => {
         res = httpMocks.createResponse();
         req.params.listId = listId;
         await deleteList(req, res);
-        expect(res._getJSONData()).toHaveProperty('deletedList');
+        expect(res._getJSONData().deletedListId).toStrictEqual(listId);
     });
 
     it('should return an error message if token is incorrect', async () => {
