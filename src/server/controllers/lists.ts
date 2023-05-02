@@ -130,7 +130,7 @@ export async function deleteList(req: Request, res: Response) {
         await list.user.save({ session: sess });
         await Task.deleteMany({ list: listId });
         await sess.commitTransaction();
-        return res.json({ deletedList: list, user: list.user, tasks: list.tasks });
+        return res.json({ deletedListId: listId });
     } catch (e) {
         return res.json({ error: e });
     }

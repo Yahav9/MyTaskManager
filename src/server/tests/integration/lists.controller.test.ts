@@ -42,6 +42,7 @@ describe(URL, () => {
             .post(URL + userId)
             .set('Authorization', token)
             .send(newList);
+
         expect(response.body).toBeInstanceOf(Object);
         expect(response.body).toHaveProperty('_id');
         expect(response.body).toHaveProperty('name');
@@ -51,6 +52,7 @@ describe(URL, () => {
         const response = await request(app)
             .get(URL + userId)
             .set('Authorization', token);
+
         expect(response.body).toBeInstanceOf(Array);
         expect(response.body[0].name).toStrictEqual(existingList.name);
     });
@@ -66,6 +68,20 @@ describe(URL, () => {
             .patch(URL + listId)
             .set('Authorization', token)
             .send(updatedList);
+
         expect(secondResponse.body.name).toStrictEqual(updatedList.name);
+    });
+
+    test('DELETE ' + URL, async () => {
+        const firstResponse = await request(app)
+            .post(URL + userId)
+            .set('Authorization', token)
+            .send(newList);
+        const listId = firstResponse.body._id;
+
+        const secondResponse = await request(app)
+            .delete(URL + listId)
+            .set('Authorization', token);
+        expect(secondResponse.body.deletedListId).toStrictEqual(listId);
     });
 });
