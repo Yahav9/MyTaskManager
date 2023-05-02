@@ -4,6 +4,7 @@ import List from '../../models/List';
 import newList from '../mock-data/lists/new-list.json';
 import existingList from '../mock-data/lists/existing-list.json';
 import existingUser from '../mock-data/users/existing-user.json';
+import updatedList from '../mock-data/lists/updated-list.json';
 import { Server } from 'http';
 
 const URL = '/api/lists/';
@@ -54,7 +55,17 @@ describe(URL, () => {
         expect(response.body[0].name).toStrictEqual(existingList.name);
     });
 
-    // test('PATCH ' + URL, async () => { });
+    test('PATCH ' + URL, async () => {
+        const firstResponse = await request(app)
+            .post(URL + userId)
+            .set('Authorization', token)
+            .send(newList);
+        const listId = firstResponse.body._id;
 
-    // test('DELETE ' + URL, async () => { });
+        const secondResponse = await request(app)
+            .patch(URL + listId)
+            .set('Authorization', token)
+            .send(updatedList);
+        expect(secondResponse.body.name).toStrictEqual(updatedList.name);
+    });
 });

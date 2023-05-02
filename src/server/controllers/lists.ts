@@ -94,7 +94,7 @@ export async function changeListName(req: Request, res: Response) {
     list.name = newName;
     try {
         await list.save();
-        return res.json({ list });
+        return res.json(list);
     } catch (e) {
         return res.json({ error: e });
     }
