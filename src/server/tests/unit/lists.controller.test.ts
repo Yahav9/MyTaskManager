@@ -3,6 +3,7 @@ import { login } from '../../controllers/users';
 import List from '../../models/List';
 import newList from '../mock-data/lists/new-list.json';
 import existingList from '../mock-data/lists/existing-list.json';
+import updatedList from '../mock-data/lists/updated-list.json';
 import existingUser from '../mock-data/users/existing-user.json';
 import mongoose from 'mongoose';
 import * as httpMocks from 'node-mocks-http';
@@ -106,23 +107,23 @@ describe('ChangeListName function', () => {
         await createList(req, res);
         const listId: string = res._getJSONData()._id;
 
-        req.body = { name: 'updated name' };
+        req.body = updatedList;
         req.params.listId = listId;
         await changeListName(req, res);
-        const updatedList = await List.findOne({ name: 'updated name' });
-        expect(updatedList?.name).toStrictEqual('updated name');
+        const foundUpdatedList = await List.findOne({ name: 'updated name' });
+        expect(foundUpdatedList?.name).toStrictEqual(updatedList.name);
     });
 
-    it('should return new list name in response', async () => {
+    it('should return updated list name in response', async () => {
         req.body = newList;
         await createList(req, res);
         const listId: string = res._getJSONData()._id;
 
         res = httpMocks.createResponse();
-        req.body = { name: 'updated name' };
+        req.body = updatedList;
         req.params.listId = listId;
         await changeListName(req, res);
-        expect(res._getJSONData().list.name).toStrictEqual('updated name');
+        expect(res._getJSONData().name).toStrictEqual(updatedList.name);
         expect(res._isEndCalled()).toBeTruthy();
     });
 
