@@ -26,6 +26,7 @@ afterAll((done) => {
 
 afterEach(async () => {
     await List.deleteOne({ name: newList.name });
+    await List.deleteOne({ name: updatedList.name });
 });
 
 beforeAll(async () => {
@@ -45,7 +46,7 @@ describe(URL, () => {
 
         expect(response.body).toBeInstanceOf(Object);
         expect(response.body).toHaveProperty('_id');
-        expect(response.body).toHaveProperty('name');
+        expect(response.body.name).toStrictEqual(newList.name);
     });
 
     test('GET ' + URL, async () => {
