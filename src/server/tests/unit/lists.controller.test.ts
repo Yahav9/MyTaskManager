@@ -48,7 +48,7 @@ beforeAll(async () => {
 
 afterEach(async () => {
     await List.deleteOne({ name: newList.name });
-    await List.deleteOne({ name: 'updated name' });
+    await List.deleteOne({ name: updatedList.name });
 });
 
 describe('createList function', () => {
