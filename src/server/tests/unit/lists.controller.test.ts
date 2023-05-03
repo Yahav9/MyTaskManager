@@ -32,7 +32,7 @@ beforeEach(async () => {
     req.userId = userId;
 });
 
-beforeEach((): void => {
+beforeEach(() => {
     jest.setTimeout(6000);
 });
 
