@@ -12,6 +12,8 @@ My Task Manager is a web application that helps creating and managing task lists
 * TypeScript 
 * Express
 * MongoDB
+* ESlint
+* Jest
 
 ## Packages:
 
@@ -19,7 +21,6 @@ Front-End:
 * React Router - For routes management.
 * Axios - For HTTP requests.
 * React Transition - For CSS animations.
-* ESLint - For code styling and formatting.
 
 Back-End:
 * Mongoose - For Data Base management.
@@ -28,7 +29,8 @@ Back-End:
 * Dotenv- For environment variables.
 * Cors - For enabling CORS.
 * Body Parser - For parsing incoming request bodies.
-* ESLint - For code styling and formatting.
+* Node Mocks Http - For mocking request and response objects in unit tests.
+* Supertest - For integration tests.
 
 ## Main Features:
 * Full authentication and authorization functionality.
