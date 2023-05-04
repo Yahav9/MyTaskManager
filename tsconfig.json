@@ -25,6 +25,9 @@
       "supertest"
     ]
   },
+  "files": [
+    "./src/server/@types/express/index.d.ts"
+  ],
   "include": [
     "src/server/**/*",
     "models"
