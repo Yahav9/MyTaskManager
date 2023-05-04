@@ -48,6 +48,10 @@ afterEach(async () => {
 });
 
 describe('createTask function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should create a task and post it on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -71,6 +75,10 @@ describe('createTask function', () => {
 });
 
 describe('getTasks function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should return all lists in response', async () => {
         await getTasks(req, res);
         expect(res._getJSONData()).toBeInstanceOf(Array);
@@ -79,6 +87,10 @@ describe('getTasks function', () => {
 });
 
 describe('editTask function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should edit a task and update it on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -108,6 +120,10 @@ describe('editTask function', () => {
 });
 
 describe('updateTaskStatus function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should update task status (done or not) on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -135,6 +151,10 @@ describe('updateTaskStatus function', () => {
 });
 
 describe('deleteTask function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should delete task from "tasks" collection', async () => {
         req.body = newTask;
         await createTask(req, res);

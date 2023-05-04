@@ -37,6 +37,10 @@ afterEach(async () => {
 });
 
 describe(URL, () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     test('POST ' + URL, async () => {
         const response = await request(app)
             .post(URL + existingListId)

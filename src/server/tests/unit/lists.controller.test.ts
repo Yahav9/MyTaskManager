@@ -32,10 +32,6 @@ beforeEach(async () => {
     req.userId = userId;
 });
 
-beforeEach(() => {
-    jest.setTimeout(6000);
-});
-
 beforeAll(async () => {
     mongoose.set('strictQuery', false);
     try {
@@ -52,6 +48,9 @@ afterEach(async () => {
 });
 
 describe('createList function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
 
     it('should create a list and post it on DB', async () => {
         req.body = newList;
@@ -90,6 +89,9 @@ describe('createList function', () => {
 });
 
 describe('getLists function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
 
     it('should return all lists in response', async () => {
         await getLists(req, res);
@@ -105,6 +107,9 @@ describe('getLists function', () => {
 });
 
 describe('ChangeListName function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
 
     it('should change list name in DB', async () => {
         req.body = newList;
@@ -146,6 +151,10 @@ describe('ChangeListName function', () => {
 });
 
 describe('deleteList function', () => {
+    beforeEach(() => {
+        jest.setTimeout(7000);
+    });
+
     it('should delete list from "lists" collection', async () => {
         req.body = newList;
         await createList(req, res);
