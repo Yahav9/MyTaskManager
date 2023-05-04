@@ -1,90 +1,102 @@
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-
 import User from '../models/User';
 
-export async function signup(req: Request, res: Response) {
-    const { name, password } = req.body;
+interface NewUser {
+    name: string,
+    password: string,
+    lists: never[]
+}
+
+async function findExistingUserByName(name: string) {
     let existingUser;
     try {
-        existingUser = await User.findOne({ name: name });
+        existingUser = await User.findOne({ name });
     } catch (e) {
-        return res.json({ error: e });
+        return console.log(e);
     }
+    return existingUser;
+}
+
+async function hashPassword(password: string) {
+    let hashedPassword: string | null;
+    try {
+        hashedPassword = await bcrypt.hash(password, 12);
+    } catch (e) {
+        return console.log(e);
+    }
+    return hashedPassword;
+}
+
+async function createUserAndReturnUserId(newUser: NewUser) {
+    const createdUser = new User(newUser);
+    try {
+        await createdUser.save();
+    } catch (e) {
+        return console.log(e);
+    }
+    return createdUser.id;
+}
+
+async function createToken(userId: string) {
+    const key = process.env.KEY as string;
+    let token;
+    try {
+        token = jwt.sign(
+            { userId },
+            key,
+            { expiresIn: '1h' });
+    } catch (e) {
+        return console.log(e);
+    }
+    return token;
+}
+
+async function checkPasswordIsCorrect(password: string, hashedPassword: string) {
+    let isCorrectPassword = false;
+    try {
+        isCorrectPassword = await bcrypt.compare(password, hashedPassword);
+    } catch (e) {
+        return console.log(e);
+    }
+    return isCorrectPassword;
+}
+
+export async function signup(req: Request, res: Response) {
+    const name = req.body.name as string;
+    const password = req.body.password as string;
+    const existingUser = await findExistingUserByName(name);
 
     if (existingUser) {
         return res.json({ message: 'Username already exist' });
     }
 
-    let hashedPassword;
-    try {
-        hashedPassword = await bcrypt.hash(password, 12);
-    } catch (e) {
-        return res.json({ error: e });
-    }
-
-    const createdUser = new User({
+    const hashedPassword = await hashPassword(password) as string;
+    const newUser = {
         name,
         password: hashedPassword,
         lists: []
-    });
-
-    try {
-        await createdUser.save();
-    } catch (e) {
-        return res.json({ error: e });
-    }
-
-    let token;
-    try {
-        process.env.KEY &&
-            (token = jwt.sign(
-                { userId: createdUser.id },
-                process.env.KEY,
-                { expiresIn: '1h' }));
-    } catch (e) {
-        return res.json({ error: e });
-    }
-
-    res.json({ userId: createdUser.id, token: token });
+    };
+    const createdUserId = await createUserAndReturnUserId(newUser);
+    const token = await createToken(createdUserId);
+    res.json({ userId: createdUserId, token });
 }
 
 export async function login(req: Request, res: Response) {
-    const { name, password } = req.body;
-
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ name: name });
-    } catch (e) {
-        return res.json({ error: e });
-    }
+    const name = req.body.name as string;
+    const password = req.body.password as string;
+    const existingUser = await findExistingUserByName(name);
 
     if (!existingUser) {
         return res.json({ message: 'wrong username' });
     }
 
-    let isCorrectPassword = false;
-    try {
-        isCorrectPassword = await bcrypt.compare(password, existingUser.password);
-    } catch (e) {
-        return res.json({ error: e });
-    }
-
+    const isCorrectPassword = await checkPasswordIsCorrect(password, existingUser.get('password')) as boolean;
     if (!isCorrectPassword) {
         return res.json({ message: 'Incorrect password' });
     }
 
-    let token;
-    try {
-        process.env.KEY &&
-            (token = jwt.sign(
-                { userId: existingUser.id },
-                process.env.KEY,
-                { expiresIn: '1h' }));
-    } catch (e) {
-        return res.json({ error: e });
-    }
-
-    res.json({ userId: existingUser.id, token: token });
+    const token = await createToken(existingUser.get('id'));
+    res.json({ userId: existingUser.get('id'), token });
 }
