@@ -1,50 +1,75 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import List from '../models/List';
+import mongoose, { Document } from 'mongoose';
+import List, { IList } from '../models/List';
 import Task from '../models/Task';
-import User from '../models/User';
+import User, { IUser } from '../models/User';
 
-export async function createList(req: Request, res: Response) {
-    const name = req.body.name;
-    const userId = req.params.userId;
-    let existingList: any;
-    let existingUser: any;
+type TUser = Document<unknown, unknown, IUser> & IUser & { _id: mongoose.Types.ObjectId }
+type TList = Document<unknown, unknown, IList> & IList & { _id: mongoose.Types.ObjectId; }
+
+async function findExistingList(name: string, userId: string) {
+    let existingList;
     try {
         existingList = await List.findOne({ name: name, user: userId });
+    } catch (e) {
+        return console.log(e);
+    }
+    return existingList;
+}
+
+async function findExistingUserById(userId: string) {
+    let existingUser;
+    try {
         existingUser = await User.findById(userId);
     } catch (e) {
-        return res.json({ error: e });
+        return console.log(e);
     }
+    return existingUser;
+}
+
+async function saveNewList(createdList: TList, user: TUser): Promise<void> {
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await createdList.save({ session: sess });
+        user.lists.push(createdList.id);
+        await user.save({ session: sess });
+        await sess.commitTransaction();
+    } catch (e) {
+        return console.log(e);
+    }
+}
+
+export async function createList(req: Request, res: Response) {
+    const name = req.body.name as string;
+    const userId = req.params.userId as string;
+    const existingList = await findExistingList(name, userId);
+    const existingUser = await findExistingUserById(userId);
+
     if (existingList) {
         return res.json({ message: 'List name already exist' });
     } else if (!existingUser) {
         return res.json({ message: 'User does not exist' });
-        // @ts-ignore
     } else if (userId !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
     const createdList = new List({
         name,
-        user: existingUser,
+        user: existingUser.id,
         tasks: []
     });
 
     try {
-        const sess = await mongoose.startSession();
-        sess.startTransaction();
-        await createdList.save({ session: sess });
-        existingUser.lists.push(createdList);
-        await existingUser.save({ session: sess });
-        await sess.commitTransaction();
+        await saveNewList(createdList, existingUser);
         return res.json({
             _id: createdList._id,
-            name,
-            user: existingUser._id
+            name
         });
     } catch (e) {
-        return res.json({ error: e });
+        console.log(e);
     }
+
 }
 
 export async function getLists(req: Request, res: Response) {
