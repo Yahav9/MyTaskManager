@@ -1,9 +1,15 @@
-import mongoose from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
-const ListSchema = new mongoose.Schema({
+export interface IList {
+    name: string,
+    user: Types.ObjectId,
+    tasks: Types.ObjectId[]
+}
+
+const ListSchema = new Schema<IList>({
     name: { type: String, required: true },
-    user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-    tasks: [{ type: mongoose.Types.ObjectId, ref: 'Task' }]
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }]
 });
 
-export default mongoose.model('List', ListSchema);
+export default model<IList>('List', ListSchema);
