@@ -1,9 +1,15 @@
-import mongoose from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
+export interface IUser {
+    name: string,
+    password: string,
+    lists: Types.ObjectId[]
+}
+
+const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
     password: { type: String, required: true, minlength: 5 },
-    lists: [{ type: mongoose.Types.ObjectId, ref: 'List' }]
+    lists: [{ type: Types.ObjectId, ref: 'List' }]
 });
 
-export default mongoose.model('User', UserSchema);
+export default model<IUser>('User', UserSchema);

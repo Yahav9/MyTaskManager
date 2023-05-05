@@ -1,13 +1,7 @@
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import User from '../models/User';
-
-interface NewUser {
-    name: string,
-    password: string,
-    lists: never[]
-}
+import User, { IUser } from '../models/User';
 
 async function findExistingUserByName(name: string) {
     let existingUser;
@@ -29,7 +23,7 @@ async function hashPassword(password: string) {
     return hashedPassword;
 }
 
-async function createUserAndReturnUserId(newUser: NewUser) {
+async function createUserAndReturnUserId(newUser: IUser) {
     const createdUser = new User(newUser);
     try {
         await createdUser.save();
