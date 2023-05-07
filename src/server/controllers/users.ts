@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User';
+import { Types } from 'mongoose';
+import { ListDoc } from './lists';
 
 async function findExistingUserByName(name: string) {
     let existingUser;
@@ -70,7 +72,7 @@ export async function signup(req: Request, res: Response) {
     const newUser = {
         name,
         password: hashedPassword,
-        lists: []
+        lists: [] as unknown as Types.Array<ListDoc>
     };
     const createdUserId = await createUserAndReturnUserId(newUser);
     const token = await createToken(createdUserId);

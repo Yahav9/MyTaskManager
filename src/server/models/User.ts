@@ -1,9 +1,10 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
+import { ListDoc } from '../controllers/lists';
 
 export interface IUser {
     name: string,
     password: string,
-    lists: Types.ObjectId[]
+    lists: Types.Array<ListDoc>
 }
 
 const UserSchema = new Schema<IUser>({
