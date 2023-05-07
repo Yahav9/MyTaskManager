@@ -118,11 +118,9 @@ export async function changeListName(req: Request, res: Response) {
 
     if (!existingList) {
         return res.json({ message: 'wrong list id' });
-    }
-    if (listNameAlreadyExists) {
+    } else if (listNameAlreadyExists) {
         return res.json({ message: 'List name already exist' });
-    }
-    if (existingList.user.toString() !== req.userId) {
+    } else if (existingList.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
