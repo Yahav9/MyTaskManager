@@ -1,8 +1,9 @@
 import { Schema, Types, model } from 'mongoose';
+import { UserDoc } from '../controllers/lists';
 
 export interface IList {
     name: string,
-    user: Types.ObjectId,
+    user: UserDoc,
     tasks: Types.ObjectId[]
 }
 
