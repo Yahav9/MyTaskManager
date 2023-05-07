@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import { Types, startSession } from 'mongoose';
 import Task from '../models/Task';
 import List from '../models/List';
 
 export async function getTasks(req: Request, res: Response) {
-    const listId = new mongoose.Types.ObjectId(req.params.listId);
+    const listId = new Types.ObjectId(req.params.listId);
 
     let list;
     try {
@@ -33,7 +33,7 @@ export async function createTask(req: Request, res: Response) {
     responsibility && responsibility.length < 1 && (responsibility = undefined);
     etc <= 0 && (etc = undefined);
 
-    const listId = new mongoose.Types.ObjectId(req.params.listId);
+    const listId = new Types.ObjectId(req.params.listId);
     let list;
     try {
         list = await List.findById(listId);
@@ -60,7 +60,7 @@ export async function createTask(req: Request, res: Response) {
     });
 
     try {
-        const sess = await mongoose.startSession();
+        const sess = await startSession();
         sess.startTransaction();
         await createdTask.save({ session: sess });
         // @ts-ignore
@@ -83,7 +83,7 @@ export async function createTask(req: Request, res: Response) {
 }
 
 export async function editTask(req: Request, res: Response) {
-    const taskId = new mongoose.Types.ObjectId(req.params.taskId);
+    const taskId = new Types.ObjectId(req.params.taskId);
     let { name, priority, dueDate, responsibility, etc } = req.body;
 
     priority === 'none' && (priority = undefined);
@@ -126,7 +126,7 @@ export async function editTask(req: Request, res: Response) {
 }
 
 export async function updateTaskStatus(req: Request, res: Response) {
-    const taskId = new mongoose.Types.ObjectId(req.params.taskId);
+    const taskId = new Types.ObjectId(req.params.taskId);
     let task;
     try {
         task = await Task.findById(taskId).populate('list');
@@ -173,7 +173,7 @@ export async function deleteTask(req: Request, res: Response) {
     }
 
     try {
-        const sess = await mongoose.startSession();
+        const sess = await startSession();
         sess.startTransaction();
         await task.remove({ session: sess });
         // @ts-ignore

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import mongoose, { Document, MergeType, Types } from 'mongoose';
+import { Document, MergeType, Types, startSession } from 'mongoose';
 import List, { IList } from '../models/List';
 import Task from '../models/Task';
 import User, { IUser } from '../models/User';
 
-export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: mongoose.Types.ObjectId }
-export type ListDoc = Document<unknown, unknown, IList> & IList & { _id: mongoose.Types.ObjectId }
+export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: Types.ObjectId }
+export type ListDoc = Document<unknown, unknown, IList> & IList & { _id: Types.ObjectId }
 
 async function findExistingList(name: string, userId: string) {
     let existingList;
@@ -39,7 +39,7 @@ async function findExistingListById(listId: Types.ObjectId) {
 
 async function saveNewListOnDB(createdList: ListDoc, user: UserDoc): Promise<void> {
     try {
-        const sess = await mongoose.startSession();
+        const sess = await startSession();
         sess.startTransaction();
         await createdList.save({ session: sess });
         user.lists.push(createdList.id);
@@ -52,7 +52,7 @@ async function saveNewListOnDB(createdList: ListDoc, user: UserDoc): Promise<voi
 
 async function removeListFromDB(list: MergeType<ListDoc, { user: UserDoc }>, listId: Types.ObjectId) {
     try {
-        const sess = await mongoose.startSession();
+        const sess = await startSession();
         sess.startTransaction();
         await list.remove({ session: sess });
         list.user.lists.pull(list);
