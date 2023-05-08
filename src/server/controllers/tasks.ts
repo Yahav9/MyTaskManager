@@ -1,7 +1,50 @@
 import { Request, Response } from 'express';
 import { Types, startSession } from 'mongoose';
+import { ListDoc, TaskDoc, findExistingListById } from './lists';
 import Task from '../models/Task';
 import List from '../models/List';
+
+async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc) {
+    try {
+        const sess = await startSession();
+        sess.startTransaction();
+        await createdTask.save({ session: sess });
+        list.tasks.push(createdTask);
+        await list.save({ session: sess });
+        await sess.commitTransaction();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function createTask(req: Request, res: Response) {
+    const newTask = req.body;
+    const listId = new Types.ObjectId(req.params.listId);
+    const list = await findExistingListById(listId);
+
+    if (!list) {
+        return res.json({ message: 'Wrong list id' });
+    } else if (list.user._id.toString() !== req.userId) {
+        return res.json({ message: 'Authentication failed' });
+    }
+
+    const createdTask = new Task({
+        name: newTask.name,
+        priority: newTask.priority,
+        dueDate: newTask.dueDate,
+        responsibility: newTask.responsibility,
+        estimatedTimeToCompleteInHours: newTask.estimatedTimeToCompleteInHours,
+        done: false,
+        list
+    });
+
+    try {
+        saveNewTaskOnDB(createdTask, list);
+        return res.json(createdTask);
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export async function getTasks(req: Request, res: Response) {
     const listId = new Types.ObjectId(req.params.listId);
@@ -15,81 +58,16 @@ export async function getTasks(req: Request, res: Response) {
 
     if (!list) {
         return res.json({ message: 'wrong list id' });
-    }
-
-    // @ts-ignore
-    if (list.user._id.toString() !== req.userId) {
+    } else if (list.user._id.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
     return res.json(list.tasks);
 }
 
-export async function createTask(req: Request, res: Response) {
-    let { name, priority, dueDate, responsibility, etc } = req.body;
-
-    priority === 'none' && (priority = undefined);
-    dueDate && dueDate.length < 1 && (dueDate = undefined);
-    responsibility && responsibility.length < 1 && (responsibility = undefined);
-    etc <= 0 && (etc = undefined);
-
-    const listId = new Types.ObjectId(req.params.listId);
-    let list;
-    try {
-        list = await List.findById(listId);
-    } catch (e) {
-        return res.json({ error: e });
-    }
-    if (!list) {
-        return res.json({ message: 'Wrong list id' });
-    }
-
-    // @ts-ignore
-    if (list.user._id.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
-    }
-
-    const createdTask = new Task({
-        name,
-        priority,
-        dueDate,
-        responsibility,
-        etc,
-        done: false,
-        list
-    });
-
-    try {
-        const sess = await startSession();
-        sess.startTransaction();
-        await createdTask.save({ session: sess });
-        // @ts-ignore
-        list.tasks.push(createdTask);
-        await list.save({ session: sess });
-        await sess.commitTransaction();
-        return res.json({
-            _id: createdTask._id,
-            name,
-            priority,
-            dueDate,
-            responsibility,
-            etc,
-            done: false,
-        });
-    } catch (e) {
-        console.log(e);
-        return res.json({ secondError: e });
-    }
-}
-
 export async function editTask(req: Request, res: Response) {
     const taskId = new Types.ObjectId(req.params.taskId);
-    let { name, priority, dueDate, responsibility, etc } = req.body;
-
-    priority === 'none' && (priority = undefined);
-    dueDate.length < 1 && (dueDate = undefined);
-    responsibility.length < 1 && (responsibility = undefined);
-    etc <= 0 && (etc = undefined);
+    const updatedTask = req.body;
 
     let task;
     try {
@@ -107,16 +85,11 @@ export async function editTask(req: Request, res: Response) {
         return res.json({ message: 'Authentication failed' });
     }
 
-    task.name = name;
-    task.priority = undefined;
-    task.dueDate = undefined;
-    task.responsibility = undefined;
-    task.etc = undefined;
-
-    priority !== 'none' && (task.priority = priority);
-    dueDate && dueDate.length > 0 && (task.dueDate = dueDate);
-    responsibility && responsibility.length > 0 && (task.responsibility = responsibility);
-    etc > 0 && (task.etc = etc);
+    task.name = updatedTask.name;
+    task.priority = updatedTask.priority;
+    task.dueDate = updatedTask.dueDate;
+    task.responsibility = updatedTask.responsibility;
+    task.estimatedTimeToCompleteInHours = updatedTask.estimatedTimeToCompleteInHours;
     try {
         await task.save();
         return res.json(task);
