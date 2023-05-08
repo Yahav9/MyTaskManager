@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { Document, MergeType, Types, startSession } from 'mongoose';
 import List, { IList } from '../models/List';
-import Task from '../models/Task';
+import Task, { ITask } from '../models/Task';
 import User, { IUser } from '../models/User';
 
 export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: Types.ObjectId }
 export type ListDoc = Document<unknown, unknown, IList> & IList & { _id: Types.ObjectId }
+export type TaskDoc = Document<unknown, unknown, ITask> & ITask & { _id: Types.ObjectId }
 
 async function findExistingList(name: string, userId: string) {
     let existingList;
@@ -27,7 +28,7 @@ async function findExistingUserById(userId: string) {
     return existingUser;
 }
 
-async function findExistingListById(listId: Types.ObjectId) {
+export async function findExistingListById(listId: Types.ObjectId) {
     let existingList;
     try {
         existingList = await List.findById(listId);
