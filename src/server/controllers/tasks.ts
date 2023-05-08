@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Types, startSession } from 'mongoose';
 import { ListDoc, TaskDoc, findExistingListById } from './lists';
 import Task from '../models/Task';
-import List from '../models/List';
 
 async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc) {
     try {
@@ -48,13 +47,7 @@ export async function createTask(req: Request, res: Response) {
 
 export async function getTasks(req: Request, res: Response) {
     const listId = new Types.ObjectId(req.params.listId);
-
-    let list;
-    try {
-        list = await List.findById(listId).populate('tasks');
-    } catch (e) {
-        return res.json({ error: e });
-    }
+    const list = await (await findExistingListById(listId))?.populate<{ tasks: Types.Array<TaskDoc> }>('tasks');
 
     if (!list) {
         return res.json({ message: 'wrong list id' });
