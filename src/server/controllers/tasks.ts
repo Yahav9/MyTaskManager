@@ -16,6 +16,19 @@ async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc): Promise<voi
     }
 }
 
+async function removeTaskFromDB(task: TaskDoc) {
+    try {
+        const sess = await startSession();
+        sess.startTransaction();
+        await task.remove({ session: sess });
+        task.list.tasks.pull(task);
+        await task.list.save({ session: sess });
+        await sess.commitTransaction();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 async function findTaskById(taskId: Types.ObjectId) {
     let task;
     try {
@@ -113,33 +126,17 @@ export async function updateTaskStatus(req: Request, res: Response) {
 }
 
 export async function deleteTask(req: Request, res: Response) {
-    const taskId = req.params.taskId;
-
-    let task;
-    try {
-        task = await Task.findById(taskId).populate('list');
-    } catch (e) {
-        return res.json({ error: e });
-    }
+    const taskId = new Types.ObjectId(req.params.taskId);
+    const task = await findTaskById(taskId);
 
     if (!task) {
         return res.json({ message: 'wrong task id' });
-    }
-
-    // @ts-ignore
-    if (task.list.user.toString() !== req.userId) {
+    } else if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
     try {
-        const sess = await startSession();
-        sess.startTransaction();
-        await task.remove({ session: sess });
-        // @ts-ignore
-        task.list.tasks.pull(task);
-        // @ts-ignore
-        await task.list.save({ session: sess });
-        await sess.commitTransaction();
+        await removeTaskFromDB(task);
         return res.json({ deletedTaskId: task.id });
     } catch (e) {
         return res.json({ error: e });
