@@ -3,7 +3,7 @@ import { Types, startSession } from 'mongoose';
 import { ListDoc, TaskDoc, findExistingListById } from './lists';
 import Task from '../models/Task';
 
-async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc) {
+async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc): Promise<void> {
     try {
         const sess = await startSession();
         sess.startTransaction();
@@ -14,6 +14,16 @@ async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc) {
     } catch (e) {
         console.log(e);
     }
+}
+
+async function findTaskById(taskId: Types.ObjectId) {
+    let task;
+    try {
+        task = await Task.findById(taskId).populate('list');
+    } catch (e) {
+        return console.log(e);
+    }
+    return task;
 }
 
 export async function createTask(req: Request, res: Response) {
@@ -38,7 +48,7 @@ export async function createTask(req: Request, res: Response) {
     });
 
     try {
-        saveNewTaskOnDB(createdTask, list);
+        await saveNewTaskOnDB(createdTask, list);
         return res.json(createdTask);
     } catch (e) {
         console.log(e);
@@ -61,20 +71,11 @@ export async function getTasks(req: Request, res: Response) {
 export async function editTask(req: Request, res: Response) {
     const taskId = new Types.ObjectId(req.params.taskId);
     const updatedTask = req.body;
-
-    let task;
-    try {
-        task = await Task.findById(taskId).populate('list');
-    } catch (e) {
-        return res.json({ error: e });
-    }
+    const task = await findTaskById(taskId);
 
     if (!task) {
         return res.json({ message: 'Wrong task id' });
-    }
-
-    // @ts-ignore
-    if (task.list.user.toString() !== req.userId) {
+    } else if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
@@ -83,6 +84,7 @@ export async function editTask(req: Request, res: Response) {
     task.dueDate = updatedTask.dueDate;
     task.responsibility = updatedTask.responsibility;
     task.estimatedTimeToCompleteInHours = updatedTask.estimatedTimeToCompleteInHours;
+
     try {
         await task.save();
         return res.json(task);
