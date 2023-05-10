@@ -95,25 +95,16 @@ export async function editTask(req: Request, res: Response) {
 
 export async function updateTaskStatus(req: Request, res: Response) {
     const taskId = new Types.ObjectId(req.params.taskId);
-    let task;
-    try {
-        task = await Task.findById(taskId).populate('list');
-    } catch (e) {
-        return res.json({ error: e });
-    }
+    const task = await findTaskById(taskId);
 
     if (!task) {
         return res.json({ message: 'wrong task id' });
-    }
-
-    // @ts-ignore
-    if (task.list.user.toString() !== req.userId) {
+    } else if (task.list.user.toString() !== req.userId) {
         return res.json({ message: 'Authentication failed' });
     }
 
-    task.done = !task.done;
-
     try {
+        task.done = !task.done;
         await task.save();
         return res.json({ done: task.done });
     } catch (e) {
