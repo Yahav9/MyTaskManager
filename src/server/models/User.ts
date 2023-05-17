@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model, Types, Document } from 'mongoose';
 import { ListDoc } from './List';
 
 export interface IUser {
@@ -12,5 +12,7 @@ const UserSchema = new Schema<IUser>({
     password: { type: String, required: true, minlength: 5 },
     lists: [{ type: Schema.Types.ObjectId, ref: 'List', required: true }]
 });
+
+export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: Types.ObjectId };
 
 export default model<IUser>('User', UserSchema);
