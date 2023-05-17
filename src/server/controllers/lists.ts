@@ -9,7 +9,8 @@ async function findExistingList(name: string, userId: string) {
     try {
         existingList = await List.findOne({ name: name, user: userId });
     } catch (e) {
-        return console.log(e);
+        console.log(e);
+        return;
     }
     return existingList;
 }
@@ -19,7 +20,8 @@ async function findExistingUserById(userId: string) {
     try {
         existingUser = await User.findById(userId);
     } catch (e) {
-        return console.log(e);
+        console.log(e);
+        return;
     }
     return existingUser;
 }
@@ -29,12 +31,13 @@ export async function findExistingListById(listId: Types.ObjectId) {
     try {
         existingList = await List.findById(listId);
     } catch (e) {
-        return console.log(e);
+        console.log(e);
+        return;
     }
     return existingList;
 }
 
-async function saveNewListOnDB(createdList: ListDoc, user: UserDoc): Promise<void> {
+async function saveNewListOnDB(createdList: ListDoc, user: UserDoc) {
     try {
         const sess = await startSession();
         sess.startTransaction();
@@ -43,7 +46,7 @@ async function saveNewListOnDB(createdList: ListDoc, user: UserDoc): Promise<voi
         await user.save({ session: sess });
         await sess.commitTransaction();
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
 }
 
@@ -57,7 +60,7 @@ async function removeListFromDB(list: MergeType<ListDoc, { user: UserDoc }>, lis
         await Task.deleteMany({ list: listId });
         await sess.commitTransaction();
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
 }
 
@@ -68,11 +71,14 @@ export async function createList(req: Request, res: Response) {
     const existingUser = await findExistingUserById(userId);
 
     if (existingList) {
-        return res.json({ message: 'List name already exist' });
+        res.json({ message: 'List name already exist' });
+        return;
     } else if (!existingUser) {
-        return res.json({ message: 'User does not exist' });
+        res.json({ message: 'User does not exist' });
+        return;
     } else if (userId !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     const createdList = new List({
@@ -83,27 +89,24 @@ export async function createList(req: Request, res: Response) {
 
     try {
         await saveNewListOnDB(createdList, existingUser);
-        return res.json({
-            _id: createdList._id,
-            name
-        });
+        res.json({ _id: createdList._id, name });
     } catch (e) {
-        console.log(e);
+        res.json(e);
     }
-
 }
 
 export async function getLists(req: Request, res: Response) {
     if (req.params.userId !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     const userId = new Types.ObjectId(req.params.userId);
     try {
         const lists = await List.find({ user: userId });
-        return res.json(lists);
+        res.json(lists);
     } catch (e) {
-        return res.json({ message: 'Wrong user id' });
+        res.json(e);
     }
 }
 
@@ -114,19 +117,22 @@ export async function changeListName(req: Request, res: Response) {
     const existingList = await findExistingListById(new Types.ObjectId(req.params.listId));
 
     if (!existingList) {
-        return res.json({ message: 'wrong list id' });
+        res.json({ message: 'wrong list id' });
+        return;
     } else if (listNameAlreadyExists) {
-        return res.json({ message: 'List name already exist' });
+        res.json({ message: 'List name already exist' });
+        return;
     } else if (existingList.user.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     existingList.name = newName;
     try {
         await existingList.save();
-        return res.json(existingList);
+        res.json(existingList);
     } catch (e) {
-        return res.json({ error: e });
+        res.json(e);
     }
 }
 
@@ -135,16 +141,17 @@ export async function deleteList(req: Request, res: Response) {
     const list = await (await findExistingListById(listId))?.populate<{ user: UserDoc }>('user');
 
     if (!list) {
-        return res.json({ message: 'wrong list id' });
+        res.json({ message: 'wrong list id' });
+        return;
     } else if (list.user._id.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     try {
         await removeListFromDB(list, listId);
-        return res.json({ deletedListId: listId });
+        res.json({ deletedListId: listId });
     } catch (e) {
-        return res.json({ error: e });
+        res.json(e);
     }
 }
-export { ListDoc };
