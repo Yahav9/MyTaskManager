@@ -20,6 +20,10 @@ beforeEach(() => {
     res = httpMocks.createResponse();
 });
 
+beforeEach(() => {
+    jest.setTimeout(7000);
+});
+
 beforeAll(async () => {
     mongoose.set('strictQuery', false);
     try {
@@ -35,10 +39,6 @@ afterEach(async () => {
 });
 
 describe('signup function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should create a user', async () => {
         req.body = newUser;
         await signup(req, res);
@@ -63,10 +63,6 @@ describe('signup function', () => {
 });
 
 describe('login function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should return userId and token in response', async () => {
         req.body = existingUser;
         await login(req, res);

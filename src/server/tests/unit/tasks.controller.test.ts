@@ -14,6 +14,7 @@ import { ParsedQs } from 'qs';
 dotenv.config();
 
 const CONNECTION_STRING = process.env.URL || 'no connection string';
+const EXISTING_LIST_ID = '6447b4244bb0d5c8970bc861';
 let req: httpMocks.MockRequest<e.Request<ParamsDictionary, unknown, unknown, ParsedQs, Record<string, unknown>>>;
 let res: httpMocks.MockResponse<e.Response<unknown, Record<string, unknown>>>;
 
@@ -28,8 +29,12 @@ beforeEach(async () => {
     req = httpMocks.createRequest();
     res = httpMocks.createResponse();
     req.params.userId = userId;
-    req.params.listId = '6447b4244bb0d5c8970bc861'; // existing list id
+    req.params.listId = EXISTING_LIST_ID;
     req.userId = userId;
+});
+
+beforeEach(() => {
+    jest.setTimeout(7000);
 });
 
 beforeAll(async () => {
@@ -48,10 +53,6 @@ afterEach(async () => {
 });
 
 describe('createTask function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should create a task and post it on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -75,10 +76,6 @@ describe('createTask function', () => {
 });
 
 describe('getTasks function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should return all lists in response', async () => {
         await getTasks(req, res);
         expect(res._getJSONData()).toBeInstanceOf(Array);
@@ -87,10 +84,6 @@ describe('getTasks function', () => {
 });
 
 describe('editTask function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should edit a task and update it on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -120,10 +113,6 @@ describe('editTask function', () => {
 });
 
 describe('updateTaskStatus function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should update task status (done or not) on DB', async () => {
         req.body = newTask;
         await createTask(req, res);
@@ -151,10 +140,6 @@ describe('updateTaskStatus function', () => {
 });
 
 describe('deleteTask function', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should delete task from "tasks" collection', async () => {
         req.body = newTask;
         await createTask(req, res);

@@ -18,6 +18,10 @@ beforeAll((done) => {
     });
 });
 
+beforeEach(() => {
+    jest.setTimeout(7000);
+});
+
 afterAll((done) => {
     server.close(done);
 });
@@ -27,10 +31,6 @@ afterEach(async () => {
 });
 
 describe(URL + '/signup', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should return a json object that contains user id and token', async () => {
         const response = await request(app)
             .post(URL + '/signup')
@@ -49,10 +49,6 @@ describe(URL + '/signup', () => {
 });
 
 describe(URL + '/login', () => {
-    beforeEach(() => {
-        jest.setTimeout(7000);
-    });
-
     it('should return a json object that contains user id and token', async () => {
         const response = await request(app)
             .post(URL + '/login')
