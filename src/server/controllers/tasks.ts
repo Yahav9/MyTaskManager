@@ -31,13 +31,12 @@ async function removeTaskFromDB(task: TaskDoc) {
 }
 
 async function findTaskById(taskId: Types.ObjectId) {
-    let task;
     try {
-        task = await Task.findById(taskId).populate('list');
+        const task = await Task.findById(taskId).populate('list');
+        return task;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return task;
 }
 
 export async function createTask(req: Request, res: Response) {
@@ -46,9 +45,11 @@ export async function createTask(req: Request, res: Response) {
     const list = await findExistingListById(listId);
 
     if (!list) {
-        return res.json({ message: 'Wrong list id' });
+        res.json({ message: 'Wrong list id' });
+        return;
     } else if (list.user._id.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     const createdTask = new Task({
@@ -63,9 +64,9 @@ export async function createTask(req: Request, res: Response) {
 
     try {
         await saveNewTaskOnDB(createdTask, list);
-        return res.json(createdTask);
+        res.json(createdTask);
     } catch (e) {
-        console.log(e);
+        res.json(e);
     }
 }
 
@@ -74,12 +75,14 @@ export async function getTasks(req: Request, res: Response) {
     const list = await (await findExistingListById(listId))?.populate<{ tasks: Types.Array<TaskDoc> }>('tasks');
 
     if (!list) {
-        return res.json({ message: 'wrong list id' });
+        res.json({ message: 'wrong list id' });
+        return;
     } else if (list.user._id.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
-    return res.json(list.tasks);
+    res.json(list.tasks);
 }
 
 export async function editTask(req: Request, res: Response) {
@@ -88,9 +91,11 @@ export async function editTask(req: Request, res: Response) {
     const task = await findTaskById(taskId);
 
     if (!task) {
-        return res.json({ message: 'Wrong task id' });
+        res.json({ message: 'Wrong task id' });
+        return;
     } else if (task.list.user.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     task.name = updatedTask.name;
@@ -101,9 +106,9 @@ export async function editTask(req: Request, res: Response) {
 
     try {
         await task.save();
-        return res.json(task);
+        res.json(task);
     } catch (e) {
-        res.json({ error: e });
+        res.json(e);
     }
 }
 
@@ -112,17 +117,19 @@ export async function updateTaskStatus(req: Request, res: Response) {
     const task = await findTaskById(taskId);
 
     if (!task) {
-        return res.json({ message: 'wrong task id' });
+        res.json({ message: 'wrong task id' });
+        return;
     } else if (task.list.user.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     try {
         task.done = !task.done;
         await task.save();
-        return res.json({ done: task.done });
+        res.json({ done: task.done });
     } catch (e) {
-        res.json({ error: e });
+        res.json(e);
     }
 }
 
@@ -131,15 +138,17 @@ export async function deleteTask(req: Request, res: Response) {
     const task = await findTaskById(taskId);
 
     if (!task) {
-        return res.json({ message: 'wrong task id' });
+        res.json({ message: 'wrong task id' });
+        return;
     } else if (task.list.user.toString() !== req.userId) {
-        return res.json({ message: 'Authentication failed' });
+        res.json({ message: 'Authentication failed' });
+        return;
     }
 
     try {
         await removeTaskFromDB(task);
-        return res.json({ deletedTaskId: task.id });
+        res.json({ deletedTaskId: task.id });
     } catch (e) {
-        return res.json({ error: e });
+        res.json(e);
     }
 }
