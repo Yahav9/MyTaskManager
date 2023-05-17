@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { ListDoc } from '../controllers/lists';
+import { ListDoc } from './List';
 
 export interface ITask {
     name: string,

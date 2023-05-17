@@ -1,4 +1,4 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, Types, model, Document } from 'mongoose';
 import { TaskDoc, UserDoc } from '../controllers/lists';
 
 export interface IList {
@@ -12,5 +12,7 @@ const ListSchema = new Schema<IList>({
     user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     tasks: [{ type: Schema.Types.ObjectId, ref: 'Task', required: true }]
 });
+
+export type ListDoc = Document<unknown, unknown, IList> & IList & { _id: Types.ObjectId };
 
 export default model<IList>('List', ListSchema);

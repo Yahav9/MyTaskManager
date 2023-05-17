@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { Types, startSession } from 'mongoose';
-import { ListDoc, TaskDoc, findExistingListById } from './lists';
+import { TaskDoc, findExistingListById } from './lists';
 import Task from '../models/Task';
+import { ListDoc } from '../models/List';
 
 async function saveNewTaskOnDB(createdTask: TaskDoc, list: ListDoc): Promise<void> {
     try {

@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
 import { Document, MergeType, Types, startSession } from 'mongoose';
-import List, { IList } from '../models/List';
+import List, { ListDoc } from '../models/List';
 import Task, { ITask } from '../models/Task';
 import User, { IUser } from '../models/User';
 
-export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: Types.ObjectId }
-export type ListDoc = Document<unknown, unknown, IList> & IList & { _id: Types.ObjectId }
-export type TaskDoc = Document<unknown, unknown, ITask> & ITask & { _id: Types.ObjectId }
+export type UserDoc = Document<unknown, unknown, IUser> & IUser & { _id: Types.ObjectId };
+export type TaskDoc = Document<unknown, unknown, ITask> & ITask & { _id: Types.ObjectId };
 
 async function findExistingList(name: string, userId: string) {
     let existingList;
@@ -151,3 +150,4 @@ export async function deleteList(req: Request, res: Response) {
         return res.json({ error: e });
     }
 }
+export { ListDoc };

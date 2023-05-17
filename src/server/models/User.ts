@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { ListDoc } from '../controllers/lists';
+import { ListDoc } from './List';
 
 export interface IUser {
     name: string,

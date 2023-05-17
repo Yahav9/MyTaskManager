@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User';
 import { Types } from 'mongoose';
-import { ListDoc } from './lists';
+import { ListDoc } from '../models/List';
 
 async function findExistingUserByName(name: string) {
     let existingUser;
