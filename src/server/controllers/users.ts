@@ -6,57 +6,50 @@ import { Types } from 'mongoose';
 import { ListDoc } from '../models/List';
 
 async function findExistingUserByName(name: string) {
-    let existingUser;
     try {
-        existingUser = await User.findOne({ name });
+        const existingUser = await User.findOne({ name });
+        return existingUser;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return existingUser;
 }
 
 async function hashPassword(password: string) {
-    let hashedPassword: string | null;
     try {
-        hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
+        return hashedPassword;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return hashedPassword;
 }
 
-async function createUserAndReturnUserId(newUser: IUser) {
+async function createUserAndReturnUserId(newUser: IUser): Promise<Types.ObjectId | undefined> {
     const createdUser = new User(newUser);
     try {
         await createdUser.save();
+        return createdUser.id;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return createdUser.id;
 }
 
-async function createToken(userId: string) {
+async function createToken(userId: Types.ObjectId) {
     const key = process.env.KEY as string;
-    let token;
     try {
-        token = jwt.sign(
-            { userId },
-            key,
-            { expiresIn: '1h' });
+        const token = jwt.sign({ userId }, key, { expiresIn: '1h' });
+        return token;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return token;
 }
 
 async function checkPasswordIsCorrect(password: string, hashedPassword: string) {
-    let isCorrectPassword = false;
     try {
-        isCorrectPassword = await bcrypt.compare(password, hashedPassword);
+        const isCorrectPassword = await bcrypt.compare(password, hashedPassword);
+        return isCorrectPassword;
     } catch (e) {
-        return console.log(e);
+        console.log(e);
     }
-    return isCorrectPassword;
 }
 
 export async function signup(req: Request, res: Response) {
@@ -65,7 +58,8 @@ export async function signup(req: Request, res: Response) {
     const existingUser = await findExistingUserByName(name);
 
     if (existingUser) {
-        return res.json({ message: 'Username already exist' });
+        res.json({ message: 'Username already exist' });
+        return;
     }
 
     const hashedPassword = await hashPassword(password) as string;
@@ -74,7 +68,7 @@ export async function signup(req: Request, res: Response) {
         password: hashedPassword,
         lists: [] as unknown as Types.Array<ListDoc>
     };
-    const createdUserId = await createUserAndReturnUserId(newUser);
+    const createdUserId = await createUserAndReturnUserId(newUser) as Types.ObjectId;
     const token = await createToken(createdUserId);
     res.json({ userId: createdUserId, token });
 }
@@ -85,12 +79,14 @@ export async function login(req: Request, res: Response) {
     const existingUser = await findExistingUserByName(name);
 
     if (!existingUser) {
-        return res.json({ message: 'wrong username' });
+        res.json({ message: 'wrong username' });
+        return;
     }
 
     const isCorrectPassword = await checkPasswordIsCorrect(password, existingUser.get('password')) as boolean;
     if (!isCorrectPassword) {
-        return res.json({ message: 'Incorrect password' });
+        res.json({ message: 'Incorrect password' });
+        return;
     }
 
     const token = await createToken(existingUser.get('id'));
