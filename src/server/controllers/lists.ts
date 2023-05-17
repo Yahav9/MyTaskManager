@@ -5,36 +5,30 @@ import Task from '../models/Task';
 import User, { UserDoc } from '../models/User';
 
 async function findExistingList(name: string, userId: string) {
-    let existingList;
     try {
-        existingList = await List.findOne({ name: name, user: userId });
+        const existingList = await List.findOne({ name: name, user: userId });
+        return existingList;
     } catch (e) {
         console.log(e);
-        return;
     }
-    return existingList;
 }
 
 async function findExistingUserById(userId: string) {
-    let existingUser;
     try {
-        existingUser = await User.findById(userId);
+        const existingUser = await User.findById(userId);
+        return existingUser;
     } catch (e) {
         console.log(e);
-        return;
     }
-    return existingUser;
 }
 
 export async function findExistingListById(listId: Types.ObjectId) {
-    let existingList;
     try {
-        existingList = await List.findById(listId);
+        const existingList = await List.findById(listId);
+        return existingList;
     } catch (e) {
         console.log(e);
-        return;
     }
-    return existingList;
 }
 
 async function saveNewListOnDB(createdList: ListDoc, user: UserDoc) {
