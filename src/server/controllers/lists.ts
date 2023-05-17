@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import { Document, MergeType, Types, startSession } from 'mongoose';
+import { MergeType, Types, startSession } from 'mongoose';
 import List, { ListDoc } from '../models/List';
-import Task, { ITask } from '../models/Task';
+import Task from '../models/Task';
 import User, { UserDoc } from '../models/User';
-
-export type TaskDoc = Document<unknown, unknown, ITask> & ITask & { _id: Types.ObjectId };
 
 async function findExistingList(name: string, userId: string) {
     let existingList;

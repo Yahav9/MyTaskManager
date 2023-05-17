@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types, Document } from 'mongoose';
 import { ListDoc } from './List';
 
 export interface ITask {
@@ -20,5 +20,7 @@ const TaskSchema = new Schema<ITask>({
     done: { type: Boolean, required: true },
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true }
 });
+
+export type TaskDoc = Document<unknown, unknown, ITask> & ITask & { _id: Types.ObjectId };
 
 export default model<ITask>('Task', TaskSchema);

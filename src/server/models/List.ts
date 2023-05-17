@@ -1,5 +1,5 @@
 import { Schema, Types, model, Document } from 'mongoose';
-import { TaskDoc } from '../controllers/lists';
+import { TaskDoc } from './Task';
 import { UserDoc } from './User';
 
 export interface IList {
