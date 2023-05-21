@@ -11,9 +11,20 @@ function EditTask(props) {
     const [etc, setEtc] = useState(props.etc || 0);
     const [dueDate, setDueDate] = useState(props.dueDate || '');
 
+    const formSubmitHandler = event => {
+        const newTask = {
+            name,
+            priority: priority === 'none' ? undefined : priority,
+            responsibility: responsibility.length < 1 ? undefined : responsibility,
+            etc: etc <= 0 ? undefined : etc,
+            dueDate: dueDate.length < 1 ? undefined : dueDate
+        };
+        props.onSubmit(event, newTask);
+    };
+
     return (
         <Card className="task-item edit-task">
-            <form onSubmit={event => props.onSubmit(event, name, priority, responsibility, etc, dueDate)}>
+            <form onSubmit={event => formSubmitHandler(event)}>
                 <div className="inputs">
                     <div className="user-input name">
                         <label>Task: </label>

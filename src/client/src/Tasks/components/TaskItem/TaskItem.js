@@ -19,19 +19,13 @@ function TaskItem(props) {
     const [isUpdatingATask, setIsUpdatingATask] = useState(false);
     const auth = useContext(AuthContext);
 
-    const updateTask = async (event, name, priority, responsibility, etc, dueDate) => {
+    const updateTask = async (event, updatedTask) => {
         event.preventDefault();
         setIsUpdatingATask(false);
         let res;
         try {
             setIsLoading(true);
-            res = await axios.put(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, {
-                name,
-                priority,
-                responsibility,
-                etc,
-                dueDate
-            }, {
+            res = await axios.put(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, updatedTask, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);

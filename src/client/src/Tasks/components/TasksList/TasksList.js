@@ -14,19 +14,13 @@ function TasksList(props) {
     const [isCreatingATask, setIsCreatingATask] = useState(false);
     const auth = useContext(AuthContext);
 
-    const createTask = async (event, name, priority, responsibility, etc, dueDate) => {
+    const createTask = async (event, newTask) => {
         event.preventDefault();
         setIsCreatingATask(false);
         let res;
         try {
             setIsLoading(true);
-            res = await axios.post(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`, {
-                name,
-                priority,
-                responsibility,
-                etc,
-                dueDate
-            }, {
+            res = await axios.post(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`, newTask, {
                 headers: { authorization: auth.token }
             });
             setIsLoading(false);
