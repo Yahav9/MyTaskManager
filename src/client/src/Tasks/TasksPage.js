@@ -28,7 +28,7 @@ function TasksPage() {
                 setIsLoading(false);
                 console.log(e);
             }
-            setListName(res.data.list.name);
+            setListName(res.data.listName);
             setTasksData(res.data.tasks.sort((a, b) => {
                 return a.done - b.done;
             }));

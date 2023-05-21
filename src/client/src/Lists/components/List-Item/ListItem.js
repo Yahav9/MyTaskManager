@@ -27,7 +27,7 @@ function ListItem(props) {
             setIsLoading(false);
             console.log(e);
         }
-        setName(res.data.list.name);
+        setName(res.data.name);
         setIsUpdatingAList(false);
     };
 
