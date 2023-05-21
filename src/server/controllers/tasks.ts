@@ -82,7 +82,7 @@ export async function getTasks(req: Request, res: Response) {
         return;
     }
 
-    res.json(list.tasks);
+    res.json({ listName: list.name, tasks: list.tasks });
 }
 
 export async function editTask(req: Request, res: Response) {
