@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import {
     BrowserRouter,
     Routes,
@@ -12,14 +12,14 @@ const AuthPage = lazy(() => import('./Auth/AuthPage'));
 const TasksPage = lazy(() => import('./Tasks/TasksPage'));
 const ListsPage = lazy(() => import('./Lists/ListsPage'));
 
-let logoutTimer;
+let logoutTimer: NodeJS.Timeout;
 
 function App() {
-    const [token, setToken] = useState(false);
-    const [userId, setUserId] = useState(false);
-    const [tokenExpirationDate, setTokenExpirationDate] = useState(false);
+    const [token, setToken] = useState('');
+    const [userId, setUserId] = useState('');
+    const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
 
-    const login = useCallback((userId, token, expirationDate) => {
+    const login = useCallback((userId: string, token: string, expirationDate: Date) => {
         setToken(token);
         setUserId(userId);
         const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
@@ -36,15 +36,15 @@ function App() {
     }, []);
 
     const logout = useCallback(() => {
-        setToken(null);
+        setToken('');
         setTokenExpirationDate(null);
-        setUserId(null);
+        setUserId('');
         localStorage.removeItem('userData');
 
     }, []);
 
     useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem('userData'));
+        const storedData = JSON.parse(localStorage.getItem('userData') as string);
         if (
             storedData &&
             storedData.token &&
