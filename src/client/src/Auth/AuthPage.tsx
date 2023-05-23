@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
 
 import './AuthPage.scss';
@@ -24,7 +24,7 @@ function AuthPage() {
         setIncorrectCredentials(false);
     };
 
-    const authSubmitHandler = async event => {
+    const authSubmitHandler = async (event: FormEvent) => {
         event.preventDefault();
 
         let mode = '';

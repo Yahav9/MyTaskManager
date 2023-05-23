@@ -68,7 +68,6 @@ function App() {
         routes = (
             <Routes>
                 <Route
-                    exact
                     path="/auth"
                     element={<AuthPage />}
                 />
@@ -98,12 +97,10 @@ function App() {
                     element={<TasksPage />}
                 />
                 <Route
-                    exact
                     path="/"
                     element={<Navigate to={`/${userId}`} />}
                 />
                 <Route
-                    exact
                     path="/auth"
                     element={<Navigate to={`/${userId}`} />}
                 />
