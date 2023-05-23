@@ -51,7 +51,7 @@ function App() {
             new Date(storedData.expiration) > new Date()
         ) {
             login(storedData.userId, storedData.token, new Date(storedData.expiration));
-        };
+        }
     }, [login]);
 
     useEffect(() => {
