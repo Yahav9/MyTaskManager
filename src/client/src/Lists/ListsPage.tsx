@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-
 import './ListsPage.scss';
 import Searchbar from './components/Searchbar/Searchbar';
 import ListsList from './components/Lists-List/ListsList';
@@ -26,21 +25,21 @@ function ListsPage() {
                 setIsLoading(false);
                 console.log(e);
             }
-            setListsData(res.data);
-            setFilteredListsData(res.data);
+            setListsData(res?.data);
+            setFilteredListsData(res?.data);
         })();
     }, [auth.userId, auth.token]);
 
-    const onSearchbarChange = event => {
+    const onSearchbarChange = (event: FormEvent) => {
         setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
     };
 
-    const addNewList = newList => {
+    const addNewList = (newList: unknown) => {
         setListsData(lists => [...lists, newList]);
         setFilteredListsData(lists => [...lists, newList]);
     };
 
-    const deleteList = deletedListId => {
+    const deleteList = (deletedListId: string) => {
         setListsData(listsData.filter(list => list._id !== deletedListId));
         setFilteredListsData(listsData.filter(list => list._id !== deletedListId));
     };

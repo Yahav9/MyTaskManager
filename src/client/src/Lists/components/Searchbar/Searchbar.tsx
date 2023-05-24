@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-
+import { FormEvent, useState } from 'react';
 import Button from '../../../shared/components/Button/Button';
 import './Searchbar.scss';
 
-function Searchbar(props) {
+interface SearchbarProps {
+    onChange: (event: FormEvent) => void;
+    onClear: () => void;
+}
+
+function Searchbar(props: SearchbarProps) {
     const [value, setValue] = useState('');
 
-    const changeHandler = event => {
-        setValue(event.target.value);
+    const changeHandler = (event: FormEvent) => {
+        setValue((event.target as HTMLInputElement).value);
         props.onChange(event);
     };
 
@@ -26,7 +30,7 @@ function Searchbar(props) {
             />
             <Button
                 onClick={clearHandler}
-                disabled={value < 1}
+                disabled={value.length < 1}
                 inverse
             >
                 CLEAR

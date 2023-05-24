@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import './EditList.scss';
 import Button from '../../../shared/components/Button/Button';
 import Card from '../../../shared/components/Card/Card';
 
-function EditList(props) {
+interface EditListProps {
+    value?: string;
+    onSave: (name: string) => Promise<void>;
+    onCancel: () => void
+}
+
+function EditList(props: EditListProps) {
     const [value, setValue] = useState(props.value || '');
 
     return (

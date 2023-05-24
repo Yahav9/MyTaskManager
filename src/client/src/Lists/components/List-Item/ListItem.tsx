@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,19 +9,30 @@ import EditList from '../EditList/EditList';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
-function ListItem(props) {
+interface ListItemProps {
+    id: string;
+    name: string;
+    userId: string;
+    onDelete: (deletedListId: string) => void;
+    abortListCreation: () => void;
+    isCreatingAList: boolean;
+}
+
+function ListItem(props: ListItemProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [isUpdatingAList, setIsUpdatingAList] = useState(false);
     const [name, setName] = useState(props.name);
     const auth = useContext(AuthContext);
 
-    const updateList = async name => {
+    const updateList = async () => {
         let res;
         try {
             setIsLoading(true);
-            res = await axios.patch(`https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`, { name }, {
-                headers: { authorization: auth.token }
-            });
+            res = await axios.patch(
+                `https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`,
+                { name: props.name },
+                { headers: { authorization: auth.token } }
+            );
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
@@ -67,8 +78,7 @@ function ListItem(props) {
                         <Button onClick={() => {
                             props.abortListCreation();
                             setIsUpdatingAList(true);
-                        }}
-                            inverse>
+                        }} inverse>
                             <i
                                 className="material-icons"
                             >

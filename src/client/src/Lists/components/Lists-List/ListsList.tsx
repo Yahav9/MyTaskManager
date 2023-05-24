@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
-
 import './ListsList.scss';
 import ListItem from '../List-Item/ListItem';
 import Card from '../../../shared/components/Card/Card';
@@ -9,19 +8,26 @@ import EditList from '../EditList/EditList';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
-function ListsList(props) {
+interface ListsListProps {
+    lists: { name: string, _id: string }[];
+    userId: string;
+    onListCreation: (newList: unknown) => void;
+    onListDelete: (deletedListId: string) => void
+}
+
+function ListsList(props: ListsListProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [isCreatingAList, setIsCreatingAList] = useState(false);
     const auth = useContext(AuthContext);
 
-    const createList = async name => {
+    const createList = async (newListName: string) => {
         let res;
         try {
             setIsCreatingAList(false);
             setIsLoading(true);
             res = await axios.post(
                 `https://my-task-manager-rh8y.onrender.com/api/lists/${props.userId}`,
-                { name },
+                { name: newListName },
                 { headers: { authorization: auth.token } }
             );
             setIsLoading(false);
@@ -30,6 +36,10 @@ function ListsList(props) {
             console.log(e);
         }
         props.onListCreation(res.data);
+    };
+
+    const cancelListCreation = () => {
+        setIsCreatingAList(false);
     };
 
     const lists = props.lists;
@@ -49,14 +59,14 @@ function ListsList(props) {
                         key={list._id}
                         id={list._id}
                         name={list.name}
-                        userId={list.user}
+                        userId={props.userId}
                         onDelete={props.onListDelete}
                         abortListCreation={() => setIsCreatingAList(false)}
                         isCreatingAList={isCreatingAList}
                     />;
                 })
             }
-            {isCreatingAList && <li><EditList onSave={createList} onCancel={() => setIsCreatingAList(false)} /></li>}
+            {isCreatingAList && <li><EditList onSave={createList} onCancel={cancelListCreation} /></li>}
             {isLoading && <li><Card className="list-item"><LoadingSpinner asOverlay /></Card></li>}
             {
                 !isCreatingAList && !isLoading &&
