@@ -1,25 +1,32 @@
-import React, { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
-
 import './TaskItem.scss';
 import Card from '../../../shared/components/Card/Card';
 import Button from '../../../shared/components/Button/Button';
-import EditTask from '../EditTask/EditTask';
+import EditTask, { Task } from '../EditTask/EditTask';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
-function TaskItem(props) {
+interface TaskItemProps extends Omit<Task, 'dueDate'> {
+    id: string;
+    dueDate?: string;
+    isDone: boolean;
+    onDelete: (deletedTaskId: string) => void;
+    abortTaskCreation: () => void;
+}
+
+function TaskItem(props: TaskItemProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [name, setName] = useState(props.name);
     const [priority, setPriority] = useState(props.priority || 'none');
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
-    const [etc, setEtc] = useState(props.etc || '');
+    const [estimatedTimeToComplete, setEtc] = useState(props.estimatedTimeToComplete || '');
     const [dueDate, setDueDate] = useState(props.dueDate || '');
     const [isDone, setIsDone] = useState(props.isDone);
     const [isUpdatingATask, setIsUpdatingATask] = useState(false);
     const auth = useContext(AuthContext);
 
-    const updateTask = async (event, updatedTask) => {
+    const updateTask = async (event: FormEvent, updatedTask: Task) => {
         event.preventDefault();
         setIsUpdatingATask(false);
         let res;
@@ -78,7 +85,7 @@ function TaskItem(props) {
                     name={name}
                     priority={priority}
                     responsibility={responsibility}
-                    etc={etc}
+                    estimatedTimeToComplete={Number(estimatedTimeToComplete)}
                     dueDate={dueDate}
                 />
             }
@@ -104,12 +111,12 @@ function TaskItem(props) {
                             </>
                         }
                         {
-                            etc > 0 &&
+                            Number(estimatedTimeToComplete) > 0 &&
                             <>
                                 <span />
                                 <div className="details etc">
                                     <h3>ETC</h3>
-                                    <p>{etc + ' hrs'}</p>
+                                    <p>{estimatedTimeToComplete + ' hrs'}</p>
                                 </div>
                             </>
                         }
@@ -119,7 +126,7 @@ function TaskItem(props) {
                                 <span />
                                 <div className="details due-date">
                                     <h3>Due Date</h3>
-                                    <p>{new Date(Date.parse(dueDate)).toLocaleDateString('en-GB')}</p>
+                                    <p>{dueDate}</p>
                                 </div>
                             </>
                         }

@@ -1,20 +1,31 @@
-import React, { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
-
 import './TasksList.scss';
 import Button from '../../../shared/components/Button/Button';
 import Card from '../../../shared/components/Card/Card';
-import EditTask from '../EditTask/EditTask';
+import EditTask, { Task } from '../EditTask/EditTask';
 import TaskItem from '../TaskItem/TaskItem';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
-function TasksList(props) {
+interface TaskListProps {
+    tasks: (
+        Task & {
+            _id: string;
+            done: boolean
+        }
+    )[];
+    listId: string;
+    onTaskCreation: (newTask: Task) => void;
+    onTaskDelete: (deletedTaskId: string) => void;
+}
+
+function TasksList(props: TaskListProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [isCreatingATask, setIsCreatingATask] = useState(false);
     const auth = useContext(AuthContext);
 
-    const createTask = async (event, newTask) => {
+    const createTask = async (event: FormEvent, newTask: Task) => {
         event.preventDefault();
         setIsCreatingATask(false);
         let res;
@@ -61,11 +72,10 @@ function TasksList(props) {
                         id={task._id}
                         name={task.name}
                         priority={task.priority}
-                        dueDate={task.dueDate}
+                        dueDate={task.dueDate && task.dueDate.toLocaleDateString('en-GB')}
                         responsibility={task.responsibility}
-                        etc={task.etc}
+                        estimatedTimeToComplete={task.estimatedTimeToComplete}
                         isDone={task.done}
-                        listId={props.listId}
                         onDelete={props.onTaskDelete}
                         abortTaskCreation={() => setIsCreatingATask(false)}
                     />;

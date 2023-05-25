@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
 import './TasksPage.scss';
 import TasksList from './components/TasksList/TasksList';
 import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
 import { AuthContext } from '../shared/context/AuthContext';
+import { Task } from './components/EditTask/EditTask';
 
 function TasksPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [listName, setListName] = useState('');
     const [tasksData, setTasksData] = useState([]);
     const auth = useContext(AuthContext);
-
-    const listId = useParams().listId;
+    const listId = useParams().listId as string;
 
     useEffect(() => {
         (async () => {
@@ -35,11 +34,11 @@ function TasksPage() {
         })();
     }, [auth.token, listId]);
 
-    const addNewTask = newTask => {
+    const addNewTask = (newTask: Task) => {
         setTasksData(tasks => [newTask, ...tasks]);
     };
 
-    const deleteTask = deletedTaskId => {
+    const deleteTask = (deletedTaskId: string) => {
         setTasksData(tasksData.filter(task => task._id !== deletedTaskId));
     };
 
