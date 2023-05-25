@@ -15,11 +15,11 @@ const ListsPage = lazy(() => import('./Lists/ListsPage'));
 let logoutTimer: NodeJS.Timeout;
 
 function App() {
-    const [token, setToken] = useState('');
-    const [userId, setUserId] = useState('');
-    const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
+    const [token, setToken] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
+    const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>(null);
 
-    const login = useCallback((userId: string, token: string, expirationDate: Date) => {
+    const login = useCallback((userId: string, token: string, expirationDate?: Date) => {
         setToken(token);
         setUserId(userId);
         const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);

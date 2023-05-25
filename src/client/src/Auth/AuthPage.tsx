@@ -1,11 +1,10 @@
 import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
-
 import './AuthPage.scss';
 import Card from '../shared/components/Card/Card';
 import Button from '../shared/components/Button/Button';
 import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
-import { AuthContext } from '../shared/context/AuthContext';
+import { AuthContext, TLogin } from '../shared/context/AuthContext';
 
 function AuthPage() {
     const [isLoading, setIsLoading] = useState(false);
@@ -26,10 +25,7 @@ function AuthPage() {
 
     const authSubmitHandler = async (event: FormEvent) => {
         event.preventDefault();
-
-        let mode = '';
-        isLoginMode && (mode = 'login');
-        !isLoginMode && (mode = 'signup');
+        const mode = isLoginMode ? 'login' : 'signup';
 
         try {
             setIsLoading(true);
@@ -41,7 +37,7 @@ function AuthPage() {
             if (res.data.message) {
                 setIncorrectCredentials(true);
             } else {
-                auth.login(res.data.userId, res.data.token);
+                (auth.login as TLogin)(res.data.userId, res.data.token);
             }
             setIsLoading(false);
         } catch (e) {
