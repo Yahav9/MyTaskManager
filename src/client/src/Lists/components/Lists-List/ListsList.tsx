@@ -7,11 +7,12 @@ import Button from '../../../shared/components/Button/Button';
 import EditList from '../EditList/EditList';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
+import { List } from '../../ListsPage';
 
 interface ListsListProps {
-    lists: { name: string, _id: string }[];
+    lists: List[];
     userId: string;
-    onListCreation: (newList: unknown) => void;
+    onListCreation: (newList: List) => void;
     onListDelete: (deletedListId: string) => void
 }
 
@@ -21,21 +22,20 @@ function ListsList(props: ListsListProps) {
     const auth = useContext(AuthContext);
 
     const createList = async (newListName: string) => {
-        let res;
         try {
             setIsCreatingAList(false);
             setIsLoading(true);
-            res = await axios.post(
+            const res = await axios.post(
                 `https://my-task-manager-rh8y.onrender.com/api/lists/${props.userId}`,
                 { name: newListName },
-                { headers: { authorization: auth.token } }
+                { headers: { authorization: auth.token as string } }
             );
             setIsLoading(false);
+            props.onListCreation(res.data);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
         }
-        props.onListCreation(res.data);
     };
 
     const cancelListCreation = () => {

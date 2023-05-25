@@ -6,10 +6,15 @@ import ListsList from './components/Lists-List/ListsList';
 import { AuthContext } from '../shared/context/AuthContext';
 import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
 
+export interface List {
+    _id: string;
+    name: string;
+}
+
 function ListsPage() {
     const [isLoading, setIsLoading] = useState(false);
-    const [listsData, setListsData] = useState([]);
-    const [filteredListsData, setFilteredListsData] = useState([]);
+    const [listsData, setListsData] = useState<List[]>([]);
+    const [filteredListsData, setFilteredListsData] = useState<List[]>([]);
     const auth = useContext(AuthContext);
 
     useEffect(() => {
@@ -18,7 +23,7 @@ function ListsPage() {
             try {
                 setIsLoading(true);
                 res = await axios.get(`https://my-task-manager-rh8y.onrender.com/api/lists/${auth.userId}`, {
-                    headers: { authorization: auth.token }
+                    headers: { authorization: auth.token as string }
                 });
                 setIsLoading(false);
             } catch (e) {
@@ -31,10 +36,12 @@ function ListsPage() {
     }, [auth.userId, auth.token]);
 
     const onSearchbarChange = (event: FormEvent) => {
-        setFilteredListsData(listsData.filter(list => list.name.includes(event.target.value)));
+        setFilteredListsData(
+            listsData.filter(list => list.name.includes((event.target as HTMLInputElement).value))
+        );
     };
 
-    const addNewList = (newList: unknown) => {
+    const addNewList = (newList: List) => {
         setListsData(lists => [...lists, newList]);
         setFilteredListsData(lists => [...lists, newList]);
     };
@@ -56,7 +63,7 @@ function ListsPage() {
                 !isLoading &&
                 <ListsList
                     lists={filteredListsData}
-                    userId={auth.userId}
+                    userId={auth.userId as string}
                     onListCreation={addNewList}
                     onListDelete={deleteList}
                 />

@@ -25,21 +25,20 @@ function ListItem(props: ListItemProps) {
     const auth = useContext(AuthContext);
 
     const updateList = async () => {
-        let res;
         try {
             setIsLoading(true);
-            res = await axios.patch(
+            const res = await axios.patch(
                 `https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`,
                 { name: props.name },
-                { headers: { authorization: auth.token } }
+                { headers: { authorization: auth.token as string } }
             );
             setIsLoading(false);
+            setName(res.data.name);
+            setIsUpdatingAList(false);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
         }
-        setName(res.data.name);
-        setIsUpdatingAList(false);
     };
 
     const deleteHandler = async () => {
@@ -47,7 +46,7 @@ function ListItem(props: ListItemProps) {
         try {
             setIsLoading(true);
             await axios.delete(`https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`, {
-                headers: { authorization: auth.token }
+                headers: { authorization: auth.token as string }
             });
             props.onDelete(props.id);
             setIsLoading(false);
