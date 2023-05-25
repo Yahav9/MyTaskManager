@@ -7,16 +7,12 @@ import EditTask, { Task } from '../EditTask/EditTask';
 import TaskItem from '../TaskItem/TaskItem';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
+import { SavedTask } from '../../TasksPage';
 
 interface TaskListProps {
-    tasks: (
-        Task & {
-            _id: string;
-            done: boolean
-        }
-    )[];
+    tasks: SavedTask[];
     listId: string;
-    onTaskCreation: (newTask: Task) => void;
+    onTaskCreation: (newTask: SavedTask) => void;
     onTaskDelete: (deletedTaskId: string) => void;
 }
 
@@ -28,19 +24,19 @@ function TasksList(props: TaskListProps) {
     const createTask = async (event: FormEvent, newTask: Task) => {
         event.preventDefault();
         setIsCreatingATask(false);
-        let res;
         try {
             setIsLoading(true);
-            res = await axios.post(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`, newTask, {
-                headers: { authorization: auth.token }
-            });
+            const res = await axios.post(
+                `https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`,
+                newTask,
+                { headers: { authorization: auth.token as string } }
+            );
+            props.onTaskCreation(res.data);
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
         }
-
-        props.onTaskCreation(res.data);
     };
 
     const tasks = props.tasks;

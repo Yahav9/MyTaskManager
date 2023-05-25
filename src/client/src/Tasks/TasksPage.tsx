@@ -7,34 +7,39 @@ import LoadingSpinner from '../shared/components/LoadingSpinner/LoadingSpinner';
 import { AuthContext } from '../shared/context/AuthContext';
 import { Task } from './components/EditTask/EditTask';
 
+export type SavedTask = Task & {
+    _id: string;
+    done: boolean
+}
+
 function TasksPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [listName, setListName] = useState('');
-    const [tasksData, setTasksData] = useState([]);
+    const [tasksData, setTasksData] = useState<SavedTask[]>([]);
     const auth = useContext(AuthContext);
     const listId = useParams().listId as string;
 
     useEffect(() => {
         (async () => {
-            let res;
             try {
                 setIsLoading(true);
-                res = await axios.get(`https://my-task-manager-rh8y.onrender.com/api/tasks/${listId}`, {
-                    headers: { authorization: auth.token }
-                });
+                const res = await axios.get(
+                    `https://my-task-manager-rh8y.onrender.com/api/tasks/${listId}`,
+                    { headers: { authorization: auth.token as string } }
+                );
+                setListName(res.data.listName);
+                setTasksData(res.data.tasks.sort((a: SavedTask, b: SavedTask) => {
+                    return Number(a.done) - Number(b.done);
+                }));
                 setIsLoading(false);
             } catch (e) {
                 setIsLoading(false);
                 console.log(e);
             }
-            setListName(res.data.listName);
-            setTasksData(res.data.tasks.sort((a, b) => {
-                return a.done - b.done;
-            }));
         })();
     }, [auth.token, listId]);
 
-    const addNewTask = (newTask: Task) => {
+    const addNewTask = (newTask: SavedTask) => {
         setTasksData(tasks => [newTask, ...tasks]);
     };
 

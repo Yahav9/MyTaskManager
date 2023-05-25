@@ -29,23 +29,23 @@ function TaskItem(props: TaskItemProps) {
     const updateTask = async (event: FormEvent, updatedTask: Task) => {
         event.preventDefault();
         setIsUpdatingATask(false);
-        let res;
         try {
             setIsLoading(true);
-            res = await axios.put(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, updatedTask, {
-                headers: { authorization: auth.token }
-            });
+            const res = await axios.put(
+                `https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`,
+                updatedTask,
+                { headers: { authorization: auth.token as string } });
+            const taskData = res.data;
+            setName(taskData.name);
+            setPriority(taskData.priority);
+            setResponsibility(taskData.responsibility);
+            setEtc(taskData.etc);
+            setDueDate(taskData.dueDate);
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
         }
-        const taskData = res.data;
-        setName(taskData.name);
-        setPriority(taskData.priority);
-        setResponsibility(taskData.responsibility);
-        setEtc(taskData.etc);
-        setDueDate(taskData.dueDate);
     };
 
     const deleteHandler = async () => {
@@ -53,7 +53,7 @@ function TaskItem(props: TaskItemProps) {
         try {
             setIsLoading(true);
             await axios.delete(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, {
-                headers: { authorization: auth.token }
+                headers: { authorization: auth.token as string }
             });
             setIsLoading(false);
             props.onDelete(props.id);
@@ -67,7 +67,7 @@ function TaskItem(props: TaskItemProps) {
         props.abortTaskCreation();
         try {
             await axios.patch(`https://my-task-manager-rh8y.onrender.com/api/tasks/${props.id}`, null, {
-                headers: { authorization: auth.token }
+                headers: { authorization: auth.token as string }
             });
             setIsDone(!isDone);
         } catch (e) {
