@@ -24,12 +24,12 @@ function ListItem(props: ListItemProps) {
     const [name, setName] = useState(props.name);
     const auth = useContext(AuthContext);
 
-    const updateList = async () => {
+    const updateList = async (name: string) => {
         try {
             setIsLoading(true);
             const res = await axios.patch(
                 `https://my-task-manager-rh8y.onrender.com/api/lists/${props.id}`,
-                { name: props.name },
+                { name },
                 { headers: { authorization: auth.token as string } }
             );
             setIsLoading(false);
