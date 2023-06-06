@@ -14,7 +14,7 @@ export interface Task {
     name: string;
     priority?: string;
     responsibility?: string;
-    estimatedTimeToComplete?: number;
+    estimatedTimeToCompleteInHours?: number;
     dueDate?: Date;
 }
 
@@ -22,7 +22,8 @@ function EditTask(props: EditTaskProps) {
     const [name, setName] = useState(props.name || '');
     const [priority, setPriority] = useState(props.priority || 'none');
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
-    const [estimatedTimeToComplete, setEstimatedTimeToComplete] = useState(props.estimatedTimeToComplete || 0);
+    const [estimatedTimeToCompleteInHours, setEstimatedTimeToCompleteInHours] =
+        useState(props.estimatedTimeToCompleteInHours || 0);
     const [dueDate, setDueDate] = useState(props.dueDate || '');
 
     const formSubmitHandler = (event: FormEvent) => {
@@ -30,8 +31,9 @@ function EditTask(props: EditTaskProps) {
             name,
             priority: priority === 'none' ? undefined : priority,
             responsibility: responsibility.length < 1 ? undefined : responsibility,
-            estimatedTimeToComplete: estimatedTimeToComplete <= 0 ? undefined : estimatedTimeToComplete,
-            dueDate: dueDate.length < 1 ? undefined : new Date(dueDate)
+            estimatedTimeToCompleteInHours: estimatedTimeToCompleteInHours <= 0 ?
+                undefined : estimatedTimeToCompleteInHours,
+            dueDate: (dueDate.length < 1 || dueDate === 'Invalid Date') ? undefined : new Date(dueDate)
         };
         props.onSubmit(event, newTask);
     };
@@ -82,10 +84,10 @@ function EditTask(props: EditTaskProps) {
                             min="0"
                             max="100"
                             step="0.5"
-                            value={estimatedTimeToComplete}
+                            value={estimatedTimeToCompleteInHours}
                             onChange={
                                 event => {
-                                    setEstimatedTimeToComplete(Number((event.target as HTMLInputElement).value));
+                                    setEstimatedTimeToCompleteInHours(Number((event.target as HTMLInputElement).value));
                                 }
                             }
                         /> hrs

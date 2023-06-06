@@ -1,5 +1,5 @@
 {
     "name": "edited task",
     "priority": "High",
-    "etc": 1
+    "estimatedTimeToCompleteInHours": 1
 }

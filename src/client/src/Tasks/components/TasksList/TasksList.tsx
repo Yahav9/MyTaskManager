@@ -70,7 +70,7 @@ function TasksList(props: TaskListProps) {
                         priority={task.priority}
                         dueDate={task.dueDate && task.dueDate.toLocaleDateString('en-GB')}
                         responsibility={task.responsibility}
-                        estimatedTimeToComplete={task.estimatedTimeToComplete}
+                        estimatedTimeToCompleteInHours={task.estimatedTimeToCompleteInHours}
                         isDone={task.done}
                         onDelete={props.onTaskDelete}
                         abortTaskCreation={() => setIsCreatingATask(false)}
