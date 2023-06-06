@@ -3,9 +3,8 @@ import './EditTask.scss';
 import Button from '../../../shared/components/Button/Button';
 import Card from '../../../shared/components/Card/Card';
 
-interface EditTaskProps extends Omit<Task, 'name' | 'dueDate'> {
+interface EditTaskProps extends Omit<Task, 'name'> {
     name?: string;
-    dueDate?: string;
     onCancel: () => void;
     onSubmit: (event: FormEvent, newTask: Task) => Promise<void>
 }
@@ -24,7 +23,7 @@ function EditTask(props: EditTaskProps) {
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
     const [estimatedTimeToCompleteInHours, setEstimatedTimeToCompleteInHours] =
         useState(props.estimatedTimeToCompleteInHours || 0);
-    const [dueDate, setDueDate] = useState(props.dueDate || '');
+    const [dueDate, setDueDate] = useState(props.dueDate || null);
 
     const formSubmitHandler = (event: FormEvent) => {
         const newTask = {
@@ -33,7 +32,7 @@ function EditTask(props: EditTaskProps) {
             responsibility: responsibility.length < 1 ? undefined : responsibility,
             estimatedTimeToCompleteInHours: estimatedTimeToCompleteInHours <= 0 ?
                 undefined : estimatedTimeToCompleteInHours,
-            dueDate: (dueDate.length < 1 || dueDate === 'Invalid Date') ? undefined : new Date(dueDate)
+            dueDate: dueDate || undefined
         };
         props.onSubmit(event, newTask);
     };
@@ -100,9 +99,9 @@ function EditTask(props: EditTaskProps) {
                             min={new Date().toLocaleDateString('en-CA')}
                             value={dueDate ? new Date(dueDate).toLocaleDateString('en-CA') : ''}
                             onChange={event => {
-                                setDueDate(
-                                    new Date((event.target as HTMLInputElement).value).toLocaleDateString('en-CA')
-                                );
+                                const { value } = event.target;
+                                const parsedDate = value ? new Date(value) : null;
+                                setDueDate(parsedDate);
                             }}
                         />
                     </div>

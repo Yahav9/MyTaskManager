@@ -68,7 +68,7 @@ function TasksList(props: TaskListProps) {
                         id={task._id}
                         name={task.name}
                         priority={task.priority}
-                        dueDate={task.dueDate && task.dueDate.toLocaleDateString('en-GB')}
+                        dueDate={task.dueDate}
                         responsibility={task.responsibility}
                         estimatedTimeToCompleteInHours={task.estimatedTimeToCompleteInHours}
                         isDone={task.done}

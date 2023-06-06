@@ -55,7 +55,7 @@ export async function createTask(req: Request, res: Response) {
     const createdTask = new Task({
         name: newTask.name,
         priority: newTask.priority,
-        dueDate: newTask.dueDate,
+        dueDate: new Date(newTask.dueDate),
         responsibility: newTask.responsibility,
         estimatedTimeToCompleteInHours: newTask.estimatedTimeToCompleteInHours,
         done: false,
@@ -100,7 +100,7 @@ export async function editTask(req: Request, res: Response) {
 
     task.name = updatedTask.name;
     task.priority = updatedTask.priority;
-    task.dueDate = updatedTask.dueDate;
+    task.dueDate = new Date(updatedTask.dueDate);
     task.responsibility = updatedTask.responsibility;
     task.estimatedTimeToCompleteInHours = updatedTask.estimatedTimeToCompleteInHours;
 

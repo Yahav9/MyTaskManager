@@ -7,9 +7,8 @@ import EditTask, { Task } from '../EditTask/EditTask';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner/LoadingSpinner';
 
-interface TaskItemProps extends Omit<Task, 'dueDate'> {
+interface TaskItemProps extends Task {
     id: string;
-    dueDate?: string;
     isDone: boolean;
     onDelete: (deletedTaskId: string) => void;
     abortTaskCreation: () => void;
@@ -20,8 +19,9 @@ function TaskItem(props: TaskItemProps) {
     const [name, setName] = useState(props.name);
     const [priority, setPriority] = useState(props.priority || 'none');
     const [responsibility, setResponsibility] = useState(props.responsibility || '');
-    const [estimatedTimeToComplete, setEtc] = useState(props.estimatedTimeToComplete || '');
-    const [dueDate, setDueDate] = useState(props.dueDate || '');
+    const [estimatedTimeToCompleteInHours, setEstimatedTimeToCompleteInHours] =
+        useState(props.estimatedTimeToCompleteInHours || '');
+    const [dueDate, setDueDate] = useState(props.dueDate || null);
     const [isDone, setIsDone] = useState(props.isDone);
     const [isUpdatingATask, setIsUpdatingATask] = useState(false);
     const auth = useContext(AuthContext);
@@ -39,7 +39,7 @@ function TaskItem(props: TaskItemProps) {
             setName(taskData.name);
             setPriority(taskData.priority);
             setResponsibility(taskData.responsibility);
-            setEtc(taskData.etc);
+            setEstimatedTimeToCompleteInHours(taskData.estimatedTimeToCompleteInHours);
             setDueDate(taskData.dueDate);
             setIsLoading(false);
         } catch (e) {
@@ -85,8 +85,8 @@ function TaskItem(props: TaskItemProps) {
                     name={name}
                     priority={priority}
                     responsibility={responsibility}
-                    estimatedTimeToComplete={Number(estimatedTimeToComplete)}
-                    dueDate={dueDate}
+                    estimatedTimeToCompleteInHours={Number(estimatedTimeToCompleteInHours)}
+                    dueDate={dueDate || undefined}
                 />
             }
             {isLoading && <Card className="task-item"><LoadingSpinner asOverlay /></Card>}
@@ -111,22 +111,22 @@ function TaskItem(props: TaskItemProps) {
                             </>
                         }
                         {
-                            Number(estimatedTimeToComplete) > 0 &&
+                            Number(estimatedTimeToCompleteInHours) > 0 &&
                             <>
                                 <span />
                                 <div className="details etc">
                                     <h3>ETC</h3>
-                                    <p>{estimatedTimeToComplete + ' hrs'}</p>
+                                    <p>{estimatedTimeToCompleteInHours + ' hrs'}</p>
                                 </div>
                             </>
                         }
                         {
-                            dueDate && dueDate !== 'Invalid Date' && dueDate.length > 0 &&
+                            dueDate &&
                             <>
                                 <span />
                                 <div className="details due-date">
                                     <h3>Due Date</h3>
-                                    <p>{dueDate}</p>
+                                    <p>{new Date(dueDate).toLocaleDateString('en-GB')}</p>
                                 </div>
                             </>
                         }
