@@ -12,6 +12,7 @@ interface TaskItemProps extends Task {
     isDone: boolean;
     onDelete: (deletedTaskId: string) => void;
     abortTaskCreation: () => void;
+    onStatusChange: (taskId: string, isDone: boolean) => void;
 }
 
 function TaskItem(props: TaskItemProps) {
@@ -70,6 +71,7 @@ function TaskItem(props: TaskItemProps) {
                 headers: { authorization: auth.token as string }
             });
             setIsDone(!isDone);
+            props.onStatusChange(props.id, !isDone);
         } catch (e) {
             console.log(e);
         }

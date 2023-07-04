@@ -17,8 +17,10 @@ interface TaskListProps {
 }
 
 function TasksList(props: TaskListProps) {
+    const { tasks, listId, onTaskCreation, onTaskDelete } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [isCreatingATask, setIsCreatingATask] = useState(false);
+    const [renderedTasks, setRenderedTasks] = useState(tasks);
     const auth = useContext(AuthContext);
 
     const createTask = async (event: FormEvent, newTask: Task) => {
@@ -27,11 +29,11 @@ function TasksList(props: TaskListProps) {
         try {
             setIsLoading(true);
             const res = await axios.post(
-                `https://my-task-manager-rh8y.onrender.com/api/tasks/${props.listId}`,
+                `https://my-task-manager-rh8y.onrender.com/api/tasks/${listId}`,
                 newTask,
                 { headers: { authorization: auth.token as string } }
             );
-            props.onTaskCreation(res.data);
+            onTaskCreation(res.data);
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
@@ -39,7 +41,17 @@ function TasksList(props: TaskListProps) {
         }
     };
 
-    const tasks = props.tasks;
+    const taskStatusChangeHandler = (taskId: string, isDone: boolean) => {
+        const task = renderedTasks.find(({ _id }) => _id === taskId);
+        if (isDone) {
+            setRenderedTasks(prevTasks => [...prevTasks.filter(({ _id }) => _id !== taskId), task as SavedTask]);
+            console.log(isDone);
+        } else if (!isDone) {
+            setRenderedTasks(prevTasks => [task as SavedTask, ...prevTasks.filter(({ _id }) => _id !== taskId)]);
+            console.log(isDone);
+        }
+    };
+
     return (
         <ul className="tasks-list">
             {
@@ -54,7 +66,7 @@ function TasksList(props: TaskListProps) {
             {isCreatingATask && <li><EditTask onSubmit={createTask} onCancel={() => setIsCreatingATask(false)} /></li>}
             {isLoading && <li><Card className="task-item"><LoadingSpinner asOverlay /></Card></li>}
             {
-                tasks && tasks.length < 1 &&
+                renderedTasks && renderedTasks.length < 1 &&
                 <li>
                     <Card className="task-item">
                         <h2 className="no-tasks">No tasks found...</h2>
@@ -62,7 +74,7 @@ function TasksList(props: TaskListProps) {
                 </li>
             }
             {
-                tasks && tasks.length > 0 && tasks.map(task => {
+                renderedTasks && renderedTasks.length > 0 && renderedTasks.map(task => {
                     return <TaskItem
                         key={task._id}
                         id={task._id}
@@ -72,8 +84,9 @@ function TasksList(props: TaskListProps) {
                         responsibility={task.responsibility}
                         estimatedTimeToCompleteInHours={task.estimatedTimeToCompleteInHours}
                         isDone={task.done}
-                        onDelete={props.onTaskDelete}
+                        onDelete={onTaskDelete}
                         abortTaskCreation={() => setIsCreatingATask(false)}
+                        onStatusChange={taskStatusChangeHandler}
                     />;
                 })
             }
